@@ -1205,9 +1205,29 @@ app.component('save-button', {
 
 ### 过度动画
 
-`transition`组件
+**按钮动画效果**
+
+```css
+.button {
+  background: #1b8f5a;
+  /* 应用于初始状态，因此此转换将应用于返回状态 */
+  transition: background 0.25s ease-in;
+}
+
+.button:hover {
+  background: #3eaf7c;
+  /* 应用于悬停状态，因此在触发悬停时将应用此过渡 */
+  transition: background 0.35s ease-out;
+}
+```
+
+
+
+`<transition>`组件
 
 > 六种class切换：进度过度的**开始生效结束**，离开过度的**开始生效结束**。
+
+![Transition Diagram](https://v3.cn.vuejs.org/images/transitions.svg)
 
 1. `v-enter-from`：进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
 2. `v-enter-active`：进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。
@@ -1216,25 +1236,249 @@ app.component('save-button', {
 5. `v-leave-active`：离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 6. `v-leave-to`：离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 `v-leave-from` 被删除)，在过渡/动画完成之后移除。
 
+
+
+如果不带 `name` ，那么会使用 `v-`作为默认前缀。
+
+显示控制过度持续时间：`:duration="1000"`，声明钩子，在 **`enter` 和 `leave` 钩中必须使用 `done` 进行回调**。
+
 ```html
-<transition name="fade">
+<transition :duration="1000">...</transition>
+<transition :duration="{ enter: 500, leave: 800 }">...</transition>
+<transition
+  @before-enter="beforeEnter"
+  @enter="enter"
+  @after-enter="afterEnter"
+  @enter-cancelled="enterCancelled"
+  @before-leave="beforeLeave"
+  @leave="leave"
+  @after-leave="afterLeave"
+  @leave-cancelled="leaveCancelled"
+  :css="false"
+>
+  <!-- ... -->
+</transition>
+```
+
+```js
+methods: {
+  // --------
+  // ENTERING
+  // --------
+
+  beforeEnter(el) {
+    // ...
+  },
+  // 当与 CSS 结合使用时
+  // 回调函数 done 是可选的
+  enter(el, done) {
+    // ...
+    done()
+  },
+  afterEnter(el) {
+    // ...
+  },
+  enterCancelled(el) {
+    // ...
+  },
+
+  // --------
+  // 离开时
+  // --------
+
+  beforeLeave(el) {
+    // ...
+  },
+  // 当与 CSS 结合使用时
+  // 回调函数 done 是可选的
+  leave(el, done) {
+    // ...
+    done()
+  },
+  afterLeave(el) {
+    // ...
+  },
+  // leaveCancelled 只用于 v-show 中
+  leaveCancelled(el) {
+    // ...
+  }
+}
+```
+
+
+
+
+
+案例1,设置进入和离开动画
+
+- 进入动画则是使用 ease-out。
+- `*-enter-active` 和 `*-leave-active` ：是必需定义 transition 属性，因为他是定义动画的显示速度和时间。
+- `enter-from` 和 `leave-to` ：
+  - 之所以写在一起，是因为需要**离开和进入方向的相同**
+  -  `leave-to` ：从右边离开
+  - `enter-from`：从右边进入
+
+```html
+<button @click="show = !show">Toggle render</button>
+
+<transition name="slide-fade">
   <p v-if="show">hello</p>
 </transition>
 ```
 
 ```css
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
   opacity: 0;
 }
 ```
 
-如果不带 `name` ，那么会使用 `v-`作为默认前缀。
+
+
+案例1,设置进入和离开动画
+
+- `reverse`：反向播放动画
+- `bounce-in {}`：
+  - 进入动画时：`scale(0)`，不显示
+  - 进入动画中：`scale(1.25)`，放大1.25倍
+  - 结束动画：`scale(1)`，恢复原样
+
+```html
+<button @click="show = !show">Toggle show</button>
+<transition name="bounce">
+  <p v-if="show">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+    facilisis enim libero, at lacinia diam fermentum id. Pellentesque
+    habitant morbi tristique senectus et netus.
+  </p>
+</transition>
+```
+
+```css
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+```
+
+
+
+**组件的过度**
+
+使用动态组件：`:is`
+
+```html
+<input v-model="view" type="radio" value="home" id="home" /><label for="home"
+  >Home</label
+>
+<input v-model="view" type="radio" value="about" id="about" /><label
+  for="about"
+  >About</label
+>
+<transition name="component-fade" mode="out-in">
+  <component :is="view"></component>
+</transition>
+```
+
+```css
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.component-fade-enter-from,
+.component-fade-leave-to {
+  opacity: 0;
+}
+```
+
+
+
+**列表渲染**
+
+使用：`<transition-group>`
+
+- 他不会包含整个组件，需要使用 `tag` 指定渲染一个元素。
+- 列表的平滑移动过度效果：`v-move` 类
+
+```html
+<div id="list-demo">
+  <button @click="shuffle">Shuffle</button>
+  <button @click="add">Add</button>
+  <button @click="remove">Remove</button>
+  <transition-group name="list" tag="p">
+    <span v-for="item in items" :key="item" class="list-item">
+      {{ item }}
+    </span>
+  </transition-group>
+</div>
+```
+
+```js
+// import _ from 'lodash'
+
+data() {
+  return {
+    items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    nextNum: 10,
+  }
+},
+methods: {
+  randomIndex() {
+    return Math.floor(Math.random() * this.items.length)
+  },
+  add() {
+    this.items.splice(this.randomIndex(), 0, this.nextNum++)
+  },
+  remove() {
+    this.items.splice(this.randomIndex(), 1)
+  },
+  shuffle() {
+    this.items = _.shuffle(this.items)
+  },
+},
+```
+
+```css
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-move {
+  transition: transform 0.8s ease;
+}
+```
 
 
 

@@ -1407,6 +1407,10 @@ id属性：`#`
 
 
 
+`getElementsByName`：通过name获取，**返回对象数组**，需遍历。
+
+
+
 `getElementsByTagName`：通过标签名获取，**返回对象数组**，需遍历。
 
 ```javascript
@@ -1511,6 +1515,8 @@ x.innerHTML=c.childNodes[0].nodeValue;
 
 
 
+`onscroll`：滚动事件
+
 `onmousemove`：事件会在鼠标移动时触发
 
 `onmousedown`：鼠标按下
@@ -1526,6 +1532,18 @@ x.innerHTML=c.childNodes[0].nodeValue;
 `event.keyCode`：键盘按键
 
 `event.wheelDelta`：滚轮长度
+
+
+
+`event.cancelBubble = true;`：取消冒泡（事件的向上传导，当后代元素上的事件被触发时，其祖先元素的相同事件也会被触发）
+
+
+
+事件的委派：指将事件统一绑定给元素的共同的祖先元素，这样当后代元素上的事件触发时，会一直冒泡到祖先元素从而通过祖先元素的响应函数来处理事件。
+
+
+
+`对象.addEventListener('事件',fucntion())`：为一个元素的相同事件同时绑定多个响应函数，如果使用`对象.事件`的方式绑定那么后者会覆盖前者。
 
 
 
@@ -1592,10 +1610,6 @@ function popUp(winURL) {
 `setTimeout`：不会立刻调用，只会调用一次。
 
 `clearInterval()`：关闭定时器
-
-
-
-
 
 
 

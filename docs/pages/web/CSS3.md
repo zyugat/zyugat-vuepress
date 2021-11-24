@@ -372,6 +372,8 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 
 
+
+
 ## 元素操作
 
 ### 浮动
@@ -554,7 +556,7 @@ margin-left: -版心盒子宽度的一半
 - display:none，隐藏对象
 - display:block，转为块元素然后显示元素
 
-
+- display：inline-block，行内元素
 
 
 
@@ -745,72 +747,6 @@ p {
 
 
 
-7. **过渡动画**
-
-`transition: 过渡的属性 花费的时间 运动曲线 何时开始;`
-
-最后2个属性可以省略
-
-- 属性，宽度高度 背景颜色 内外边距都可以，如果想所有的属性都要过渡，写个all就可以
-- 花费时间，单位是秒 0.5s
-- 运动曲线，默认ease
-- 何时开始，单位是秒，默认0s
-
-```css
-div {
-  width: 200px;
-  height: 100px;
-  background-color: red;
-  transition: width .5s, height .5s;
-  transition: all .5s;
-}
-div:hover {
-  width: 400px;
-  height: 400px;
-}
-```
-
-
-
-简单的进度条
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>进度条</title>
-  <style>
-      .bar {
-          width: 150px;
-          height: 15px;
-          border: 1px solid red;
-          border-radius: 7px;
-      }
-      .bar_in {
-          width: 50%;
-          height: 100%;
-          background-color: red;
-          transition: width .5s;
-      }
-
-      .bar:hover .bar_in {
-          width: 100%;
-      }
-  </style>
-</head>
-<body>
-<div class="bar">
-  <div class="bar_in"></div>
-</div>
-</body>
-</html>
-```
-
-
-
-
-
 **HTML5新特性**
 
 1. 语义化标签
@@ -978,6 +914,337 @@ A为1，B为2，则B的宽度是A的两倍
 5. PRO->排列顺序：`order`
 
 默认值为0，可以负指，**值越小越靠前**。
+
+
+
+
+
+
+
+## 布局
+
+开局老三样
+
+```css
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing:border-box;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+```
+
+
+
+当元素水平排列的时候，请使用 **浮动**
+
+列表水平排序：`float:left`
+
+浮动尽量给父元素，不要给p a这种元素。
+
+
+
+文字居中：`line-height: 元素高度`
+
+
+
+按钮边框：`border: 0;`
+
+
+
+盒子的大小是设置的宽高：`box-sizing:border-box;`
+
+
+
+半透明：`background:rgba(0,0,0,0.3)`
+
+
+
+
+
+
+
+常用名称
+
+```
+bd->内容,建议是header-bd或者banner-bd这样用。
+header头、logo、nav、search
+banner中间、subnav、sourse
+goods商品
+```
+
+| ClassName              | 含义                                     |
+| ---------------------- | ---------------------------------------- |
+| about                  | 关于                                     |
+| account                | 账户                                     |
+| arrow                  | 箭头图标                                 |
+| article                | 文章                                     |
+| aside                  | 边栏                                     |
+| audio                  | 音频                                     |
+| avatar                 | 头像                                     |
+| bg,background          | 背景                                     |
+| bar                    | 栏（工具类）                             |
+| branding               | 品牌化                                   |
+| crumb,breadcrumbs      | 面包屑                                   |
+| btn,button             | 按钮                                     |
+| caption                | 标题，说明                               |
+| category               | 分类                                     |
+| chart                  | 图表                                     |
+| clearfix               | 清除浮动                                 |
+| close                  | 关闭                                     |
+| col,column             | 列                                       |
+| comment                | 评论                                     |
+| community              | 社区                                     |
+| container              | 容器                                     |
+| content                | 内容                                     |
+| copyright              | 版权                                     |
+| current                | 当前态，选中态                           |
+| default                | 默认                                     |
+| description            | 描述                                     |
+| details                | 细节                                     |
+| disabled               | 不可用                                   |
+| entry                  | 文章，博文                               |
+| error                  | 错误                                     |
+| even                   | 偶数，常用于多行列表或表格中             |
+| fail                   | 失败（提示）                             |
+| feature                | 专题                                     |
+| fewer                  | 收起                                     |
+| field                  | 用于表单的输入区域                       |
+| figure                 | 图                                       |
+| filter                 | 筛选                                     |
+| first                  | 第一个，常用于列表中                     |
+| footer                 | 页脚                                     |
+| forum                  | 论坛                                     |
+| gallery                | 画廊                                     |
+| group                  | 模块，清除浮动                           |
+| header                 | 页头                                     |
+| help                   | 帮助                                     |
+| hide                   | 隐藏                                     |
+| hightlight             | 高亮                                     |
+| home                   | 主页                                     |
+| icon                   | 图标                                     |
+| info,information       | 信息                                     |
+| last                   | 最后一个，常用于列表中                   |
+| links                  | 链接                                     |
+| login                  | 登录                                     |
+| logout                 | 退出                                     |
+| logo                   | 标志                                     |
+| main                   | 主体                                     |
+| menu                   | 菜单                                     |
+| meta                   | 作者、更新时间等信息栏，一般位于标题之下 |
+| module                 | 模块                                     |
+| more                   | 更多（展开）                             |
+| msg,message            | 消息                                     |
+| nav,navigation         | 导航                                     |
+| next                   | 下一页                                   |
+| nub                    | 小块                                     |
+| odd                    | 奇数，常用于多行列表或表格中             |
+| off                    | 鼠标离开                                 |
+| on                     | 鼠标移过                                 |
+| output                 | 输出                                     |
+| pagination             | 分页                                     |
+| pop,popup              | 弹窗                                     |
+| preview                | 预览                                     |
+| previous               | 上一页                                   |
+| primary                | 主要                                     |
+| progress               | 进度条                                   |
+| promotion              | 促销                                     |
+| rcommd,recommendations | 推荐                                     |
+| reg,register           | 注册                                     |
+| save                   | 保存                                     |
+| search                 | 搜索                                     |
+| secondary              | 次要                                     |
+| section                | 区块                                     |
+| selected               | 已选                                     |
+| share                  | 分享                                     |
+| show                   | 显示                                     |
+| sidebar                | 边栏，侧栏                               |
+| slide                  | 幻灯片，图片切换                         |
+| sort                   | 排序                                     |
+| sub                    | 次级的，子级的                           |
+| submit                 | 提交                                     |
+| subscribe              | 订阅                                     |
+| subtitle               | 副标题                                   |
+| success                | 成功（提示）                             |
+| summary                | 摘要                                     |
+| tab                    | 标签页                                   |
+| table                  | 表格                                     |
+| txt,text               | 文本                                     |
+| thumbnail              | 缩略图                                   |
+| time                   | 时间                                     |
+| tips                   | 提示                                     |
+| title                  | 标题                                     |
+| video                  | 视频                                     |
+| wrap                   | 容器，包，一般用于最外层                 |
+| wrapper                | 容器，包，一般用于最外层                 |
+
+
+
+## 过渡动画
+
+`transition: 过渡的属性 花费的时间 运动曲线 何时开始;`
+
+最后2个属性可以省略
+
+- 属性：none、all、property（颜色属性、取值为数值的属性、转换属性、渐变属性、阴影属性）
+- 花费时间，单位是秒 0.5s
+- 运动曲线，默认ease先慢后快最后慢、linear匀速、ease-in先慢后快、ease-out先快后慢、ease-in-out慢快慢先加速后减速
+- 何时开始，单位是秒，默认0s
+
+```css
+div {
+  width: 200px;
+  height: 100px;
+  background-color: red;
+  transition: width .5s, height .5s;
+  transition: all .5s;
+}
+div:hover {
+  width: 400px;
+  height: 400px;
+}
+```
+
+
+
+第二种：
+
+```css
+transition-property: ;
+transition-duration: ;
+text-combine-upright: ;
+transition-delay: ;
+```
+
+
+
+
+
+简单的进度条
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>进度条</title>
+  <style>
+      .bar {
+          width: 150px;
+          height: 15px;
+          border: 1px solid red;
+          border-radius: 7px;
+      }
+      .bar_in {
+          width: 50%;
+          height: 100%;
+          background-color: red;
+          transition: width .5s;
+      }
+
+      .bar:hover .bar_in {
+          width: 100%;
+      }
+  </style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar_in"></div>
+</div>
+</body>
+</html>
+```
+
+
+
+- transform：2D
+  - **x和y的值是px，x向右是正，向左是负数。**
+  - `translate(x,y)`：移动
+  - `scale(num1,num2)`：缩放(num<=1)，num1是水平，num2是垂直
+  - `rotate(-num deg)`：顺时针旋转，deg是角度单位
+  - `skew(num1,num2)`：翻转，num1是水平，num2是垂直**(单位deg)**
+
+
+
+- transform：3D
+  - Z坐标：可以理解为缩放，因为如果是负值那么就放远点，那就小了。
+  - 可以给父类添加：`perspective: numpx`，透视，伪3D
+  - `translate3d(x,y,z)`、`scale3d(x,y,z)`、`rotate3d(x,y,z)`
+
+```css
+div{
+	transform: translate3D();
+	transform: translateX();
+	transform: translateY();
+	transform: translateZ();
+}
+```
+
+
+
+鼠标移动到son正方形上，有一个放大动画
+
+```css
+#parent {
+  width: 200px;
+  height: 200px;
+  background: pink;
+  margin: 100px auto;
+  /* 必须存在,如果不存在就看不到 Z 轴的变化 */
+  perspective: 400px;
+}
+#son {
+  width: 100%;
+  height: 100%;
+  background: blue;
+  /* 缩小 */
+  transform: translateZ(-100px);
+  transition: all 2s;
+}
+#son:hover {
+  /* perspective不是必须的 */
+  transform: perspective(400) scale(1);
+}
+```
+
+
+
+- animation：动画名字 完成时间 执行次数 延时执行时间
+- 模拟动画效果，通过关键帧控制动画的每一步
+- `@keyframes`：声明动画，指定关键帧
+  - 执行次数：infinite无限次 或 Num
+- `animation-direction: ;`：动画播放方向，normal | reverse | alternate | alternate-reverse
+  - animation-direction: normal 正序播放
+    animation-direction: reverse 倒序播放
+    animation-direction: alternate 交替播放
+    animation-direction: alternate-reverse 反向交替播放
+- `animation-fill-mode: forwards;`：停在最后一帧，默认none
+- `animation-play-state: ;`：动画停止还是运行，paused默认 | running
+
+```css
+@keyframes myname{
+  35%{
+    margin-left: -2100px;
+  }
+  70%{
+    margin-left: -4200px;
+  }
+  100%{
+    margin-left: -6300px;
+  }
+}
+```
+
+
+
+
+
+
 
 
 
