@@ -1756,6 +1756,8 @@ console.log(new RegExp('xyz', 'i'));
 > 例：创建一个正则表达式检查一个字符串中是否含有单词child=>`/\bchild\b/`
 >
 > 例：去掉开头和结尾空格=>`/^\s*|\s*$/g`
+>
+> 匹配任意字符：`(.*?)`
 
 
 
@@ -1828,14 +1830,18 @@ https://codeplayer.vip/p/j7sl5
 
 
 
-> 禁止贪恋：`?`
+> 禁止贪婪：`?`
 >
-> 他是取最小的，`*`最小的是0，那么就0个。
+> 贪婪匹配意思是：一个个的去匹配
+>
+> 禁止贪婪就是直接匹配一个部分。
+>
+> 下面中，我想匹配100这个数字，如果是贪婪匹配结果是0，禁止贪婪就是100。
 >
 > ```javascript
-> let a = "hddd"
-> console.log(a.match(/hd*/))	// hddd
-> console.log(a.match(/hd*?/))	// h
+> let a = "This is 100 Numbers"
+> console.log(a.match(/.*(\d+)/))	// 0
+> console.log(a.match(/.*?(\d+)/))	// 100
 > ```
 
 

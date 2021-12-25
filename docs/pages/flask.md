@@ -1,4 +1,6 @@
-# 基本使用
+# Flask
+
+## 基本使用
 
 - 输出简单Hello world
 
@@ -43,9 +45,9 @@
   ret2 = json.loads(json数据) json转字典
   ```
 
-  
 
-# 进阶使用
+
+## 进阶使用
 
 - 蓝图Blueprint的2种使用
 
@@ -74,10 +76,10 @@
   app.register_blueprint(文件名.蓝图名)
   ```
 
-  
 
 
-## 数据库的连接及增删改查
+
+### 数据库的连接及增删改查
 
 - 数据库的连接
 
@@ -167,13 +169,13 @@
   					//在编译后即调用API接口取得服务器端数据
   					self.$http.get('/todo/api/getLoginApi').then(function(res) {
   						self.loginN = res.data.loginnName;
-					},function(){
+  				},function(){
   	                        console.log('请求失败处理');
   	                    });
   				}
       }
   ```
-  
+
   ```python
   			var self = this;
   			self.$http.get('/todo/api/loginApi').then(function(res) {
@@ -187,7 +189,7 @@
   				}
   			});
   ```
-  
+
   ```
         login:function() {
   				var self = this;
@@ -196,13 +198,13 @@
   					passwor: self.new_login.passwor,
   				}).then(function(res) {
   					self.loginDa = res.data.loginDa;
-					alert('123')
+  				alert('123')
   				}).then(function(re){
   
   				});
   			}
   ```
-  
+
   ```
   				var self = this;
   				self.$http.post('/todo/api/loginApi', {
@@ -217,15 +219,15 @@
   						if(self.status === 'ok'){
   							alert('登录成功，你好 ' + self.session)
   		            	}
-						else{
+  					else{
   							alert('登录失败')
-						}
+  					}
   					});
   				});
   ```
-  
-  
-  
+
+
+
 - 方法1：将SQLAlchemy转换为json，但是只能弄一条
 
   ```python
@@ -340,7 +342,7 @@ def query_user():
 
 
 
-# 报错解决方案
+## 报错解决方案
 
 - ModuleNotFoundError: No module named 'mysql'
   安装插件pip install mysql-connector

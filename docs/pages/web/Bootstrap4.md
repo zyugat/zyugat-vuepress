@@ -25,7 +25,13 @@
 
 
 
-## 1、基本
+## 布局
+
+`.container`：固定宽度
+
+`.container-fluid`：百分百宽度，用于移动端开发
+
+
 
 第一个`*`表示相应的设备。第二个`*`表示一个数字(宽度占比)，同于一行相加为12，若不加则自动布局。
 
@@ -37,9 +43,186 @@
 
 
 
-`offset-*-*`：偏移列。第二个`*`表示一个数字，向右边移动多少格。
+`offset-*-*`：偏移列。第二个`*`表示一个数字，**距离左边多少格子**。
+
+```html
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">左侧</div>
+        <!-- 偏移的份数 就是 12 - 两个盒子的份数 = 6 -->
+        <div class="col-md-3 col-md-offset-6">右侧</div>
+    </div>
+    <div class="row">
+        <!-- 如果只有一个盒子 那么就偏移 = (12 - 8) /2 -->
+        <div class="col-md-8 col-md-offset-2">中间盒子</div>
+    </div>
+</div>
+```
+
+![image-20211218164227396](http://img.zyugat.cn/zyuimg/2021-12-18_2d2e476bf8574.png)
 
 
+
+`col-*-push/pull-*`：列排序
+
+push：距离左边 8 个单位。
+
+pull：距离右边 4 个单位
+
+```html
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-push-8">左侧</div>
+        <div class="col-md-8 col-md-pull-4">右侧</div>
+    </div>
+</div>
+```
+
+![image-20211218162409594](http://img.zyugat.cn/zyuimg/2021-12-18_4197b519534f9.png)
+
+
+
+**响应式工具**
+
+| 类名       | 超小屏 | 小屏 | 中屏 | 大屏 |
+| ---------- | ------ | ---- | ---- | ---- |
+| .hidden-xs | 隐藏   | 可见 | 可见 | 可见 |
+| .hidden-sm | 可见   | 隐藏 | 可见 | 可见 |
+| .hidden-md | 可见   | 可见 | 隐藏 | 可见 |
+| .hidden-lg | 可见   | 可见 | 可见 | 隐藏 |
+
+**而 `.visible-*`：是与之相反的！！意思是在什么情况下才会显示。**
+
+- 1：只有在 lg 大屏的情况下才**会显示**
+- 3：在md中屏和xs超小屏时**会隐藏**
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <span class="visible-lg">1</span>
+    </div>
+    <div class="col-xs-3"><h2>2</h2></div>
+    <div class="col-xs-3 hidden-md hidden-xs"><h2>3</h2></div>
+    <div class="col-xs-3"><h2>4</h2></div>
+  </div>
+</div>
+```
+
+![动画](http://img.zyugat.cn/zyuimg/2021-12-18_22108beb1458f.gif)
+
+
+
+案例：阿里百秀
+
+分析页面：左边导航栏占2，中间内容占7，右边则是3。
+
+- 小屏时将导航栏作为顶部，右侧则变成底部。
+- 超小屏时，隐藏导航栏的logo图片
+
+![动画](http://img.zyugat.cn/zyuimg/2021-12-18_09e2f63e6acad.gif)
+
+第一步：修改container的最大宽度为 1280 根据设计稿来走的
+
+```css
+@media screen and (min-width: 1280px) {
+    .container {
+        width: 1280px;
+    }
+}
+```
+
+第二步：当我们进入 小屏幕 还有 超小屏幕的时候 我们 nav 里面的li 浮动起来 并且宽度为 20%
+
+```css
+@media screen and (max-width: 991px) {
+    .nav li {
+        float: left;
+        width: 20%;
+    }
+    article {
+        margin-top: 10px;
+    }
+}
+```
+
+![image-20211218165403420](http://img.zyugat.cn/zyuimg/2021-12-18_34c39b4aa5f3d.png)
+
+
+
+第三步：超小屏幕的时候 我们 nav 文字会变成14px
+
+```css
+@media screen and (max-width: 767px) {
+    .nav li a {
+        font-size: 14px;
+        padding-left: 3px;
+    }
+    /* 当我们处于超小屏幕 news 第一个li 宽度为 100%  剩下的小li  各 50% */
+    .news li:nth-child(1) {
+        width: 100%!important;
+    }
+    .news li {
+        width: 50%!important;
+    }
+    .publish h3 {
+        font-size: 14px;
+    }
+}
+```
+
+**当为超小屏的时候，Logo图标隐藏，让文字显示。**
+
+```html
+<div class="logo">
+    <a href="#">
+        <img src="images/logo.png" alt="" class="hidden-xs">
+        <span class="visible-xs">阿里百秀</span>
+    </a>
+</div>
+```
+
+![image-20211218165458531](http://img.zyugat.cn/zyuimg/2021-12-18_99aa46c0007d7.png)
+
+
+
+
+
+
+
+## flex
+
+`d-flex`：创建弹性盒子容器
+
+`d-*-flex`：sm、md、lg、xl
+
+`.d-*-inline-flex`：行内
+
+```html
+<div class="d-flex p-3 bg-secondary text-white">
+  <div class="p-2 bg-info">Flex item 1</div>
+  <div class="p-2 bg-warning">Flex item 2</div>
+  <div class="p-2 bg-primary">Flex item 3</div>
+</div>
+```
+
+
+
+水平显示方向：向右 `.flex-row-reverse`
+
+垂直显示方向：向右 `.flex-column-reverse`
+
+内容排列：`.justify-content-*`（**start (默认), end, center, between 或 around**:）
+
+强制等宽：`.flex-fill`
+
+填充剩余空间：`.flex-grow-1`
+
+强制排序：`order-*`，num。默认从小到大
+
+
+
+## 基本标签
 
 `<display>`：标题类，控制字体大小样式，有1到4
 
@@ -745,35 +928,7 @@ $(document).ready(function(){
 
 
 
-## flex
 
-`d-flex`：创建弹性盒子容器
-
-`d-*-flex`：sm、md、lg、xl
-
-`.d-*-inline-flex`：行内
-
-```html
-<div class="d-flex p-3 bg-secondary text-white">
-  <div class="p-2 bg-info">Flex item 1</div>
-  <div class="p-2 bg-warning">Flex item 2</div>
-  <div class="p-2 bg-primary">Flex item 3</div>
-</div>
-```
-
-
-
-水平显示方向：向右 `.flex-row-reverse`
-
-垂直显示方向：向右 `.flex-column-reverse`
-
-内容排列：`.justify-content-*`（**start (默认), end, center, between 或 around**:）
-
-强制等宽：`.flex-fill`
-
-填充剩余空间：`.flex-grow-1`
-
-强制排序：`order-*`，num。默认从小到大
 
 
 
@@ -980,3 +1135,10 @@ Lorem ipsum dolor text....
 3、可滚动项元素上的 id （`<div id="section1">`） 必须匹配导航栏上的链接选项 （`<a href="#section1">`)。
 
 `data-offset`：距离顶部的偏移像素
+
+
+
+
+
+
+

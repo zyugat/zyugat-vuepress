@@ -1049,8 +1049,10 @@ nano /etc/ssh/sshd_config
 ```shell
 # 设置如果用户不能成功登录，在切断连接之前服务器需要等待的时间（以秒为单位）。
 LoginGraceTime 30
+# 允许Root用户
+PermitRootLogin yes
 # 最大尝试次数
-MaxAuthTries 10
+MaxAuthTries 3
 # 开启RSA验证
 RSAAuthentication yes
 # 是否使用公钥验证
@@ -1073,7 +1075,7 @@ nano /etc/hostname
 > 3、安装必装软件
 
 ```shell
-apt install -y sudo yum yarn npm wget openjdk-11-jdk python-pip screen ntpdate
+apt install -y sudo yum yarn npm wget openjdk-11-jdk python-pip screen ntpdate vnstat
 
 ntpdate ntp1.aliyun.com
 ntpdate ntpupdate.tencentyun.com

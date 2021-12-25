@@ -2,9 +2,20 @@
 
 ## 基础复习
 
+strong 或 b：加粗
+
+em 或 i：倾斜
+
+del 或 s：删除线
+
+ins 或 u：下划线
+
+
+
 1. table
 
 - tr：行
+- th：表头
 - td：单元格
 
 ```html
@@ -94,6 +105,20 @@ input->type：输入框
 
 
 
+表单属性
+
+- required，内容不能为空
+- placeholder，提示文本
+- autofocus，
+- autocomplete，
+- multiple，
+
+
+
+取消表单轮廓线：`outline: none;`
+
+
+
 ****
 
 
@@ -121,6 +146,8 @@ test1
 5. textarea
 
 文本域，多行输入
+
+禁止拖拽：`resize: none;`
 
 ```html
   test1
@@ -163,6 +190,7 @@ test1
 - text-decoration、给文字加修饰、上下删除线
 - text-indent、给文字首行加缩进
 - line-height、行间距、行与行的高度
+  - 用于文字垂直居中
 
 
 
@@ -199,6 +227,16 @@ test1
 
 ### 选择器
 
+> 权重：
+>
+> 内联样式：1,0,0,0
+>
+> ID：0,1,0,0
+>
+> calss | 伪类 | 属性选择器：0,0,1,0
+>
+> 标签 | 伪元素选择器：0,0,0,1
+
 - 标签选择器
 
 ```css
@@ -234,25 +272,103 @@ id选择器
 
 
 
-1. 后代选择器：`.nav a`
+1、后代选择器：`.nav a`
 
 **nav下的所有a标签都会变化**
 
-
-
-2. 子选择器：`.nav>a`
+2、子选择器：`.nav>a`
 
 **最靠近nav的a元素会变化（只有一个）**
 
-
-
-3. 并集选择器：`div,p`
+3、并集选择器：`div,p`
 
 并集
 
 
 
-4. 伪类选择器
+4、元素选择
+
+- 不用类或ID选择器：`[属性名]`
+
+  ```html
+  <input type="text" value="输入用户名">
+  /* 如果他具有 value 属性 就选择这个元素 */
+  input[value] {}
+  ```
+
+- 选择属性=值的某些元素
+
+  ```css
+  /* 如果他的属性的值与之相同 就选择这个元素 */
+  input[type=text]{}
+  input[name=""] {}
+  ```
+
+- 选择属性值开头的那些元素
+
+  ```css
+  /* 如果他的属性开头的值与之相同 就选择这个元素 */
+  input[class^=icon]{}
+  ```
+
+- 选择属性值结尾的某些元素
+
+  ```css
+  /* 如果他的属性结尾的值与之相同 就选择这个元素 */
+  input[class$=icon]{}
+  ```
+
+- 选择属性值中含有val的某些元素
+
+  ```css
+  input[class*=icon]{}
+  ```
+
+
+
+5、**结构伪类选择器**
+
+> first-child和first-of-child，区别在于前者**必须符合指定类型**（如果不符合就不渲染），后者是**符合指定类型的元素**（只渲染符合的元素）。
+
+  - E:frist-child，父元素的第一个子元素且必须**符合指定类型**
+  - E:last-child，父元素中最后一个子元素且必须**符合指定类型**
+  - E:nth-child(n)，父元素中第n个子元素（n>=0）
+    - 关键字：even 偶数， odd 奇数
+    - 2n，偶数。
+    - 2n+1，奇数。
+    - 5n，5 10 15。
+    - n+5，从第五个开始。
+    - -n+5，前5个。
+- E:first-of-type，指定类型E第一个
+
++ E:last-of-type，指定类型E的最后一个
++ E:nth-of-type(n)，指定类型E的第n个
+
+
+
+关于`nth-child`和`nth-of-type`的区别
+
+`nth-child`：会给每个盒子添加序号
+
+`nth-of-type`：只会给指定盒子的排列序号
+
+例如：`section div:nth-of-child(1){color:red}`，因为`序号1`不是div，所以不会变成红色。
+
+```html
+<section>
+  <p>
+    nth-child：序号1
+    nth-of-type：没有序号因此不渲染
+  </p>
+  <div>
+    序号2
+  </div>
+</section>
+```
+
+
+
+6、伪类选择器
 
 ```CSS
 a:link，选择所有未访问的链接
@@ -260,6 +376,23 @@ a:visited，选择所有已访问的链接
 a:focus，获得焦点时
 a:hover，选择鼠标指针位于上方=
 a:active，选择活动链接，鼠标按下未弹起
+```
+
+- ::before，在元素内部的前面插入
+- ::after，在元素内部的后面插入
+
+- 属于行内元素
+- 在文档树种找不到
+- element::before{}
+- 必须content属性
+- 权重1
+
+遮罩层，当鼠标移动过去就会显示
+
+```css
+.tudou:hover::before {
+  display: block;
+}
 ```
 
 
@@ -277,6 +410,10 @@ a:active，选择活动链接，鼠标按下未弹起
 
 
 
+**盒子的大小是设置的宽高：`box-sizing:border-box;`，不会因为内外边距撑开盒子**
+
+
+
 1. border边框
 
 - border-width，边框粗细
@@ -287,9 +424,7 @@ a:active，选择活动链接，鼠标按下未弹起
 
 
 
-表格边框合并在一起：
-
-`border-collapse:collapse`
+**合并相邻的边框**：`border-collapse:collapse`
 
 
 
@@ -333,8 +468,6 @@ a:active，选择活动链接，鼠标按下未弹起
 
 
 
-
-
 4. 圆角边框
 
 `border-radius: length;`
@@ -343,8 +476,6 @@ a:active，选择活动链接，鼠标按下未弹起
 
 - 圆形：半径=高度
 - 圆角矩形：高度的一半
-
-
 
 
 
@@ -362,7 +493,10 @@ a:active，选择活动链接，鼠标按下未弹起
 box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 ```
 
-- test-shadow，文字阴影
+
+
+`test-shadow`：文字阴影
+
 - h-shadow，必须，水平阴影的位置
 - v-shadow，必须，垂直阴影的位置，
 - blur ，模糊距离
@@ -370,7 +504,7 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 
 
-
+****
 
 
 
@@ -404,9 +538,7 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 1. 格外标签法
 
-在最后添加一个标签，给标签添加一个  `clear` 样式
-
-`clear: `
+**在最后浮动元素的最后面添加一个标签**，给标签添加一个  `clear` 样式
 
 - left，不允许左侧浮动
 - right，不允许右侧浮动
@@ -414,9 +546,9 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 
 
-2. overflow
+2. overflow：给父元素添加
 
-- hidden
+- hidden（超出部分隐藏）
 - auto
 - scroll
 
@@ -432,10 +564,8 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
   display: block;
   height :0;
   clear: both;
+  /* 不可见 */
   visibility: hidden;
-}
-.clearfix {
-  *zoom:1;
 }
 ```
 
@@ -447,16 +577,17 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 ```css
 .clearfix: before,.clearfix:after {
-  content: "",
-    display: table;
+  content: "";
+  display: table;
 }
 .clearfix:after {
   clear: both;
 }
-.clearfix {
-  *zoom:1;
-}
 ```
+
+
+
+****
 
 
 
@@ -481,31 +612,26 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 
 
-1. static，静态定位
+1. static，静态定位：默认定位方式。
 
-默认定位方式，无定位，是按照标准流的特性摆放，无边偏移，很少使用。
+2. relative，相对定位，**占有原先位置**，当元素在移动位置的时候，是相对于他原本的位置。
 
-
-
-2. relative，相对定位
-
-相对定位，**占有原先位置**
-
-当元素在移动位置的时候，是相对于他原本的位置
-
-- 相对于自己原本的位置移动。
-- 原来在标准流的位置继续占有，后面的盒子仍然以标准流的方式对待。
-
-
-
-3. absolute，绝对定位
-
-绝对定位，**不占有原先位置**，可以理解为他飘起来了
-
-当元素在移动位置的时候，是相对于祖先元素定位（前提祖先元素有定位）。
+3. absolute，绝对定位，**不占有原先位置**，可以理解为他飘起来了。当元素在移动位置的时候，是相对于祖先元素定位（前提祖先元素有定位）。```设置后可以拥有长宽```
 
 - 当祖先元素有定位，就会相对于 祖先元素 而定位，否则会根据浏览器定位。
-- 而 祖先元素 ≠ 父亲元素 如果上2级都有定位，而以最上的那位为准
+- 而 祖先元素 ≠ 父亲元素 **如果上2级都有定位，而以最上的那位为准**。
+
+```css
+/* 垂直居中 */
+.box{
+  position: absolute;
+  /* 自己盒子宽度的一半 */
+  top: 50%;
+  margin-top: -100px;
+}
+```
+
+
 
 
 
@@ -523,15 +649,12 @@ margin-left: -版心盒子宽度的一半
 
 
 
-
-
-5. sticky，粘性定位
-
-占有原先位置，可以认为是相对定位和固定定位的混合
+5. sticky，粘性定位，占有原先位置。
 
 - 以浏览器的可视窗口为参照点移动元素
-- 占有原先位置
 - 必须添加 top left right bottom 其中一个才有效
+
+![chrome-capture](http://img.zyugat.cn/zyuimg/2021-11-29_75e8bf992155f.gif)
 
 
 
@@ -580,344 +703,7 @@ margin-left: -版心盒子宽度的一半
 
 
 
-## CSS3新特性
-
-1. 元素选择
-
-- 不用类或ID选择器：`[属性名]`
-
-  ```html
-  <input type="text" value="输入用户名">
-  /* 如果他具有 value 属性 就选择这个元素 */
-  input[value] {}
-  ```
-
-  
-
-- 选择属性=值的某些元素
-
-  ```css
-  /* 如果他的属性的值与之相同 就选择这个元素 */
-  input[type=text]{}
-  input[name=""] {}
-  ```
-
-  
-
-- 选择属性值开头的那些元素
-
-  ```css
-  /* 如果他的属性开头的值与之相同 就选择这个元素 */
-  input[class^=icon]{}
-  ```
-
-  
-
-- 选择属性值结尾的某些元素
-
-  ```css
-  /* 如果他的属性结尾的值与之相同 就选择这个元素 */
-  input[class$=icon]{}
-  ```
-
-  
-
-- 选择属性值中含有val的某些元素
-
-  ```css
-  input[class*=icon]{}
-  ```
-
-
-
-2. **结构伪类选择器**
-
-  - E:frist-child，父元素中第一个子元素
-  - E:last-child，父元素中最后一个子元素
-  - E:nth-child(n)，父元素中第n个子元素
-    - 这个 n 可以是 数字、关键字、公式
-    - 关键字：even 偶数， odd 奇数
-    - 2n，偶数。
-    - 2n+1，奇数。
-    - 5n，5 10 15。
-    - n+5，从第五个开始。
-    - -n+5，前5个。
-- E:first-of-type，指定类型E第一个
-
-+ E:last-of-type，指定类型E的最后一个
-+ E:nth-of-type(n)，指定类型E的第n个
-
-
-
-关于`nth-child`和`nth-of-type`的区别
-
-`nth-child`：会给每个盒子添加序号
-
-`nth-of-type`：只会给指定盒子的排列序号
-
-例如：`section div:nth-of-child(1){color:red}`，因为`序号1`不是div，所以不会变成红色。
-
-```html
-<section>
-  <p>
-    nth-child：序号1
-    nth-of-type：没有序号因此不渲染
-  </p>
-  <div>
-    序号2
-  </div>
-	<div>
-    序号3
-  </div>
-</section>
-```
-
-
-
 ****
-
-
-
-3. **伪元素选择器**
-
-- ::before，在元素内部的前面插入
-- ::after，在元素内部的后面插入
-
-- 属于行内元素
-- 在文档树种找不到
-- element::before{}
-- 必须content属性
-- 权重1
-
-遮罩层，当鼠标移动过去就会显示
-
-```css
-.tudou:hover::before {
-  display: block;
-}
-```
-
-
-
-****
-
-
-
-
-
-4. **盒子模型**
-
-通过`box-sizing`知道盒模型，有2个值，可以指定为：
-
-- content-box，盒子的大小为：width+padding+border。以前默认的，会撑开盒子。
-- border-box，盒子大小为width，就不会撑开盒子了！！！
-
-```css
-p {
-  box-sizing:content-box;
-  box-sizing:border-box;
-}
-```
-
-
-
-
-
-5. **filter，图片模糊**
-
-`filter: 函数();`
-
-- blur(5px)，模糊函数，数值越大越模糊。
-
-
-
-6. **calc函数**
-
-`width:calc(100% -80px);`
-
-在括号内我们可以做一些简单运算
-
-```css
-/* 子盒子大小永远比父盒子小30像素 */
-.son {
-  /* 100% 是指父盒子的100% */
-  width: calc(100% - 30px)
-}
-```
-
-
-
-**HTML5新特性**
-
-1. 语义化标签
-
-- hearder，头部
-- nav，导航
-- article，内容
-- section，定义文档某个区域
-- aside，侧边栏
-- footer，尾部
-
-2. 多媒体标签
-
-- audio，音频
-- video，视频
-
-3. input类型
-
-- type="search"，这是一个搜索框
-- 
-
-4. 表单属性
-
-- required，内容不能为空
-- placeholder，提示文本
-- autofocus，
-- autocomplete，
-- multiple，
-
-
-
-
-
-
-
-## flex
-
-```css
-display: flex;
-```
-
-基本概念：容器和轴
-
-容器包括：父容器和子容器
-
-轴包括：主轴和交叉轴
-
-
-
-
-
-### 轴
-
-1. 设置主轴方向：`flex-direction`
-
-- row，默认从左到有
-- row-reverse，从右到左
-- column，从上到下
-- column-reverse，从下到上
-
-
-
-### 父容器
-
-> 主轴是指X轴
->
-> 交叉轴是指Y轴
-
-1. 设置子容器沿主轴排列：`justify-content`
-
-**设置X轴的对齐方式**
-
-+ flex-start，起始端对其，**从左到右**
-+ flex-end，从尾部开始，**从右到左**
-+ center，居中
-+ space-around，沿着主轴**均匀分布**
-+ space-between，均匀分布，**但首尾两端与父元素相切**
-
-
-
-2. 设置子容器如何沿交叉轴排列：`align-items`
-
-**设置Y轴的对齐方式**
-
-- flex-start，顶部对齐
-- flex-end，底部对齐
-- center，居中
-- baseline，基线对其，指首行文字
-- stretch，拉伸（就是与父容器同高度）
-
-
-
-3. PRO->设置子容器换行方式：`flex-wrap`
-
-+ nowarp，默认不换行
-+ wrap，换行
-+ wrap-reverse，反向换行（沿着交叉轴的反方向换行）
-
-
-
-4. PRO->子容器沿着哪个方向流向，终点是否换行：`flex-flow`
-
-是个符合属性，相当于 `flex-direction` 与 `flex-wrap` 的组合
-
-- 主轴方向：row、column
-- 换行方式：warp、nowrap
-
-```CSS
-flex-flow: coulumn wrap;
-```
-
-
-
-5. PRO->**多行时**对齐方式：`align-content`
-
-+ flex-start，顶部对齐
-+ flex-end，底部对齐
-+ center，居中
-+ space-around，等边距均匀分布
-+ space-between：等间距均匀分布
-+ stretch，拉伸（就是与父容器同高度）
-
-
-
-
-
-### 子容器
-
-> align-items作用于父元素。align-self作用于子元素可以覆盖align-items的影响。
-
-1. **单独设置**子容器如何沿交叉轴排列：`align-self`
-
-**设置子容器Y轴对齐方式**
-
-- flex-start，顶部对齐
-- flex-end，底部对齐
-- center，居中
-- baseline，基线对其，指首行文字
-- stretch，拉伸（就是与父容器同高度）
-
-
-
-2. PRO->设置子容器基准大小：`flex-basis`
-
-如果主轴为`row`，则代表其宽度
-
-如果主轴为`column`，则代表其高度
-
-
-
-3. PRO->子容器**弹性伸展**的比例：`flex-grow`
-
-A为1，B为2，则B的宽度是A的两倍
-
-
-
-4. PRO->子容器**弹性收缩**的比例：`flex-shrink`
-
-如果A和B的宽度**超过父容器的宽度**，则会按照比例收缩。
-
-比例计算是，例如本身容器宽度是200，有两个子容器一个比例是2一个是3。我想得到3的长度就是：`200/(200*2+200*3)*3`
-
-
-
-5. PRO->排列顺序：`order`
-
-默认值为0，可以负指，**值越小越靠前**。
-
-
-
-
 
 
 
@@ -940,6 +726,10 @@ a {
 ```
 
 
+
+如果图片和文字有缝隙可以使用：`vertical-align:top`（给图片添加）
+
+![image-20211129172113568](http://img.zyugat.cn/zyuimg/2021-11-29_34f764e9b1fc1.png)
 
 当元素水平排列的时候，请使用 **浮动**
 
@@ -965,7 +755,29 @@ a {
 
 
 
+背景图片缩放大小：`background-size: 长px 宽px`
 
+
+
+**图片大小跟随父元素**：`width: 100%;`
+
+```css
+.pic {
+  float: left;
+  width: 120px;
+  height: 60px;
+  margin-right: 5px;
+}
+.pic img {
+  width: 100%;
+}
+```
+
+![image-20211129135819309](http://img.zyugat.cn/zyuimg/2021-11-29_3f7080da56257.png)
+
+如果没有w100%这个属性，那么就会变成
+
+![image-20211129135828207](http://img.zyugat.cn/zyuimg/2021-11-29_1e0b6f4a67998.png)
 
 
 
@@ -1085,6 +897,372 @@ goods商品
 
 
 
+### 移动布局
+
+设置最大或最小的宽度
+
+```css
+width: 100%;
+min-width: 320px;
+max-width: 640px;
+```
+
+
+
+
+
+
+
+****
+
+
+
+## flex
+
+```css
+display: flex;
+```
+
+基本概念：容器和轴
+
+容器包括：父容器和子容器
+
+轴包括：主轴和交叉轴
+
+
+
+### 父容器
+
+> 主轴是指X轴
+>
+> 交叉轴是指Y轴
+
+1. 设置**主轴方向**：`flex-direction`
+
+- row，默认从左到右
+- row-reverse，从右到左
+- column，从上到下
+- column-reverse，从下到上
+
+
+
+2. 设置子容器沿**主轴排列**：`justify-content`
+
+**设置X轴的对齐方式**
+
++ flex-start，起始端对其，**从左到右**
++ flex-end，从尾部开始，**从右到左**
++ center，居中
++ space-around，沿着主轴**均匀分布**
++ space-between，均匀分布，**但首尾两端与父元素相切**
+
+`justify-content:space-around`
+
+![image-20211129173031862](http://img.zyugat.cn/zyuimg/2021-11-29_2a89c375dca1a.png)
+
+
+
+
+
+3. **单行时**子容器沿**交叉轴排列**：`align-items`
+
+**设置Y轴的对齐方式**
+
+- flex-start，顶部对齐
+- flex-end，底部对齐
+- center，居中
+- baseline，基线对其，指首行文字
+- stretch，拉伸（就是与父容器同高度）
+
+`align-items: center`：垂直居中
+
+![image-20211129173923477](http://img.zyugat.cn/zyuimg/2021-11-29_a47a307f3e5a5.png)
+
+
+
+4. **多行时**子容器沿**交叉轴排列**：`align-content`
+
++ flex-start，顶部对齐
++ flex-end，底部对齐
++ center，居中
++ space-around，等边距均匀分布
++ space-between：等间距均匀分布
++ stretch，拉伸（就是与父容器同高度）
+
+
+
+5. 设置子容器**换行方式**：`flex-wrap`
+
++ nowarp，默认不换行
++ wrap，换行
++ wrap-reverse，反向换行（沿着交叉轴的反方向换行）
+
+
+
+6. 子容器沿着哪个方向流向，**终点是否换行**：`flex-flow`
+
+是个符合属性，相当于 `flex-direction` 与 `flex-wrap` 的组合
+
+- 主轴方向：row、column
+- 换行方式：warp、nowrap
+
+```CSS
+flex-flow: coulumn wrap;
+```
+
+
+
+
+
+### 子容器
+
+`flex`：分配子容器剩余空间
+
+![image-20211129174903453](http://img.zyugat.cn/zyuimg/2021-11-29_1ba78363843ef.png)
+
+**2号元素占用2份。**吧
+
+```css
+p {
+    display: flex;
+    width: 60%;
+    height: 150px;
+    background-color: pink;
+    margin: 100px auto;
+}
+
+p span {
+    flex: 1;
+}
+
+p span:nth-child(2) {
+    flex: 2;
+    background-color: purple;
+}
+```
+
+
+
+> align-items作用于父元素。align-self作用于子元素可以覆盖align-items的影响。
+
+1. **单独设置**子容器如何沿交叉轴排列：`align-self`
+
+**设置子容器Y轴对齐方式**
+
+- flex-start，顶部对齐
+- flex-end，底部对齐
+- center，居中
+- baseline，基线对其，指首行文字
+- stretch，拉伸（就是与父容器同高度）
+
+
+
+2. PRO->设置子容器基准大小：`flex-basis`
+
+如果主轴为`row`，则代表其宽度
+
+如果主轴为`column`，则代表其高度
+
+
+
+3. PRO->子容器**弹性伸展**的比例：`flex-grow`
+
+A为1，B为2，则B的宽度是A的两倍
+
+
+
+4. PRO->子容器**弹性收缩**的比例：`flex-shrink`
+
+如果A和B的宽度**超过父容器的宽度**，则会按照比例收缩。
+
+比例计算是，例如本身容器宽度是200，有两个子容器一个比例是2一个是3。我想得到3的长度就是：`200/(200*2+200*3)*3`
+
+
+
+5. PRO->排列顺序：`order`
+
+默认值为0，可以负指，**值越小越靠前**。
+
+
+
+**案例1**
+
+![image-20211129180803710](http://img.zyugat.cn/zyuimg/2021-11-29_6991b3d4e8eba.png)
+
+思路：
+
+- `subnav-entry`是父盒子
+- `.subnav-entry li`：设置每个盒子的宽
+- `.subnav-entry a`：设置flex布局以垂直方向进行。
+  - ![image-20211129181006600](http://img.zyugat.cn/zyuimg/2021-11-29_35c52d157972e.png)
+  - **图片在上，文字在下。垂直方向！！**
+
+```css
+.subnav-entry {
+    display: flex;
+    border-radius: 8px;
+    background-color: #fff;
+    margin: 0 4px;
+    flex-wrap: wrap;
+    padding: 5px 0;
+}
+
+.subnav-entry li {
+    /* 里面的子盒子可以写 % 相对于父级来说的 */
+    flex: 20%;
+}
+
+.subnav-entry a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subnav-entry-icon {
+    width: 28px;
+    height: 28px;
+    background-color: pink;
+    margin-top: 4px;
+    background: url(../images/subnav-bg.png) no-repeat;
+    background-size: 28px auto;
+}
+```
+
+
+
+**案例2**
+
+![image-20211129181119713](http://img.zyugat.cn/zyuimg/2021-11-29_f2197dd6efd36.png)
+
+
+
+- `.nav-common`：是每个容器，其内部分成3块
+  - ![image-20211129181408738](http://img.zyugat.cn/zyuimg/2021-11-29_39a526d5b22a7.png)
+- `.nav-items`：内部的容器，以垂直进行排序
+  - ![image-20211129181635217](http://img.zyugat.cn/zyuimg/2021-11-29_b27ab1841659a.png)
+- `.nav-items a`：内部的a标签以1等份进行分配。**如果有2个a标签那么就划分成2等份。**
+  - ![image-20211129181635217](http://img.zyugat.cn/zyuimg/2021-11-29_b27ab1841659a.png)
+- `.nav-items a:nth-child(1)`：第一个元素下边框的白线
+  - ![image-20211129182158287](http://img.zyugat.cn/zyuimg/2021-11-29_93f2355097c30.png)
+- `.nav-items:nth-child(-n+2)`：前2个元素右边框的白线
+  - ![image-20211129182103102](http://img.zyugat.cn/zyuimg/2021-11-29_77c56f39c3020.png)
+
+```css
+nav {
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 4px 3px;
+}
+
+.nav-common {
+  display: flex;
+  height: 88px;
+  background-color: pink;
+}
+
+.nav-common:nth-child(2) {
+  margin: 3px 0;
+}
+
+.nav-items {
+  /* 不冲突的 */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-items a {
+  flex: 1;
+  text-align: center;
+  line-height: 44px;
+  color: #fff;
+  font-size: 14px;
+  /* 文字阴影 */
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.nav-items a:nth-child(1) {
+  border-bottom: 1px solid #fff;
+}
+
+.nav-items:nth-child(1) a {
+  border: 0;
+  background: url(../images/hotel.png) no-repeat bottom center;
+  background-size: 121px auto;
+}
+
+/* -n+2就是选择前面两个元素 */
+
+.nav-items:nth-child(-n + 2) {
+  border-right: 1px solid #fff;
+}
+
+.nav-common:nth-child(1) {
+  background: -webkit-linear-gradient(left, #fa5a55, #fa994d);
+}
+
+.nav-common:nth-child(2) {
+  background: -webkit-linear-gradient(left, #4b90ed, #53bced);
+}
+
+.nav-common:nth-child(3) {
+  background: -webkit-linear-gradient(left, #34c2a9, #6cd559);
+}
+```
+
+```html
+<nav>
+    <div class="nav-common">
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+    </div>
+    <div class="nav-common">
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+    </div>
+    <div class="nav-common">
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+        <div class="nav-items">
+            <a href="#">海外酒店</a>
+            <a href="#">特价酒店</a>
+        </div>
+    </div>
+
+</nav>
+```
+
+
+
+
+
+****
+
+
+
 ## 过渡动画
 
 `transition: 过渡的属性 花费的时间 运动曲线 何时开始;`
@@ -1120,8 +1298,6 @@ transition-duration: ;
 text-combine-upright: ;
 transition-delay: ;
 ```
-
-
 
 
 
@@ -1166,15 +1342,44 @@ transition-delay: ;
   - **x和y的值是px，x向右是正，向左是负数。**
   - `translate(x,y)`：移动
   - `scale(num1,num2)`：缩放(num<=1)，num1是水平，num2是垂直
-  - `rotate(-num deg)`：顺时针旋转，deg是角度单位
+  - `rotate(num deg)`：顺时针旋转，deg是角度单位
   - `skew(num1,num2)`：翻转，num1是水平，num2是垂直**(单位deg)**
 
+图片放大效果：
 
+```css
+div {
+  overflow: hidden;
+  float: left;
+  margin: 10px;
+}
+div img {
+  transition: all 0.5s;
+}
+div img:hover {
+  transform: scale(1.3);
+}
+```
+
+
+
+> 翻转方向：
+>
+> 如果以X轴进行选择，那边方向就是手指弯曲的方向。
+>
+> ![image-20211129154428476](http://img.zyugat.cn/zyuimg/2021-11-29_223300166645a.png)
+>
+> Z轴：可以看下面案例旋转木马理解
 
 - transform：3D
   - Z坐标：可以理解为缩放，因为如果是负值那么就放远点，那就小了。
-  - 可以给父类添加：`perspective: numpx`，透视，伪3D
-  - `translate3d(x,y,z)`、`scale3d(x,y,z)`、`rotate3d(x,y,z)`
+  - 必须给父类添加：`perspective: numpx`，透视，伪3D
+  - Z轴：**距离中心**的px。X轴：上下（翻滚 ）。Y轴：左右
+  - `translate3d(x,y,z)`
+  - `scale3d(x,y,z)`
+  - `rotate3d(x,y,z)`：rotateXYZ，沿着XYZ其中一轴旋转。单位deg。Z轴旋转=2D的旋转。
+
+- `transfrom-style：preserve-3d`：子元素开启立体空间，默认flat不开启。写给父级
 
 ```css
 div{
@@ -1188,6 +1393,8 @@ div{
 
 
 鼠标移动到son正方形上，有一个放大动画
+
+**关键：子元素必须有父元素，并且长宽必须是100%。**
 
 ```css
 #parent {
@@ -1207,24 +1414,26 @@ div{
   transition: all 2s;
 }
 #son:hover {
-  /* perspective不是必须的 */
-  transform: perspective(400) scale(1);
+  transform: scale(1);
 }
 ```
 
 
 
-- animation：动画名字 完成时间 执行次数 延时执行时间
+- `animation：动画名字 完成时间 速度曲线 延时执行时间 延迟 执行次数 是否反向播放`
 - 模拟动画效果，通过关键帧控制动画的每一步
 - `@keyframes`：声明动画，指定关键帧
-  - 执行次数：infinite无限次 或 Num
-- `animation-direction: ;`：动画播放方向，normal | reverse | alternate | alternate-reverse
+- `animation-duration`：执行时间
+- `animation-timing-function`：速度曲线，`setps(nums)`步长
+- `animation-delay`：延时执行时间
+- `animation-iteration-count`：执行次数：infinite无限次 或 Num
+- `animation-direction`：动画播放方向
   - animation-direction: normal 正序播放
     animation-direction: reverse 倒序播放
     animation-direction: alternate 交替播放
     animation-direction: alternate-reverse 反向交替播放
-- `animation-fill-mode: forwards;`：停在最后一帧，默认none
-- `animation-play-state: ;`：动画停止还是运行，paused默认 | running
+- `animation-fill-mode: forwards;`：停在最后一帧，默认backwards
+- `animation-play-state`：动画停止还是运行，paused默认 | running
 
 ```css
 @keyframes myname{
@@ -1242,9 +1451,376 @@ div{
 
 
 
+### 案例 
+
+**热点图**
+
+![chrome-capture](http://img.zyugat.cn/zyuimg/2021-11-29_a0e0cee41fb01.gif)
+
+思路：
+
+- html
+  - map放背景图、city定义位置、dotted定义热点的样式、pulse定义3个圈圈作为外放的样式圈
+- css
+  - city：定义圈圈的位置
+  - dotted：定义样式，长宽是8像素，圆形`border-radius: 50%;`
+  - pulse：必须定义top、left、treansform，意义在于**放大之后就会中心向四周发散**
+  - 下面分别定义了 pulse2和 pulse3 的延迟时间。
+
+```html
+<style>
+  body {
+    background-color: #333;
+  }
+  .map {
+    position: relative;
+    width: 747px;
+    height: 616px;
+    margin: 0 auto;
+  }
+  .city {
+    position: absolute;
+    top: 227px;
+    right: 193px;
+    color: #fff;
+  }
+  .dotted {
+    width: 8px;
+    height: 8px;
+    background-color: #09f;
+    border-radius: 50%;
+  }
+  .city div[class^='pulse'] {
+    /* 保证我们小波纹在父盒子里面水平垂直居中 放大之后就会中心向四周发散 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 12px #009dfd;
+    border-radius: 50%;
+    animation: pulse 1.2s linear infinite;
+  }
+  .city div.pulse2 {
+    animation-delay: 0.4s;
+  }
+  .city div.pulse3 {
+    animation-delay: 0.8s;
+  }
+  @keyframes pulse {
+    0% {
+    }
+    70% {
+      /* transform: scale(5);  我们不要用scale 因为他会让 阴影变大*/
+      width: 40px;
+      height: 40px;
+      opacity: 1;
+    }
+    100% {
+      width: 70px;
+      height: 70px;
+      opacity: 0;
+    }
+  }
+</style>
+<div class="map">
+  <div class="city">
+    <div class="dotted"></div>
+    <div class="pulse1"></div>
+    <div class="pulse2"></div>
+    <div class="pulse3"></div>
+  </div>
+</div>
+```
 
 
 
+**小熊奔跑**
+
+思路：
+
+- 这是一个长图片，分为8个动作，因此`steps(8)`
+- xiong设置长宽为熊一个动作的大小
+- `bear`：是小熊奔跑的动作，`infinite`无限循环
+- `move`：从屏幕的左边移动到中间，`forwards`结束，`translateX(-50%)`居中（减与自身长度的一半）如果是使用margin那么假如`width: 200px;`发生变化那就还要改一次。
+
+```html
+<style>
+.xiong {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  background: url(bear.png) no-repeat;
+  animation: bear 0.4s steps(8) infinite, move 3s forwards;
+}
+
+@keyframes bear {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -1600px 0;
+  }
+}
+
+@keyframes move {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 50%;
+    /* margin-left: -100px; */
+    transform: translateX(-50%);
+  }
+}
+</style>
+<div class="xiong"></div>
+```
+
+
+
+**两个面翻转盒子**
+
+思路：
+
+- 给front和back同时添加相同样式，作为盒子样式
+- 给front单独添加背景颜色，设置`z-index`让他第一个显示
+- back单独添加背景颜色，沿着Y轴旋转180度，作为背面。
+
+```html
+<style>
+.box {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 100px auto;
+  transition: all 0.4s;
+  /* 让背面的紫色盒子保留立体空间 给父级添加的 */
+  transform-style: preserve-3d;
+}
+
+.box:hover {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+  line-height: 300px;
+}
+
+.front {
+  background-color: pink;
+  z-index: 1;
+}
+
+.back {
+  background-color: purple;
+  /* 像手机一样 背靠背 旋转 */
+  transform: rotateY(180deg);
+}
+</style>
+    <div class="box">
+      <div class="front">test1</div>
+      <div class="back">test2</div>
+    </div>
+```
+
+
+
+
+
+**3D导航栏**
+
+![chrome-capture](http://img.zyugat.cn/zyuimg/2021-11-29_a0e0cee41fb01.gif)
+
+**思路：**
+
+- ul 和 li ：作为盒子的大小
+- box：作为翻转盒子的父元素，添加动画和`transform-style`
+- front和bottom 两个盒子初始时，是同一个平面。当给bottom设置`rotateX(-90deg)`时，**字是在下面的**。此时是这样的形状
+
+![image-20211129162114064](http://img.zyugat.cn/zyuimg/2021-11-29_0bf3e14cf906d.png)
+
+
+
+- 将front向前移动 `translateZ(17.5px)` ，Z轴代表向前移动放大
+
+- 将bottom向下移动 `translateY(17.5px)` 。
+
+```html
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    margin: 100px;
+  }
+
+  ul li {
+    float: left;
+    margin: 0 5px;
+    width: 120px;
+    height: 35px;
+    list-style: none;
+    /* 一会我们需要给box 旋转 也需要透视 干脆给li加 里面的子盒子都有透视效果 */
+    perspective: 500px;
+  }
+
+  .box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.4s;
+  }
+
+  .box:hover {
+    transform: rotateX(90deg);
+  }
+
+  .front,
+  .bottom {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .front {
+    background-color: pink;
+    z-index: 1;
+    transform: translateZ(17.5px);
+  }
+
+  .bottom {
+    background-color: purple;
+    /* 这个x轴一定是负值 */
+    /* 我们如果有移动 或者其他样式，必须先写我们的移动 */
+    transform: translateY(17.5px) rotateX(-90deg);
+  }
+</style>
+<ul>
+  <li>
+    <div class="box">
+      <div class="front">test1</div>
+      <div class="bottom">test2</div>
+    </div>
+  </li>
+</ul>
+```
+
+
+
+**旋转木马**
+
+思路：
+
+- 6张图片沿着Y轴旋转一定角度（`rotateY(0)`）全部在原地旋转，现在我们需要他们距离中心一定距离，那么就改变 Z轴的方向
+
+![image-20211129163357325](http://img.zyugat.cn/zyuimg/2021-11-29_c919308ea594e.png)
+
+- `translateZ(300px)`：距离中心300px
+
+![image-20211129163438239](http://img.zyugat.cn/zyuimg/2021-11-29_703c4b3c1a187.png)
+
+
+
+```html
+    <style>
+        body {
+            perspective: 1000px;
+        }
+        
+        section {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 150px auto;
+            transform-style: preserve-3d;
+            /* 添加动画效果 */
+            animation: rotate 10s linear infinite;
+            background: url(pig.jpg) no-repeat;
+        }
+        
+        section:hover {
+            /* 鼠标放入section 停止动画 */
+            animation-play-state: paused;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotateY(0);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        section div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(dog.jpg) no-repeat;
+        }
+        
+        section div:nth-child(1) {
+            transform: rotateY(0) translateZ(300px);
+        }
+        
+        section div:nth-child(2) {
+            /* 先旋转好了再 移动距离 */
+            transform: rotateY(60deg) translateZ(300px);
+        }
+        
+        section div:nth-child(3) {
+            /* 先旋转好了再 移动距离 */
+            transform: rotateY(120deg) translateZ(300px);
+        }
+        
+        section div:nth-child(4) {
+            /* 先旋转好了再 移动距离 */
+            transform: rotateY(180deg) translateZ(300px);
+        }
+        
+        section div:nth-child(5) {
+            /* 先旋转好了再 移动距离 */
+            transform: rotateY(240deg) translateZ(300px);
+        }
+        
+        section div:nth-child(6) {
+            /* 先旋转好了再 移动距离 */
+            transform: rotateY(300deg) translateZ(300px);
+        }
+    </style>
+    <section>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </section>
+```
+
+
+
+****
 
 
 
@@ -1588,6 +2164,30 @@ $i: 6;
 
 
 
+## Swiper
+
+https://www.swiper.com.cn/
+
+![img](http://img.zyugat.cn/zyuimg/2021-11-29_741ba4bfafa24.png)
+
+| 名词         | 描述                                                         |
+| ------------ | ------------------------------------------------------------ |
+| Swiper       | 整个滑动对象，有时特指**滑块释放后仍然正向移动直到贴合边缘的过程(过渡)** |
+| container    | Swiper的容器，里面包括滑动块（slides）的封套（wrapper)、分页器(pagination)、前进按钮等 |
+| wrapper      | 触控的对象，可触摸区域，移动的块的集合，过渡时会随slide切换产生位移 |
+| slider       | 切换的滑块，可以包含文字、图片、html元素或另外一个Swiper     |
+| pagination   | 分页器，指示slide的数量和当前活动的slide                     |
+| active slide | 活动滑块，即当前看到的(visible)slide，当可视slide不止一个时，默认最左边那个是活动滑块 |
+| callback     | 回调函数，在某些情况下触发                                   |
+
+
+
+
+
+
+
+
+
 
 
 ## 小知识
@@ -1630,34 +2230,117 @@ list-style: none
 
 
 
+```
+  空格符 &nbsp;
+< 小于号 &lt;
+> 大于号 &gt;
+& 和号 &amp;
+± 正负号 &plusmn;
+× 乘号 &times;
+÷ 除号 &divide;
+² 上标2 &sup2;
+₂ 下标2 &sub2;
+```
 
 
-## 补
+
+**filter，图片模糊**
+
+`filter: 函数();`
+
+- blur(5px)，模糊函数，数值越大越模糊。
+
+
+
+**calc函数**
+
+`width:calc(100% -80px);`
+
+在括号内我们可以做一些简单运算
+
+```css
+/* 子盒子大小永远比父盒子小30像素 */
+.son {
+  /* 100% 是指父盒子的100% */
+  width: calc(100% - 30px)
+}
+```
+
+
+
+**鼠标样式**
+
+```html
+<ul>
+    <li style="cursor: default;">我是默认的小白鼠标样式</li>
+    <li style="cursor: pointer;">我是鼠标小手样式</li>
+    <li style="cursor: move;">我是鼠标移动样式</li>
+    <li style="cursor: text;">我是鼠标文本样式</li>
+    <li style="cursor: not-allowed;">我是鼠标禁止样式</li>
+</ul>
+```
+
+
+
+图片文字垂直居中：`vertical-align: middle;`
+
+![image-20211129135310080](http://img.zyugat.cn/zyuimg/2021-11-29_b7edbb86bef25.png)
+
+
+
+单行溢出显示省略号：
+
+```css
+div {
+    width: 150px;
+    height: 80px;
+    background-color: pink;
+    margin: 100px auto;
+    /* 这个单词的意思是如果文字显示不开自动换行 */
+    /* white-space: normal; */
+    /* 1.这个单词的意思是如果文字显示不开也必须强制一行内显示 */
+    white-space: nowrap;
+    /* 2.溢出的部分隐藏起来 */
+    overflow: hidden;
+    /* 3. 文字溢出的时候用省略号来显示 */
+    text-overflow: ellipsis;
+}
+```
+
+![image-20211129135525737](http://img.zyugat.cn/zyuimg/2021-11-29_d5258e6734391.png)
+
+
+
+
+
+
+
+## 补充
 
 ### 精灵图
 
 针对于背景图片的使用，，把多个小的背景图片整合在一张大图里面，通过移动背景图片的位置`background-position`的 目标图片 x 和 y 坐标。
 
+```css
+.box {
+    height: 25px;
+    width: 27px;
 
-
-`他的坐标是从左上角开始。`
-
-- 往右走正，往左走负
-- 往下走正，往上走负
-
-
-
-```html
-  <style>
-      .box {
-          height: 25px;
-          width: 27px;
-
-          margin: 100px auto;
-          background: url("imeges/sprites.png") no-repeat -155px -106px;
-      }
-  </style>
+    margin: 100px auto;
+    background: url("imeges/sprites.png") no-repeat -155px -106px;
+}
 ```
+
+二倍精灵图：先等比例缩小，然后在移动
+
+```css
+.sou {
+  background: url(../images/jd-sprites.png) no-repeat -81px 0;
+  background-size: 200px auto;
+}
+```
+
+
 
 
 

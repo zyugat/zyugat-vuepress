@@ -1,0 +1,31 @@
+{
+  "hash": "0fc26edd",
+  "browserHash": "0d304900",
+  "optimized": {
+    "vue": {
+      "file": "D:/Project/ProjectCode/real/zyugat-vuepress2/docs/.vuepress/.cache/vue.js",
+      "src": "D:/Project/ProjectCode/real/zyugat-vuepress2/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "file": "D:/Project/ProjectCode/real/zyugat-vuepress2/docs/.vuepress/.cache/vue-router.js",
+      "src": "D:/Project/ProjectCode/real/zyugat-vuepress2/node_modules/vue-router/dist/vue-router.esm-bundler.js",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "file": "D:/Project/ProjectCode/real/zyugat-vuepress2/docs/.vuepress/.cache/@vueuse_core.js",
+      "src": "D:/Project/ProjectCode/real/zyugat-vuepress2/node_modules/@vueuse/core/index.mjs",
+      "needsInterop": false
+    },
+    "nprogress": {
+      "file": "D:/Project/ProjectCode/real/zyugat-vuepress2/docs/.vuepress/.cache/nprogress.js",
+      "src": "D:/Project/ProjectCode/real/zyugat-vuepress2/node_modules/nprogress/nprogress.js",
+      "needsInterop": true
+    },
+    "@vuepress/shared": {
+      "file": "D:/Project/ProjectCode/real/zyugat-vuepress2/docs/.vuepress/.cache/@vuepress_shared.js",
+      "src": "D:/Project/ProjectCode/real/zyugat-vuepress2/node_modules/@vuepress/shared/lib/esm/index.js",
+      "needsInterop": false
+    }
+  }
+}

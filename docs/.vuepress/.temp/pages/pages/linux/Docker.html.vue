@@ -1,0 +1,505 @@
+<template><h1 id="docker" tabindex="-1"><a class="header-anchor" href="#docker" aria-hidden="true">#</a> Docker</h1>
+<blockquote>
+<p>Linux中buff/caches占用过高</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 将存于 buffer 中的资料强制写入硬盘中。</span>
+<span class="token function">sync</span>
+<span class="token comment"># 表示清除pagecache （执行后问题得以解决）</span>
+<span class="token builtin class-name">echo</span> <span class="token number">1</span> <span class="token operator">></span> /proc/sys/vm/drop_caches
+
+<span class="token comment"># 表示清除回收slab分配器中的对象（包括目录项缓存和inode缓存）</span>
+<span class="token comment"># slab分配器是内核中管理内存的一种机制，其中很多缓存数据实现都是用的pagecache</span>
+<span class="token builtin class-name">echo</span> <span class="token number">2</span> <span class="token operator">></span> /proc/sys/vm/drop_caches
+
+<span class="token comment"># 表示清除pagecache和slab分配器中的缓存对象 （这个可以的）</span>
+<span class="token builtin class-name">echo</span> <span class="token number">3</span> <span class="token operator">></span> /proc/sys/vm/drop_caches
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div></blockquote>
+<p>沙箱：语言沙箱、系统沙箱</p>
+<p>统一虚拟成不同的环境运行不同软件，虚拟机方案只能5-10个，但是Docker容器可以50-100个</p>
+<p>虚拟机方案，每个方案都有一个独立的系统。</p>
+<p>Docker容器，共用一个操作系统内核。</p>
+<p><strong>Docker 不是虚拟机，容器就是进程。</strong></p>
+<p><strong>安装</strong></p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">apt</span> -y update
+
+<span class="token function">apt</span> -y upgrade
+
+<span class="token function">apt</span> <span class="token function">install</span> -y apt-transport-https ca-certificates <span class="token function">curl</span> software-properties-common gnupg2
+
+<span class="token comment"># 配置阿里云gpg</span>
+<span class="token function">curl</span> -fsSL https://mirrors.aliyun.com/docker-ce/linux/debian/gpg <span class="token operator">|</span> apt-key <span class="token function">add</span> -
+<span class="token comment"># 如果安装失败，那么就是开了代理，把代理关了</span>
+
+<span class="token comment"># apt-get install -y software-properties-common</span>
+
+<span class="token comment"># 写入阿里云的源镜像</span>
+add-apt-repository <span class="token string">"deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/debian <span class="token variable"><span class="token variable">$(</span>lsb_release -cs<span class="token variable">)</span></span> stable"</span>
+
+<span class="token comment"># 更新</span>
+<span class="token function">apt</span> -y update
+
+<span class="token comment"># 安装</span>
+<span class="token function">apt</span> <span class="token function">install</span> -y docker-ce docker-ce-cli containerd.io
+
+<span class="token comment"># 重启docker</span>
+systemctl restart docker
+
+<span class="token comment"># 查看版本</span>
+docker --version
+
+docker run hello-world
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><p>镜像加速</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>vim /etc/docker/daemon.json
+
+{
+"registry-mirrors": [
+ "https://mirror.ccs.tencentyun.com"
+]
+}
+
+{
+"registry-mirrors": ["https://2cbwkcky.mirror.ccs.aliyuncs.com"]
+}
+
+systemctl daemon-reload
+systemctl restart docker
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><blockquote>
+<p>删除指令：<code>-f</code> 是强制删除，<code>-r</code> 递归删除</p>
+</blockquote>
+<h2 id="镜像命令" tabindex="-1"><a class="header-anchor" href="#镜像命令" aria-hidden="true">#</a> 镜像命令</h2>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 查看所有镜像</span>
+docker images -a -q
+<span class="token comment"># 选择</span>
+-a	列出所有
+-q	只显示id
+
+<span class="token comment"># 搜索镜像</span>
+docker search mysql
+<span class="token comment"># 选项</span>
+--filter<span class="token operator">=</span>STARS<span class="token operator">=</span><span class="token number">3000</span> <span class="token comment"># 搜索STARS大于3000的</span>
+
+<span class="token comment"># 获取镜像</span>
+<span class="token comment"># 如果不指定版本，默认获取最新的</span>
+docker pull mysql:版本号
+
+<span class="token comment"># 删除镜像</span>
+docker rmi -f ID
+<span class="token comment"># 删除所有镜像</span>
+docker rmi -f <span class="token variable"><span class="token variable">$(</span>docker images -aq<span class="token variable">)</span></span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>可以通过URL构建</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker build -t hello-world https://github.com/docker-library/hello-world.git
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>tar压缩包构建，自动下载解压</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker build http://server/context.tar.gz
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>标准输入</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker build - <span class="token operator">&lt;</span> Dockerfile
+<span class="token function">cat</span> Dockerfile <span class="token operator">|</span> docker build -
+docker build - <span class="token operator">&lt;</span> context.tar.gz
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h2 id="容器命令" tabindex="-1"><a class="header-anchor" href="#容器命令" aria-hidden="true">#</a> 容器命令</h2>
+<p>拉取镜像：<code>docker pull centos</code></p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token comment"># 新建并启动</span>
+docker run <span class="token punctuation">[</span>可选参数<span class="token punctuation">]</span> image
+<span class="token comment"># 参数说明</span>
+--name<span class="token operator">=</span><span class="token string">"Name"</span>	容器名字
+-d	后台运行
+-it	交互方式运行,进入容器查看内容
+-p	指定端口
+	-p 主机端口:容器端口
+	-p 容器端口
+-P	随机指定
+
+<span class="token comment"># 运行并进入容器</span>
+docker run -it centos /bin/bash
+<span class="token comment"># 退出</span>
+<span class="token builtin class-name">exit</span>
+<span class="token comment"># 容器不停止退出</span>
+Ctrl + P + Q
+
+<span class="token comment"># 查看正在运行的容器</span>
+docker <span class="token function">ps</span> 
+-a	当前运行+曾经运行过的容器
+-n<span class="token operator">=</span>?	最近创建的容器
+-q	只显示id
+
+<span class="token comment"># 删除容器</span>
+docker <span class="token function">rm</span> ID
+<span class="token comment"># 删除所有镜像</span>
+docker <span class="token function">rm</span> -f <span class="token variable"><span class="token variable">$(</span>docker <span class="token function">ps</span> -aq<span class="token variable">)</span></span>
+
+<span class="token comment"># 容器操作</span>
+docker restart <span class="token function">id</span>
+docker <span class="token function">kill</span> <span class="token function">id</span>	<span class="token comment"># 强制停止当前容器</span>
+
+<span class="token comment"># 查看日志,只看10条</span>
+docker logs -tf --tail <span class="token number">10</span> ID
+--tail number	查看number条日志
+
+<span class="token comment"># 查看容器中进程信息</span>
+docker <span class="token function">top</span> ID
+
+<span class="token comment"># 查看元信息</span>
+docker inspect ID
+
+<span class="token comment"># 进入当前正在运行的容器,启动新的进程</span>
+docker <span class="token builtin class-name">exec</span> -it ID /bin/bash
+
+<span class="token comment"># 进入容器正在执行的终端，不会启动新的进程</span>
+docker attach ID
+
+<span class="token comment"># 查看容器资源占用</span>
+docker stats ID
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div><p>导出容器：<code>docker export ID &gt; ubuntu.tar</code></p>
+<p>导入容器快照：<code>cat ubuntu.tar | docker import - test/ubuntu:v1.0</code></p>
+<p>复制容器文件到主机：<code>docker cp ID:容器文件路径 主机路径</code></p>
+<p>提交镜像：<code>docker commit -m=&quot;描述信息&quot; -a=&quot;作者&quot; ID 目标镜像名:[TAG]</code></p>
+<h2 id="数据管理" tabindex="-1"><a class="header-anchor" href="#数据管理" aria-hidden="true">#</a> 数据管理</h2>
+<p>创建数据卷：<code>docker volume create my-vol</code></p>
+<p>查看所有数据卷：<code>docker volume ls</code></p>
+<p>查看指定数据卷：<code>docker volume inspect my-vol</code></p>
+<p>查看web容器的信息：<code>docker inspect web</code></p>
+<p>查看数据卷的信息：<code>docker volume inspect 数据库名</code></p>
+<p>启动挂载数据卷：</p>
+<p>通过：<code>-v</code> 挂载</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>-v 容器内路径      匿名挂载
+-v 卷名:容器内路径 具名挂载
+-v /主机路径:容器内路径
+
+<span class="token comment"># 扩展，ro rw 改变读写权限</span>
+<span class="token comment"># 只读、可读可写</span>
+docker run -it -v 主机地址:容器地址:ro /bin/bash
+docker run -it -v 主机地址:容器地址:rw /bin/bash
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p><code>docker run -it -v 主机地址:容器地址 /bin/bash</code></p>
+<p>下面创建一个名为 <code>web</code> 的容器，并加载一个 <code>数据卷</code> 到容器的 <code>/usr/share/nginx/html</code> 目录。</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>$ docker run -d -P \
+    --name web \
+     -v my-vol:/usr/share/nginx/html \
+    --mount source=my-vol,target=/usr/share/nginx/html \
+    nginx:alpine
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p><strong>同步mysql数据</strong></p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker run -d -p <span class="token number">3310</span>:3306 -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span><span class="token number">123456</span> --name mysql01 mysql:5.7 -v /home/mysql/conf:/etc/mysqk/conf.d -v /home/mysql/data:/var/lib/mysql
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>删除数据卷：<code> docker volume rm my-vol</code></p>
+<p>如果需要在删除容器的同时移除数据卷。可以在删除容器的时候使用 <code>docker rm -v</code> 这个命令。</p>
+<p>无主的数据卷可能会占据很多空间，要清理请使用以下命令</p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>docker volume prune
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>匿名挂载：</p>
+<p><code>-v /home/mysql/conf:/etc/mysqk/conf.d</code></p>
+<p>具名挂载：</p>
+<p><code>-v my-vol:/usr/share/nginx/html</code></p>
+<p>具名挂载数据路径：<code>/var/lib/docker/volumes/卷名/_data</code></p>
+<h2 id="上下文context" tabindex="-1"><a class="header-anchor" href="#上下文context" aria-hidden="true">#</a> 上下文Context</h2>
+<p>在构建镜像的时候，<code>docker build</code> 命令获取到用户指定构建镜像的<strong>上下文路径</strong>，将内容打包上传给Docker引擎。</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>COPY ./package.json /app/
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>这并不是要复制执行 <code>docker build</code> 命令所在的目录下的 <code>package.json</code>，也不是复制 <code>Dockerfile</code> 所在目录下的 <code>package.json</code>，而是复制 <strong>上下文（context）</strong> 目录下的 <code>package.json</code>。</p>
+<p>因此，<code>COPY</code> 类指令的源文件路径都是相对路径。</p>
+<p><code>docker build -t nginx:v3 .</code> 中的这个 <code>.</code>，实际上是在指定上下文的目录。</p>
+<p>可以通过 <code>-f ../Dockerfile.php</code> 参数指定某个文件作为 <code>Dockerfile</code>。</p>
+<h2 id="dockerfile" tabindex="-1"><a class="header-anchor" href="#dockerfile" aria-hidden="true">#</a> Dockerfile</h2>
+<p>创建Dockerfile文件</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> centos</span>
+<span class="token instruction"><span class="token keyword">VOLUME</span> [<span class="token string">"/volume1"</span>, <span class="token string">"/volume2"</span>]</span>
+<span class="token instruction"><span class="token keyword">CMD</span> echo <span class="token string">"--end--"</span></span>
+<span class="token instruction"><span class="token keyword">CMD</span> /bin/bash</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p><strong>创建镜像</strong></p>
+<p><code>-f</code>：文件路径</p>
+<p><code>-t</code>：镜像名与版本号</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker build -f dockerfile -t test/centos:1.0 <span class="token builtin class-name">.</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>运行：</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker run -it --name 容器名字 镜像ID或<span class="token punctuation">(</span>名字:版本<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>运行后，在主机可以通过：<code>docker inspect ID</code> 找到容器挂载两个卷的地址。</p>
+<p><strong>数据卷父子共享</strong></p>
+<p>子容器挂载父容器的数据卷</p>
+<p><code>--volumes-from 父容器名字</code></p>
+<hr>
+<p>常用命令</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span>				# 基础镜像</span>
+<span class="token instruction"><span class="token keyword">MAINTAINER</span>	# 指定维护者信息</span>
+<span class="token instruction"><span class="token keyword">ENV</span>				# 环境变量</span>
+<span class="token instruction"><span class="token keyword">RUN</span>			 	 # 执行命令</span>
+
+<span class="token instruction"><span class="token keyword">COPY</span>			# 复制文件</span>
+<span class="token instruction"><span class="token keyword">ADD</span>				# 复制文件会自动解压，少用</span>
+
+<span class="token instruction"><span class="token keyword">WORKDIR</span>		# 镜像工作目录</span>
+<span class="token instruction"><span class="token keyword">VOLUME</span>		# 挂载目录</span>
+<span class="token instruction"><span class="token keyword">EXPOSE</span>		# 指定暴露端口</span>
+
+<span class="token instruction"><span class="token keyword">CMD</span>				# 容器启动后执行的命令,只有最后一个生效,会被替换</span>
+<span class="token instruction"><span class="token keyword">ENTRYPOINT</span> # 容器启动后执行的命令,追加命令</span>
+<span class="token instruction"><span class="token keyword">ONBUILD</span>		# 在当前镜像构建时并**不会被执行**。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>构建Tomat镜像</p>
+<p>添加PATH路径通过 <code>:</code> 隔开</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> centos</span>
+<span class="token instruction"><span class="token keyword">MAINTAINER</span> bei&lt;123@qq.com></span>
+<span class="token instruction"><span class="token keyword">ADD</span> jdk路径 /usr/local/</span>
+<span class="token instruction"><span class="token keyword">ADD</span> apache-tomcat路径 /usr/local/</span>
+<span class="token instruction"><span class="token keyword">RUN</span> yum -y install vim</span>
+
+<span class="token instruction"><span class="token keyword">ENV</span> MYPATH /user/local</span>
+<span class="token instruction"><span class="token keyword">WORKDIR</span> <span class="token variable">$MYPATH</span></span>
+
+<span class="token instruction"><span class="token keyword">ENV</span> JAVA_HOME /docker_home/local/jdk的路径</span>
+<span class="token instruction"><span class="token keyword">ENV</span> JRE_HOME=<span class="token variable">$JAVA_HOME</span>/jre</span>
+<span class="token instruction"><span class="token keyword">ENV</span> CATALINA_HOME /docker_home/local/tomcat的路径</span>
+<span class="token instruction"><span class="token keyword">ENV</span> PATH <span class="token variable">$PATH</span>:<span class="token variable">$JAVA_HOME</span>/bin:<span class="token variable">$CATALINA_HOME</span>/bin</span>
+
+<span class="token instruction"><span class="token keyword">EXPOSE</span> 8080</span>
+<span class="token instruction"><span class="token keyword">CMD</span> tomact路径/bin/startup.sh</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><hr>
+<h3 id="from-指定镜像" tabindex="-1"><a class="header-anchor" href="#from-指定镜像" aria-hidden="true">#</a> FROM 指定镜像</h3>
+<p>指定镜像，必须是第一条指令。</p>
+<h3 id="run-执行命令" tabindex="-1"><a class="header-anchor" href="#run-执行命令" aria-hidden="true">#</a> RUN 执行命令</h3>
+<p>执行行命令，有两种格式</p>
+<p>shell：<code>RUN &lt;命令&gt;</code></p>
+<p>exec：<code>RUN [&quot;可执行文件&quot;, &quot;参数N&quot;]</code></p>
+<p>在需要套多层的时候，建议使用<code>&amp;&amp;</code>，不要一行一个RUN。**因为Dockerfile 中每一个指令都会建立一层，**Union FS 是有最大层数限制的，比如 AUFS，曾经是最大不得超过 42 层，现在是不得超过 127 层。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token comment"># 错误的</span>
+<span class="token instruction"><span class="token keyword">RUN</span> apt-get update</span>
+<span class="token instruction"><span class="token keyword">RUN</span> apt-get update</span>
+<span class="token comment"># 正确的</span>
+<span class="token instruction"><span class="token keyword">RUN</span> apt-get update<span class="token operator">\</span>
+		&amp;&amp; apt-get update</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="copy-复制命令" tabindex="-1"><a class="header-anchor" href="#copy-复制命令" aria-hidden="true">#</a> COPY 复制命令</h3>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">COPY</span> [--chown=&lt;user>:&lt;group>] &lt;源路径>... &lt;目标路径></span>
+<span class="token instruction"><span class="token keyword">COPY</span> [--chown=&lt;user>:&lt;group>] [<span class="token string">"&lt;源路径1>"</span>,... <span class="token string">"&lt;目标路径>"</span>]</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>用于<strong>构建上下文目录</strong>，源路径可以使用通配符，要要满足 Go 的 <code>filepath.Match</code>规则，目标路径是容器绝对路径</p>
+<p>如果源路径为文件夹，复制的时候不是直接复制该文件夹，而是将文件夹中的内容复制到目标路径。</p>
+<h3 id="add-高级的复制命令" tabindex="-1"><a class="header-anchor" href="#add-高级的复制命令" aria-hidden="true">#</a> ADD 高级的复制命令</h3>
+<p>与COPY差不多，能用COPY就用COPY，少用ADD。如果需要自动解压就用ADD，如果源路径是tar压缩格式gzip，bzip2，xz的话文件则会自动解压到目标路径上。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> scratch</span>
+<span class="token instruction"><span class="token keyword">ADD</span> ubuntu-xenial-core-cloudimg-amd64-root.tar.gz /</span>
+...
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="cmd-容器启动命令" tabindex="-1"><a class="header-anchor" href="#cmd-容器启动命令" aria-hidden="true">#</a> CMD 容器启动命令</h3>
+<p>和RUN差不多</p>
+<p>shell：<code>CMD &lt;命令&gt;</code></p>
+<p>exec：<code>CMD [&quot;可执行文件&quot;, &quot;参数N&quot;]</code></p>
+<p>Docker是容器，容器就是进程。启动容器时需要指定所运行程序及参数，<code>CMD</code>指令就是指定默认的容器主进程的启动命令。</p>
+<p>容器只有前台没有后台，所有应用都应该在前台执行。</p>
+<p>如果想启动NGINX写成这样：<code>CMD service nginx start</code></p>
+<p>会发现容器执行后立刻退出，就算使用<code>systemctl</code>会发现无法使用，因为容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出。</p>
+<p>因此应该直接执行 <code>nginx</code> 可执行文件，并且要求以前台形式运行。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">CMD</span> [<span class="token string">"nginx"</span>, <span class="token string">"-g"</span>, <span class="token string">"daemon off;"</span>]</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h3 id="entrypoint-入口点" tabindex="-1"><a class="header-anchor" href="#entrypoint-入口点" aria-hidden="true">#</a> ENTRYPOINT 入口点</h3>
+<p>格式和CMD一样，不同点在于当指定了 <code>ENTRYPOINT</code> 后，<code>CMD</code> 的含义就发生了改变，不再是直接的运行其命令，而是将 <code>CMD</code> 的内容作为参数传给 <code>ENTRYPOINT</code> 指令：<code>&lt;ENTRYPOINT&gt; &quot;&lt;CMD&gt;&quot;</code></p>
+<p><strong>1.让镜像变成像命令一样使用</strong></p>
+<p>如果要获取IP地址：</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">CMD</span> [ <span class="token string">"curl"</span>, <span class="token string">"-s"</span>, <span class="token string">"http://myip.ipip.net"</span> ]</span>
+docker build -t myip .
+$ docker run myip
+当前 IP：61.148.226.66 来自：北京市 联通
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>如果想显示HTTP头信息就需要加上<code>-i</code>参数，但是跟在镜像名后面的是<code>command</code> 会替换CMD默认值，<code>-i</code> 根本不是命令。</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>$ docker run myip -i
+docker: Error response from daemon: invalid header field value <span class="token string">"oci runtime error: container_linux.go:247: starting container process caused <span class="token entity" title="\&quot;">\"</span>exec: <span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>-i<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>: executable file not found in <span class="token environment constant">$PATH</span><span class="token entity" title="\&quot;">\"</span><span class="token entity" title="\n">\n</span>"</span><span class="token builtin class-name">.</span>
+$ docker run myip <span class="token function">curl</span> -s http://myip.ipip.net -i
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>因此需要用 <code>ENTRYPOINT</code> 实现，将 <code>CMD</code> 内容作为参数传给 <code>ENTRYPOINT</code></p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">ENTRYPOINT</span> [ <span class="token string">"curl"</span>, <span class="token string">"-s"</span>, <span class="token string">"http://myip.ipip.net"</span> ]</span>
+docker run myip -i
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="env-环境变量" tabindex="-1"><a class="header-anchor" href="#env-环境变量" aria-hidden="true">#</a> ENV 环境变量</h3>
+<p>设置环境变量</p>
+<p><code>ENV &lt;key&gt; &lt;value&gt;</code></p>
+<p><code>ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;...</code></p>
+<p>设置了环境变量<code>$NODE_VERSION</code>，作为版本号构建镜像。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">ENV</span> NODE_VERSION 7.2.0</span>
+<span class="token instruction"><span class="token keyword">RUN</span> curl -SLO <span class="token string">"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz"</span></span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="volume-定义匿名卷" tabindex="-1"><a class="header-anchor" href="#volume-定义匿名卷" aria-hidden="true">#</a> VOLUME 定义匿名卷</h3>
+<p><code>VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]</code>
+<code>VOLUME &lt;路径&gt;</code></p>
+<p><code>mydata</code> 这个命名卷挂载到了 <code>/data</code> 这个位置，替代了 <code>Dockerfile</code> 中定义的匿名卷的挂载配置。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">VOLUME</span> /data</span>
+$ docker run -d -v mydata:/data xxxx
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="expose-暴露端口" tabindex="-1"><a class="header-anchor" href="#expose-暴露端口" aria-hidden="true">#</a> EXPOSE 暴露端口</h3>
+<p><code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code></p>
+<p>要将 <code>EXPOSE</code> 和在运行时使用 <code>-p &lt;宿主端口&gt;:&lt;容器端口&gt;</code> 区分开来。而 <code>EXPOSE</code> 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射。</p>
+<h3 id="workdir-指定工作目录" tabindex="-1"><a class="header-anchor" href="#workdir-指定工作目录" aria-hidden="true">#</a> WORKDIR 指定工作目录</h3>
+<p><code>WORKDIR &lt;工作目录路径&gt;</code></p>
+<p>看看下面的错误示例，运行后是找不到<code>/app/world.txt</code>文件。因为在shell中是同一个进程执行环境，但是在<code>docker</code>中是两个不同的容器。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">RUN</span> cd /app</span>
+<span class="token instruction"><span class="token keyword">RUN</span> echo <span class="token string">"hello"</span> > world.txt</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>因此如果想改变工作目录则需要，<code>RUN pwd</code> 的工作目录为 <code>/a/b/c</code>。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">WORKDIR</span> /a</span>
+<span class="token instruction"><span class="token keyword">WORKDIR</span> b</span>
+<span class="token instruction"><span class="token keyword">WORKDIR</span> c</span>
+
+<span class="token instruction"><span class="token keyword">RUN</span> pwd</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="user-指定当前用户" tabindex="-1"><a class="header-anchor" href="#user-指定当前用户" aria-hidden="true">#</a> USER 指定当前用户</h3>
+<p><code>USER &lt;用户名&gt;[:&lt;用户组&gt;]</code></p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token comment"># 建立 redis 用户</span>
+<span class="token instruction"><span class="token keyword">RUN</span> groupadd -r redis &amp;&amp; useradd -r -g redis redis</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="healthcheck-健康检查" tabindex="-1"><a class="header-anchor" href="#healthcheck-健康检查" aria-hidden="true">#</a> HEALTHCHECK 健康检查</h3>
+<p><code>HEALTHCHECK [选项] CMD &lt;命令&gt;</code>：设置检查容器健康状况的命令</p>
+<p><code>HEALTHCHECK NONE</code>：如果基础镜像有健康检查指令，使用这行可以屏蔽掉其健康检查指令</p>
+<p>支持下列选项：</p>
+<ul>
+<li><code>--interval=&lt;间隔&gt;</code>：两次健康检查的间隔，默认为 30 秒；</li>
+<li><code>--timeout=&lt;时长&gt;</code>：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认 30 秒；</li>
+<li><code>--retries=&lt;次数&gt;</code>：当连续失败指定次数后，则将容器状态视为 <code>unhealthy</code>，默认 3 次。</li>
+</ul>
+<p><strong>和 <code>CMD</code>, <code>ENTRYPOINT</code> 一样，<code>HEALTHCHECK</code> 只可以出现一次，如果写了多个，只有最后一个生效。</strong></p>
+<h3 id="onbuild-为他人作嫁衣裳" tabindex="-1"><a class="header-anchor" href="#onbuild-为他人作嫁衣裳" aria-hidden="true">#</a> ONBUILD 为他人作嫁衣裳</h3>
+<p>格式：<code>ONBUILD &lt;其它指令&gt;</code>。</p>
+<p>在当前镜像构建时并<strong>不会被执行</strong>。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<p>流程是初始化环境，等其他项目的<code>Dockerfile</code>执行完在回来执行<code>ONBUILD </code>的指令运行项目。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> node:slim</span>
+<span class="token instruction"><span class="token keyword">RUN</span> mkdir /app</span>
+<span class="token instruction"><span class="token keyword">WORKDIR</span> /app</span>
+<span class="token instruction"><span class="token keyword">ONBUILD</span> <span class="token keyword">COPY</span> ./package.json /app</span>
+<span class="token instruction"><span class="token keyword">ONBUILD</span> <span class="token keyword">RUN</span> [ <span class="token string">"npm"</span>, <span class="token string">"install"</span> ]</span>
+<span class="token instruction"><span class="token keyword">ONBUILD</span> <span class="token keyword">COPY</span> . /app/</span>
+<span class="token instruction"><span class="token keyword">CMD</span> [ <span class="token string">"npm"</span>, <span class="token string">"start"</span> ]</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>各个项目的Dockerfile：</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> my-node</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h3 id="label-为镜像添加元数据" tabindex="-1"><a class="header-anchor" href="#label-为镜像添加元数据" aria-hidden="true">#</a> LABEL 为镜像添加元数据</h3>
+<p><code>LABEL</code> 指令用来给镜像以键值对的形式添加一些元数据（metadata）。</p>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">LABEL</span> &lt;key>=&lt;value> &lt;key>=&lt;value> &lt;key>=&lt;value> ...</span>
+
+<span class="token instruction"><span class="token keyword">LABEL</span> org.opencontainers.image.authors=<span class="token string">"yeasy"</span></span>
+<span class="token instruction"><span class="token keyword">LABEL</span> org.opencontainers.image.documentation=<span class="token string">"https://yeasy.gitbooks.io"</span></span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="shell-指令" tabindex="-1"><a class="header-anchor" href="#shell-指令" aria-hidden="true">#</a> SHELL 指令</h3>
+<p>格式：<code>SHELL [&quot;executable&quot;, &quot;parameters&quot;]</code></p>
+<h2 id="docker-网络" tabindex="-1"><a class="header-anchor" href="#docker-网络" aria-hidden="true">#</a> Docker 网络</h2>
+<p>启动一个容器，docker容器就会有一个IP地址，只要装了网卡就有docker0，桥接模式使用的技术是：<code>evth-pair</code></p>
+<p>查看IP：<code>ip addr</code></p>
+<p><code>docker exec -it 容器名 ip addr</code></p>
+<div class="language-text ext-text line-numbers-mode"><pre v-pre class="language-text"><code>容器1：261:eth0@if262
+主机：262:veth@if261
+
+容器2：263:eth0@if264
+主机：264:veth@if263
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>容器1(261)连着Docker 0(262)</p>
+<p>容器2(263)连着Docker 0(264)</p>
+<p>Docker 0直连NAT到物理网卡就是主机的网卡。</p>
+<p>可以得出结论，容器1与容器2不是直连的，都需要经过Docker 0路由（主机）。</p>
+<p><strong>Docker中的所有网络接口都是虚拟的，转发效率高。</strong></p>
+<p><code>--link</code>：在hosts中添加配置，不推荐使用</p>
+<p><code>docker network ls</code>：查看docker网络</p>
+<p>网络模式：</p>
+<p>none：不配置</p>
+<p>bridge：桥接 docker ，默认</p>
+<p>host：与主机共享网络</p>
+<p>container：容器网络联通，用的少。</p>
+<p>自定义网络：</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker network create --driver bridge --subnet <span class="token number">192.168</span>.0.0/16 --gateway <span class="token number">192.168</span>.0.1 mynet
+
+<span class="token comment"># 通过--net指定网络</span>
+docker run -d -P --name tomcat-net-01 --net mynet tomcat
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>网络连通</p>
+<p>将 tomcat01 放在 mynet 网络下</p>
+<p><code>docker network connect mynet tomcat01</code></p>
+<h2 id="docker-compose" tabindex="-1"><a class="header-anchor" href="#docker-compose" aria-hidden="true">#</a> Docker Compose</h2>
+<p>安装</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">curl</span> -L <span class="token string">"https://github.com/docker/compose/releases/download/1.29.2/docker-compose-<span class="token variable"><span class="token variable">$(</span><span class="token function">uname</span> -s<span class="token variable">)</span></span>-<span class="token variable"><span class="token variable">$(</span><span class="token function">uname</span> -m<span class="token variable">)</span></span>"</span> -o /usr/local/bin/docker-compose
+
+<span class="token function">curl</span> -L <span class="token string">"https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-<span class="token variable"><span class="token variable">$(</span><span class="token function">uname</span> -s<span class="token variable">)</span></span>-<span class="token variable"><span class="token variable">$(</span><span class="token function">uname</span> -m<span class="token variable">)</span></span>"</span> -o /usr/local/bin/docker-compose
+
+<span class="token function">chmod</span> +x /usr/local/bin/docker-compose
+/usr/local/bin/docker-compose --version
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code><span class="token function">mkdir</span> composetest
+<span class="token builtin class-name">cd</span> composetest
+
+<span class="token function">cat</span> requirements.txt
+<span class="token comment"># requirements.txt</span>
+flask
+redis
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>配置Compose</p>
+<p><code>docker-compose.yml</code></p>
+<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"1"</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">web</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> .
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"5000:5000"</span>
+  <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"redis:alpine"</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p><code>docker network ls</code></p>
+<p>找到<code>	composetest_default</code></p>
+<p>查看网络信息：<code>docker network inspect NAME或ID</code></p>
+<p>运行：<code>docker-compose up</code></p>
+<p>后台运行：<code>docker-compose up -d</code></p>
+<p>yaml规则</p>
+<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">version</span><span class="token punctuation">:</span>	<span class="token comment">#版本</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>	<span class="token comment"># 服务</span>
+	<span class="token key atrule">服务1</span><span class="token punctuation">:</span>
+		<span class="token comment"># 配置</span>
+	<span class="token key atrule">服务2</span><span class="token punctuation">:</span>
+		<span class="token key atrule">dockerfile</span><span class="token punctuation">:</span>
+<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+<span class="token key atrule">configs</span><span class="token punctuation">:</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p><strong>部署wordpress</strong></p>
+<p><code>cd my_wordpress/</code></p>
+<blockquote>
+<p>image：镜像</p>
+<p>volumes：数据卷</p>
+<p>restart：是否重启，总是重启</p>
+<p>environment：配置数据库（改root密码就行）</p>
+</blockquote>
+<div class="language-yaml ext-yml line-numbers-mode"><pre v-pre class="language-yaml"><code><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"3.9"</span>
+    
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">db</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">5.7</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> db_data<span class="token punctuation">:</span>/var/lib/mysql
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> somewordpress
+      <span class="token key atrule">MYSQL_DATABASE</span><span class="token punctuation">:</span> wordpress
+      <span class="token key atrule">MYSQL_USER</span><span class="token punctuation">:</span> wordpress
+      <span class="token key atrule">MYSQL_PASSWORD</span><span class="token punctuation">:</span> wordpress
+    
+  <span class="token key atrule">wordpress</span><span class="token punctuation">:</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> db
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> wordpress<span class="token punctuation">:</span>latest
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> wordpress_data<span class="token punctuation">:</span>/var/www/html
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"8000:80"</span>
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">WORDPRESS_DB_HOST</span><span class="token punctuation">:</span> db<span class="token punctuation">:</span><span class="token number">3306</span>
+      <span class="token key atrule">WORDPRESS_DB_USER</span><span class="token punctuation">:</span> wordpress
+      <span class="token key atrule">WORDPRESS_DB_PASSWORD</span><span class="token punctuation">:</span> wordpress
+      <span class="token key atrule">WORDPRESS_DB_NAME</span><span class="token punctuation">:</span> wordpress
+<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token key atrule">db_data</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token key atrule">wordpress_data</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br></div></div><p>运行：<code>docker-compose up</code></p>
+<p>后台运行：<code>docker-compose up -d</code></p>
+<p>如果有镜像（<code>image</code>）就是这么简单。如果没镜像就要自己写Dockerfile</p>
+<h2 id="容器备份恢复" tabindex="-1"><a class="header-anchor" href="#容器备份恢复" aria-hidden="true">#</a> 容器备份恢复</h2>
+<p><code>docker ps</code></p>
+<p>生成Docker镜像的容器快照：</p>
+<p><code>docker commit -p ID 备份容器名-backup</code></p>
+<p>通过<code>docker images</code>查看镜像</p>
+<p>一个是我们可以登录进Docker注册中心，并推送该镜像到自己的Repositories中；另一种选择是是我们可以将Docker镜像打包成tar包备份到本地。</p>
+<p>保存到本地：</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code> docker save -o ~/备份容器名-backup.tar 备份容器名-backup
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p><code>docker login</code></p>
+<p>上传之前，要先对镜像加tag：</p>
+<p><code>local-image</code>：本地镜像名</p>
+<p><code>new-repo</code>：仓库名</p>
+<p><code>tagname</code>：版本号（latest最新）</p>
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>docker tag local-image new-repo:tagname
+docker push new-repo:tagname
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>恢复镜像：<code>docker pull 仓库名:tagname</code></p>
+<p>恢复本地：<code>docker load -i ~/备份容器名-backup.tar</code></p>
+<h2 id="php构建加速" tabindex="-1"><a class="header-anchor" href="#php构建加速" aria-hidden="true">#</a> PHP构建加速</h2>
+<div class="language-docker ext-docker line-numbers-mode"><pre v-pre class="language-docker"><code><span class="token instruction"><span class="token keyword">RUN</span> sed -i <span class="token string">"s@http://deb.debian.org@http://mirrors.aliyun.com@g"</span> /etc/apt/sources.list &amp;&amp; <span class="token operator">\</span>
+    apt-get clean</span>
+
+
+<span class="token comment"># https://stephen520.cn/blog/10242</span>
+<span class="token comment"># https://www.stephen520.cn/blog/10252</span>
+<span class="token instruction"><span class="token keyword">RUN</span> sed -i <span class="token string">"s@http://deb.debian.org@http://mirrors.aliyun.com@g"</span> /etc/apt/sources.list &amp;&amp; <span class="token operator">\</span>
+    rm -Rf /var/lib/apt/lists/* &amp;&amp; <span class="token operator">\</span>
+    apt-get update &amp;&amp; <span class="token operator">\</span>
+    apt-get install -y curl telnet git zlib1g-dev &amp;&amp; <span class="token operator">\</span>
+    /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; echo <span class="token string">'Asia/Shanghai'</span> > /etc/timezone &amp;&amp; <span class="token operator">\</span>
+    docker-php-ext-install zip pdo pdo_mysql opcache mysqli &amp;&amp; <span class="token operator">\</span>
+    apt-get install -y nginx supervisor &amp;&amp; <span class="token operator">\</span>
+    php -r <span class="token string">"copy('https://getcomposer.org/installer', 'composer-setup.php');"</span> &amp;&amp; <span class="token operator">\</span>
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer &amp;&amp; <span class="token operator">\</span>
+    php -r <span class="token string">"unlink('composer-setup.php');"</span> &amp;&amp; <span class="token operator">\</span>
+    pecl install redis mongodb swoole &amp;&amp; <span class="token operator">\</span>
+    rm -rf /tmp/pear &amp;&amp; <span class="token operator">\</span>
+    docker-php-ext-enable redis mongodb swoole &amp;&amp; <span class="token operator">\</span>
+    apt-get clean &amp;&amp; rm -rf /var/cache/apt/*</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div></template>
