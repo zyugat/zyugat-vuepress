@@ -1,1 +1,0 @@
-const e={key:"v-d8e1bbfc",path:"/pages/web/Axios.html",title:"Axios",lang:"en-US",frontmatter:{},excerpt:"",headers:[{level:2,title:"\u522B\u540D",slug:"\u522B\u540D",children:[]}],git:{updatedTime:1637129142e3,contributors:[{name:"zyugat",email:"zyugatcn@gmail.com",commits:1}]},filePathRelative:"pages/web/Axios.md"};export{e as data};
