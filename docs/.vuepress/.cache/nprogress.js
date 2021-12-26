@@ -1,13 +1,17 @@
 import {
   __commonJS,
+  init_define_CODE_COPY_I18N,
+  init_define_CODE_COPY_OPIONS,
   init_define_MZ_ZOOM_OPTIONS,
   init_define_SEARCH_HOT_KEYS,
   init_define_SEARCH_LOCALES
-} from "./chunk-HKWIMJJU.js";
+} from "./chunk-PEXEI7ZF.js";
 
 // node_modules/nprogress/nprogress.js
 var require_nprogress = __commonJS({
   "node_modules/nprogress/nprogress.js"(exports, module) {
+    init_define_CODE_COPY_I18N();
+    init_define_CODE_COPY_OPIONS();
     init_define_MZ_ZOOM_OPTIONS();
     init_define_SEARCH_HOT_KEYS();
     init_define_SEARCH_LOCALES();
@@ -286,6 +290,8 @@ var require_nprogress = __commonJS({
 });
 
 // dep:nprogress
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();

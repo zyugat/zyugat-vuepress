@@ -15,30 +15,40 @@ import {
   unref,
   watch,
   watchEffect
-} from "./chunk-4GATK4YZ.js";
-import "./chunk-NTIU7UGH.js";
+} from "./chunk-JBVCZP2F.js";
+import "./chunk-EHATHGKG.js";
 import {
+  init_define_CODE_COPY_I18N,
+  init_define_CODE_COPY_OPIONS,
   init_define_MZ_ZOOM_OPTIONS,
   init_define_SEARCH_HOT_KEYS,
   init_define_SEARCH_LOCALES
-} from "./chunk-HKWIMJJU.js";
+} from "./chunk-PEXEI7ZF.js";
 
 // dep:vue-router
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/vue-router/dist/vue-router.esm-bundler.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/index.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/env.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
@@ -51,6 +61,8 @@ function getTarget() {
 var isProxyAvailable = typeof Proxy === "function";
 
 // node_modules/@vue/devtools-api/lib/esm/const.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
@@ -58,6 +70,8 @@ var HOOK_SETUP = "devtools-plugin:setup";
 var HOOK_PLUGIN_SETTINGS_SET = "plugin:settings:set";
 
 // node_modules/@vue/devtools-api/lib/esm/proxy.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
@@ -158,41 +172,57 @@ var ApiProxy = class {
 };
 
 // node_modules/@vue/devtools-api/lib/esm/api/index.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/api.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/app.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/component.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/context.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/hooks.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/api/util.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vue/devtools-api/lib/esm/plugin.js
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();

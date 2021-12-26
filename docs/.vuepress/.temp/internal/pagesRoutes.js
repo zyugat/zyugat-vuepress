@@ -2,10 +2,10 @@ import { Vuepress } from '@vuepress/client/lib/components/Vuepress'
 
 const routeItems = [
   ["v-8daa1a0e","/",{"title":""},["/index.html","/README.md"]],
-  ["v-13a31933","/pages/contact/",{"title":"联系"},["/pages/contact/index.html","/pages/0联系.html","/pages/0%E8%81%94%E7%B3%BB.html","/pages/0联系.md","/pages/0%E8%81%94%E7%B3%BB.md"]],
-  ["v-6a1c50ea","/pages/flask.html",{"title":"Flask"},["/pages/flask","/pages/flask.md"]],
   ["v-66802814","/pages/db/MongoDB.html",{"title":"MongoDB"},["/pages/db/MongoDB","/pages/db/MongoDB.md"]],
   ["v-cbe70db8","/pages/db/Mysql.html",{"title":"Mysql"},["/pages/db/Mysql","/pages/db/Mysql.md"]],
+  ["v-03788490","/pages/else/flask.html",{"title":"Flask"},["/pages/else/flask","/pages/else/flask.md"]],
+  ["v-13a8cb12","/pages/else/%E7%AE%97%E6%B3%95.html",{"title":"算法"},["/pages/else/算法.html","/pages/else/%E7%AE%97%E6%B3%95","/pages/else/算法.md","/pages/else/%E7%AE%97%E6%B3%95.md"]],
   ["v-03ac7d5a","/pages/linux/Docker.html",{"title":"Docker"},["/pages/linux/Docker","/pages/linux/Docker.md"]],
   ["v-f7103a16","/pages/linux/LinuxVPS.html",{"title":"linuxVPS"},["/pages/linux/LinuxVPS","/pages/linux/LinuxVPS.md"]],
   ["v-3000c634","/pages/softConfig/ESlint-Pretter.html",{"title":"ESlint-Pretter"},["/pages/softConfig/ESlint-Pretter","/pages/softConfig/ESlint-Pretter.md"]],

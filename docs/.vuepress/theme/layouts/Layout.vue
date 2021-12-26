@@ -1,22 +1,32 @@
 <template>
-  <ParentLayout>
+  <Layout>
     <template #page-bottom>
-      <hr/>
-      <div style="text-align: center; color: #767676">
-        <p>粤ICP备2021116118号</p>
+      <div class="my-footer">
+        <hr>
+        Powered by <a href="https://github.com/zyugat" target="_blank">
+        zyugat </a> 粤ICP备2021116118号
+        <br>
+        Copyright © 2020-2021 zyugat All Rights Reserved.
+        <br>
+        联系邮箱：zyugatcn@gmail.com
       </div>
     </template>
-  </ParentLayout>
+  </Layout>
 </template>
 
-<script>
-import ParentLayout from '@parent-theme/layouts/Layout.vue'
-
-export default {
-  name: 'Layout',
-
+<script lang="ts">
+import {defineComponent} from 'vue'
+import Layout from '@vuepress/theme-default/lib/client/layouts/Layout.vue'
+export default defineComponent({
   components: {
-    ParentLayout
-  }
-}
+    Layout,
+  },
+})
 </script>
+
+<style lang="css">
+.my-footer {
+  text-align: center;
+  color: #aaaaaa;
+}
+</style>

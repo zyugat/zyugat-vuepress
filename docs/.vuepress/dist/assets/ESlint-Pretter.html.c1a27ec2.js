@@ -1,0 +1,49 @@
+import{c as n}from"./app.e1cbe8dc.js";import{_ as s}from"./plugin-vue_export-helper.21dcd24c.js";const a={},p=n(`<h1 id="eslint-pretter" tabindex="-1"><a class="header-anchor" href="#eslint-pretter" aria-hidden="true">#</a> ESlint-Pretter</h1><p>https://alloyteam.github.io/eslint-config-alloy/?language=zh-CN</p><p>https://cn.eslint.org/docs/rules/</p><p>https://prettier.io/docs/en/options.html</p><h2 id="eslintrc-js" tabindex="-1"><a class="header-anchor" href="#eslintrc-js" aria-hidden="true">#</a> .eslintrc.js</h2><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  root<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  env<span class="token operator">:</span> <span class="token punctuation">{</span>
+    node<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token keyword">extends</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&#39;plugin:vue/vue3-essential&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;eslint:recommended&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;@vue/prettier&#39;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  parserOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+    parser<span class="token operator">:</span> <span class="token string">&quot;babel-eslint&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  rules<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&#39;no-unused-vars&#39;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u6709\u9ED8\u8BA4\u503C\u7684\u53C2\u6570\u5FC5\u987B\u653E\u5728\u6700\u540E</span>
+    <span class="token string">&#39;default-param-last&#39;</span><span class="token operator">:</span> <span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u7981\u6B62\u65B9\u5411\u9519\u8BEF\u7684 for \u5FAA\u73AF</span>
+    <span class="token string">&#39;for-direction&#39;</span><span class="token operator">:</span> <span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// const \u7981\u6B62\u91CD\u65B0\u8D4B\u503C</span>
+    <span class="token string">&#39;no-const-assign&#39;</span><span class="token operator">:</span> <span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u4E0D\u4F7F\u7528debugger</span>
+    <span class="token string">&#39;no-debugger&#39;</span><span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">&#39;production&#39;</span> <span class="token operator">?</span> <span class="token string">&#39;warm&#39;</span> <span class="token operator">:</span> <span class="token string">&#39;off&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u7981\u6B62 if else \u7684\u6761\u4EF6\u5224\u65AD\u4E2D\u51FA\u73B0\u91CD\u590D\u7684\u6761\u4EF6</span>
+    <span class="token string">&#39;no-dupe-else-if&#39;</span><span class="token operator">:</span> <span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u7981\u6B62\u91CD\u590D\u5BFC\u5165\u6A21\u5757</span>
+    <span class="token string">&#39;no-duplicate-imports&#39;</span><span class="token operator">:</span> <span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u6CE8\u91CA\u7684\u659C\u7EBF\u6216 * \u540E\u5FC5\u987B\u6709\u7A7A\u683C</span>
+    <span class="token string">&#39;spaced-comment&#39;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&#39;error&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;always&#39;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment">// \u884C\u5C3E\u5206\u53F7\u662F\u5426\u52A0\u5206\u53F7,\u9ED8\u8BA4\u52A0 always,\u4E0D\u52A0never</span>
+    semi<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&#39;warn&#39;</span><span class="token punctuation">,</span> <span class="token string">&#39;never&#39;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">&#39;prettier/prettier&#39;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">&#39;error&#39;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token comment">// \u7F29\u8FDB\u957F\u5EA6\uFF0C\u9ED8\u8BA42</span>
+        tabWidth<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token comment">// \u884C\u5C3E\u662F\u5426\u9700\u8981\u6709\u5206\u53F7\uFF0C\u9ED8\u8BA4true</span>
+        semi<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token comment">// \u662F\u5426\u4F7F\u7528\u5355\u5F15\u53F7, \u9ED8\u8BA4false</span>
+        singleQuote<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token comment">// \u7ED9\u7BAD\u5934\u51FD\u6570\u7684\u53C2\u6570\u52A0\u62EC\u53F7\uFF0C\u5373\u4F7F\u4E00\u4E2A\u4E5F\u52A0, \u9ED8\u8BA4\u52A0\u62EC\u53F7-&gt;always,\u4E0D\u52A0-&gt;avoid</span>
+        arrowParens<span class="token operator">:</span> <span class="token string">&#39;avoid&#39;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br></div></div><h2 id="prettierrc" tabindex="-1"><a class="header-anchor" href="#prettierrc" aria-hidden="true">#</a> .prettierrc</h2><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;tabWidth&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;semi&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;singleQuote&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;arrowParens&quot;</span><span class="token operator">:</span> <span class="token string">&quot;avoid&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div>`,8);function e(t,o){return p}var l=s(a,[["render",e]]);export{l as default};

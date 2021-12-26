@@ -276,7 +276,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="扩展运算符" tabindex="-1"><a class="header-anchor" href="#扩展运算符" aria-hidden="true">#</a> 扩展运算符</h4>
 <p><code>...</code></p>
 <p>可以将一个数组变成一个参数序列。可以将他理解为，可以<strong>返回多个值</strong>，<strong>返回后续值</strong>。</p>
-<font color=red>要记住，扩展运算符用于数组赋值，只能放在参数的最后一位，不然会报错。</font>
+<p>要记住，扩展运算符用于数组赋值，只能放在参数的最后一位，不然会报错。</p>
 <div class="language-javascript ext-js line-numbers-mode"><pre v-pre class="language-javascript"><code><span class="token function">f</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span>
 arr1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>arr2<span class="token punctuation">)</span>
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>数组合并</p>
@@ -989,7 +989,7 @@ x<span class="token punctuation">.</span>innerHTML<span class="token operator">=
 <hr>
 <h3 id="bom" tabindex="-1"><a class="header-anchor" href="#bom" aria-hidden="true">#</a> BOM</h3>
 <p>使用<code>window</code>对象的<code>open()</code>方法来创建<strong>新的浏览器窗口</strong></p>
-<font size=6><code>window.open(url, name, features)</code></font>
+<p><code>window.open(url, name, features)</code></p>
 <ul>
 <li>url，网页URL的地址</li>
 <li>name，新窗口的名字，可以通过该名字与新窗口进行通信</li>

@@ -17,6 +17,7 @@ export const themeData = {
                 "/pages/web/CSS3.md",
                 "/pages/web/JavaScriptNote.md",
                 "/pages/web/JavaScriptNotePro.md",
+                "/pages/web/TypeScript.md",
                 "/pages/web/Node.md",
                 "/pages/web/Axios.md"
               ]
@@ -71,12 +72,9 @@ export const themeData = {
         {
           "text": "其他",
           "children": [
-            "/pages/flask.md"
+            "/pages/else/flask.md",
+            "/pages/else/算法.md"
           ]
-        },
-        {
-          "text": "联系",
-          "link": "/pages/contact/"
         }
       ],
       "selectLanguageName": "简体中文",
@@ -90,6 +88,7 @@ export const themeData = {
               "/pages/web/CSS3.md",
               "/pages/web/JavaScriptNote.md",
               "/pages/web/JavaScriptNotePro.md",
+              "/pages/web/TypeScript.md",
               "/pages/web/Node.md",
               "/pages/web/Axios.md"
             ]
@@ -118,7 +117,7 @@ export const themeData = {
             ]
           }
         ],
-        "/pages/Linux": [
+        "/pages/linux": [
           {
             "text": "Linux",
             "children": [
@@ -150,7 +149,8 @@ export const themeData = {
           {
             "text": "其他",
             "children": [
-              "/pages/flask.md"
+              "/pages/else/flask.md",
+              "/pages/else/算法.md"
             ]
           }
         ]

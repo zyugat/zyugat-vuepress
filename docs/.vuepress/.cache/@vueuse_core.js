@@ -24,30 +24,40 @@ import {
   watch,
   watchEffect,
   watchSyncEffect
-} from "./chunk-4GATK4YZ.js";
-import "./chunk-NTIU7UGH.js";
+} from "./chunk-JBVCZP2F.js";
+import "./chunk-EHATHGKG.js";
 import {
+  init_define_CODE_COPY_I18N,
+  init_define_CODE_COPY_OPIONS,
   init_define_MZ_ZOOM_OPTIONS,
   init_define_SEARCH_HOT_KEYS,
   init_define_SEARCH_LOCALES
-} from "./chunk-HKWIMJJU.js";
+} from "./chunk-PEXEI7ZF.js";
 
 // dep:@vueuse_core
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vueuse/core/index.mjs
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/@vueuse/shared/index.mjs
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();
 
 // node_modules/vue-demi/lib/index.mjs
+init_define_CODE_COPY_I18N();
+init_define_CODE_COPY_OPIONS();
 init_define_MZ_ZOOM_OPTIONS();
 init_define_SEARCH_HOT_KEYS();
 init_define_SEARCH_LOCALES();

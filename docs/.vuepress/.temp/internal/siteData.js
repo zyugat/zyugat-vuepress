@@ -1,9 +1,15 @@
 export const siteData = {
   "base": "/",
   "lang": "en-US",
-  "title": "zyugat个人文档",
-  "description": "zyugat个人文档",
-  "head": [],
+  "title": "Zyugat 个人文档",
+  "description": "文档以前端方向为主",
+  "head": [
+    [
+      "script",
+      {},
+      "\n            var _hmt = _hmt || [];\n            (function() {\n            var hm = document.createElement(\"script\");\n            hm.src = \"https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb\";\n            var s = document.getElementsByTagName(\"script\")[0]; \n            s.parentNode.insertBefore(hm, s);\n            })();\n        "
+    ]
+  ],
   "locales": {}
 }
 

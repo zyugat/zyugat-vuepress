@@ -1066,17 +1066,17 @@ Reflect<span class="token punctuation">.</span><span class="token function">defi
 <span class="token punctuation">}</span>
 <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>User<span class="token punctuation">.</span>User2<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>合并打包1</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js user.ts index.ts
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js user.ts index.js
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>合并打包2</p>
-<p><code>reference</code>：在 index.ts 中引入依赖文件</p>
+<p><code>reference</code>：在 index.js 中引入依赖文件</p>
 <div class="language-typescript ext-ts line-numbers-mode"><pre v-pre class="language-typescript"><code><span class="token comment">/// &lt;reference path="user.ts"/></span>
 <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>User<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js index.ts 
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js index.js 
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>amd 模块打包</p>
 <p>第一步：修改配置项-&gt;<code>&quot;module&quot;: &quot;amd&quot; </code></p>
 <p>第二部：导入 <code>import { User } from './user.js'</code></p>
 <p>编译</p>
-<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js index.ts
+<div class="language-bash ext-sh line-numbers-mode"><pre v-pre class="language-bash"><code>tsc --outFile ./dist/app.js index.js
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><div class="language-html ext-html line-numbers-mode"><pre v-pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dist/app.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
   <span class="token function">require</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'App'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>

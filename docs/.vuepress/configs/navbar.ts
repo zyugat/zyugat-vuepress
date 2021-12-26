@@ -12,6 +12,7 @@ export const navbar: NavbarConfig = [
           '/pages/web/CSS3.md',
           '/pages/web/JavaScriptNote.md',
           '/pages/web/JavaScriptNotePro.md',
+          '/pages/web/TypeScript.md',
           '/pages/web/Node.md',
           '/pages/web/Axios.md',
         ],
@@ -61,8 +62,8 @@ export const navbar: NavbarConfig = [
   {
     text: '其他',
     children: [
-      '/pages/flask.md',
+      '/pages/else/flask.md',
+      '/pages/else/算法.md',
     ],
   },
-  {text: '联系', link: '/pages/contact/'},
 ]

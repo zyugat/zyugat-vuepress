@@ -398,7 +398,7 @@ console.log(entries.next().value)   // [1,"b"]
 
 可以将一个数组变成一个参数序列。可以将他理解为，可以**返回多个值**，**返回后续值**。
 
-<font color=red>要记住，扩展运算符用于数组赋值，只能放在参数的最后一位，不然会报错。</font>
+要记住，扩展运算符用于数组赋值，只能放在参数的最后一位，不然会报错。
 
 ```javascript
 f(...args)
@@ -1555,7 +1555,7 @@ x.innerHTML=c.childNodes[0].nodeValue;
 
 使用<code>window</code>对象的<code>open()</code>方法来创建**新的浏览器窗口**
 
-<font size=6><code>window.open(url, name, features)</code></font>
+<code>window.open(url, name, features)</code>
 
 - url，网页URL的地址
 - name，新窗口的名字，可以通过该名字与新窗口进行通信

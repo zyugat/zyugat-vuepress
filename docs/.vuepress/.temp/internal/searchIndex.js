@@ -14,52 +14,6 @@ export const searchIndex = [
     "extraFields": []
   },
   {
-    "title": "联系",
-    "headers": [],
-    "path": "/pages/contact/",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
-    "title": "Flask",
-    "headers": [
-      {
-        "level": 2,
-        "title": "基本使用",
-        "slug": "基本使用",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "进阶使用",
-        "slug": "进阶使用",
-        "children": [
-          {
-            "level": 3,
-            "title": "数据库的连接及增删改查",
-            "slug": "数据库的连接及增删改查",
-            "children": []
-          }
-        ]
-      },
-      {
-        "level": 2,
-        "title": "操作",
-        "slug": "操作",
-        "children": []
-      },
-      {
-        "level": 2,
-        "title": "报错解决方案",
-        "slug": "报错解决方案",
-        "children": []
-      }
-    ],
-    "path": "/pages/flask.html",
-    "pathLocale": "/",
-    "extraFields": []
-  },
-  {
     "title": "MongoDB",
     "headers": [
       {
@@ -169,6 +123,114 @@ export const searchIndex = [
       }
     ],
     "path": "/pages/db/Mysql.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "Flask",
+    "headers": [
+      {
+        "level": 2,
+        "title": "基本使用",
+        "slug": "基本使用",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "进阶使用",
+        "slug": "进阶使用",
+        "children": [
+          {
+            "level": 3,
+            "title": "数据库的连接及增删改查",
+            "slug": "数据库的连接及增删改查",
+            "children": []
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "title": "操作",
+        "slug": "操作",
+        "children": []
+      },
+      {
+        "level": 2,
+        "title": "报错解决方案",
+        "slug": "报错解决方案",
+        "children": []
+      }
+    ],
+    "path": "/pages/else/flask.html",
+    "pathLocale": "/",
+    "extraFields": []
+  },
+  {
+    "title": "算法",
+    "headers": [
+      {
+        "level": 2,
+        "title": "数组",
+        "slug": "数组",
+        "children": [
+          {
+            "level": 3,
+            "title": "1. 两数之和",
+            "slug": "_1-两数之和",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "26. 删除有序数组中的重复项",
+            "slug": "_26-删除有序数组中的重复项",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "66. 加一",
+            "slug": "_66-加一",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "122. 买卖股票的最佳时机 II",
+            "slug": "_122-买卖股票的最佳时机-ii",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "136.只出现一次的数字",
+            "slug": "_136-只出现一次的数字",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "189. 轮转数组",
+            "slug": "_189-轮转数组",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "217. 存在重复元素",
+            "slug": "_217-存在重复元素",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "283. 移动零",
+            "slug": "_283-移动零",
+            "children": []
+          },
+          {
+            "level": 3,
+            "title": "350. 两个数组的交集 II",
+            "slug": "_350-两个数组的交集-ii",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "path": "/pages/else/%E7%AE%97%E6%B3%95.html",
     "pathLocale": "/",
     "extraFields": []
   },

@@ -1522,14 +1522,14 @@ console.log(User.User2.name)
 合并打包1
 
 ```sh
-tsc --outFile ./dist/app.js user.ts index.ts
+tsc --outFile ./dist/app.js user.ts index.js
 ```
 
 
 
 合并打包2
 
-`reference`：在 index.ts 中引入依赖文件
+`reference`：在 index.js 中引入依赖文件
 
 ```ts
 /// <reference path="user.ts"/>
@@ -1537,7 +1537,7 @@ console.log(User.name);
 ```
 
 ```sh
-tsc --outFile ./dist/app.js index.ts 
+tsc --outFile ./dist/app.js index.js 
 ```
 
 
@@ -1551,7 +1551,7 @@ amd 模块打包
 编译
 
 ```sh
-tsc --outFile ./dist/app.js index.ts
+tsc --outFile ./dist/app.js index.js
 ```
 
 ```html

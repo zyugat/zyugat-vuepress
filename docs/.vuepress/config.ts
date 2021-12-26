@@ -1,33 +1,31 @@
 import {defineUserConfig} from '@vuepress/cli'
 import type {DefaultThemeOptions} from '@vuepress/theme-default'
-
 import {sidebar} from './configs/sidebar'
 import {navbar} from './configs/navbar'
 
+const {path} = require('@vuepress/utils')
 const isProd = process.env.NODE_ENV === 'production'
 
 export default defineUserConfig<DefaultThemeOptions>({
+
   base: '/',
-  title: 'zyugat个人文档',
-  description: 'zyugat个人文档',
-  // plugins: ['@vuepress/back-to-top'],
-  plugins: [
-    [
-      '@vuepress/plugin-search',
-      {
-        maxSuggestions: 10,
-        locales: {
-          '/': {
-            placeholder: '搜索',
-          },
-        },
-      },
-    ],
+
+  title: 'Zyugat 个人文档',
+  description: '文档以前端方向为主',
+
+  head: [
+    ['script', {}, `
+            var _hmt = _hmt || [];
+            (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+            })();
+        `]
   ],
-  // markdown扩展
-  markdown: {
-    // hoistTags: false
-  },
+  theme: path.resolve(__dirname, './theme'),
+
   themeConfig: {
     // logo: '/images/hero.png',
 
@@ -78,4 +76,19 @@ export default defineUserConfig<DefaultThemeOptions>({
       git: isProd,
     },
   },
+
+  plugins: [
+    [
+      '@vuepress/plugin-search',
+      {
+        maxSuggestions: 10,
+        locales: {
+          '/': {
+            placeholder: '搜索',
+          },
+        },
+      },
+    ],
+  ],
+
 })

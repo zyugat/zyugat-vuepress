@@ -1,4 +1,4 @@
-import type { SidebarConfig } from '@vuepress/theme-default'
+import type {SidebarConfig} from '@vuepress/theme-default'
 
 export const sidebar: SidebarConfig = {
   '/pages/web/': [
@@ -8,6 +8,7 @@ export const sidebar: SidebarConfig = {
         '/pages/web/CSS3.md',
         '/pages/web/JavaScriptNote.md',
         '/pages/web/JavaScriptNotePro.md',
+        '/pages/web/TypeScript.md',
         '/pages/web/Node.md',
         '/pages/web/Axios.md',
       ],
@@ -31,7 +32,7 @@ export const sidebar: SidebarConfig = {
       children: ['/pages/web/Axios.md'],
     },
   ],
-  '/pages/Linux': [
+  '/pages/linux': [
     {
       text: 'Linux',
       children: [
@@ -63,7 +64,8 @@ export const sidebar: SidebarConfig = {
     {
       text: '其他',
       children: [
-        '/pages/flask.md',
+        '/pages/else/flask.md',
+        '/pages/else/算法.md',
       ],
     },
   ],

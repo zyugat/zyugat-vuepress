@@ -1,0 +1,1 @@
+const e={key:"v-14017475",path:"/pages/web/Element-ui.html",title:"Element-ui",lang:"en-US",frontmatter:{},excerpt:"",headers:[],git:{updatedTime:1640448281e3,contributors:[{name:"zyugat",email:"zyugatcn@gmail.com",commits:1}]},filePathRelative:"pages/web/Element-ui.md"};export{e as data};
