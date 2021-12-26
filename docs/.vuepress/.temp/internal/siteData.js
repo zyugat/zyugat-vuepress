@@ -7,7 +7,7 @@ export const siteData = {
     [
       "script",
       {},
-      "\n            var _hmt = _hmt || [];\n            (function() {\n            var hm = document.createElement(\"script\");\n            hm.src = \"https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb\";\n            var s = document.getElementsByTagName(\"script\")[0]; \n            s.parentNode.insertBefore(hm, s);\n            })();\n        "
+      "\n            var _hmt = _hmt || [];\n            (function() {\n              var hm = document.createElement(\"script\");\n              hm.src = \"https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb\";\n              var s = document.getElementsByTagName(\"script\")[0]; \n              s.parentNode.insertBefore(hm, s);\n            })();\n\n        "
     ]
   ],
   "locales": {}

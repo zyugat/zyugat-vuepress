@@ -17,11 +17,12 @@ export default defineUserConfig<DefaultThemeOptions>({
     ['script', {}, `
             var _hmt = _hmt || [];
             (function() {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb";
-            var s = document.getElementsByTagName("script")[0]; 
-            s.parentNode.insertBefore(hm, s);
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?97e81f0d99d22f47d5193c628ac07fcb";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
             })();
+
         `]
   ],
   theme: path.resolve(__dirname, './theme'),
