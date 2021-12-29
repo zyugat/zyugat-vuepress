@@ -11,70 +11,54 @@ yarn tsc -v
 运行
 
 ```sh
-tsc 文件名
+tsc hello.ts
 
 # 自动监听
-tsc 文件名 -w
+tsc hello.ts -w
 
 # 运行js
-node 文件.js
+node hello.js
 ```
 
 
 
 ## 基本数据类型
 
-
-
-### 类型校验
-
-编译时会报错，因为a不为数字
-
-```js
-// 类型校验
-function sum(a:number,b:number){
-	return a+b;
-}
-console.log(sum('a',3)) 
-```
-
-
-
-### 类型推断
-
-当没有明确设置类型时，系统会根据值推断变量的类型
-
-```js
-// 字符串
-let str = 'zyugat';	// let str: string
-str = 18;	// 报错
-```
-
-
+> - 基本类型、类型校验、类型推断：可选值`?`
+> - union：联合声明 `|`
+> - any：任意类型
+> - unknown：未知类型和any一样不同点在于**需要明确类型后赋值**。
+> - void & never
+>   - 区别点在于 `void` 可用于返回值但返回值必须是 null 或 undefined，而 `never` 不存在返回值。
+> - null & undefined
+> - 函数
+>   - 函数的定义分为 函数声明 和 函数表达式 定义。
+>   - 函数定义 需要对输入输出进行约束。
+>   - 函数表达式中的 `=>` 不同于ES6的箭头函数，`=>` 的左边是输入类型，右边是输出类型。
+>   - 重载、默认参数、可选参数`?`、剩余参数`...rest`。
 
 ### 基本类型
 
-> `number、string、boolean、object、、数组[]、元组、、、、`
->
-> 对象：声明对象类型但不限制值类型。看下面例子。属性后面跟上`?` 用来指定 url 为可选值，这样的属性是非必填项
+- JavaScript 的类型分为两种：原始数据类型（[Primitive data types](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)）和对象类型（Object types）。
+- 原始数据类型包括：Boolean、Number、String、Array、Tuple元组、Enum枚举、Unknown、Any、Void、Null 和 Undefined、Never。Object表示非原始类型
+- 数组和元组的区别在于，元组各元素的类型不必相同。
+- 使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。
+
+当限定对象值类型时，可以声明为对象、数组、原型对象。
 
 ```ts
+// 定义基本类型
 const num:number = 100
-
 const str:string = 'zyugat'
-
 const boo:boolean = true
-
-// 对象
 let obj:object = {'zyugat', 100}
+
 // 限定对象值类型
 let obj:{name: string,year:number}
-// 加 ? 代表非必选
-let obj:{name: string,year:number,url?:string}
-obj = {} //使用字面量声明对象
-obj = [] //数组是对象
-obj = Object.prototype //原型对象
-obj='zyugat' //报错，改变了类型为字符串
+obj = {} // 使用字面量声明对象
+obj = [] // 数组是对象
+obj = Object.prototype // 原型对象
+obj='zyugat' // 报错，改变了类型为字符串
 
 // 数组
 let str:string[] =[]
@@ -88,23 +72,37 @@ arr = ['zyugat.com', 2090, true]
 
 
 
-****
-
-
-
-### union
-
-`union`：联合声明。`|`
+`?` ：可选值
 
 ```ts
-// 1、变量声明字符串或数值类型
-let all:string | number = 'zyugat'
-// 2、数组声明多种类型
-let all:(string | number | boolean)[]  = []
-hd.push('zyugat.com',2010,true)
-// 3、泛型方式声明
-let all:Array<string|number|boolean>  = []
-hd.push('zyugat.com',2010,true)
+// 加 ? 代表非必选
+let obj:{name: string,year:number,url?:string}
+```
+
+
+
+**类型校验**
+
+编译时会报错，因为a不为数字
+
+```js
+// 类型校验
+function sum(a:number,b:number){
+	return a+b;
+}
+console.log(sum('a',3)) 
+```
+
+
+
+**类型推断**
+
+当没有明确设置类型时，系统会根据值推断变量的类型
+
+```js
+// 字符串
+let str = 'zyugat';	// let str: string
+str = 18;	// 报错
 ```
 
 
@@ -113,9 +111,28 @@ hd.push('zyugat.com',2010,true)
 
 
 
-### any
+### union & any
 
-`any`：指包含所有值的顶部类型
+他们两个的区别可以理解为 前者 union 是或运算，而 any 是包含全部。
+
+`union`：联合声明。`|`
+
+```ts
+// 1、变量声明字符串或数值类型
+let all:string | number = 'zyugat'
+
+// 2、数组声明多种类型
+let all:(string | number | boolean)[]  = []
+hd.push('zyugat.com',2010,true)
+
+// 3、泛型方式声明
+let all:Array<string|number|boolean>  = []
+hd.push('zyugat.com',2010,true)
+```
+
+
+
+`any`：指包含所有值的顶部类型，任意值。
 
 所以any不进行类型检查，等于关闭了 TS 对该变量的严格类型校验。
 
@@ -173,32 +190,27 @@ let d: number = num as unknown as number
 
 
 
-### void
+### void & never
 
-`void`：值为 null 或undefined，常用于对函数返回值类型定义
+void & never：区别点在于 `void` 可以有返回值但返回值必须是 null 或 undefined，而 `never` 不存在返回值。
 
-void 类型的值可以是 null 或 undefined，但如果 TS 配置开启了 `strict` 或 `strictNullChecks`则不允许 void 为null
 
-> 严格模式下只能是 undefined、如果函数没有返回值请使用 void 类型、对返回 null或undefined的函数返回值声明。
->
-> 会使用代码更易读，并可对不小心造成的函数返回内容进行校验
+
+`void`：值为 null 或undefined，
+
+如果 TS 配置开启了 `strict` 或 `strictNullChecks`则不允许 void 为null，严格模式下只能是 undefined。。
 
 ```ts
 function hd(): void {
   console.log('zyugat')
+  return null
 //  return 'zyugat'	// 会报错
 }
 ```
 
 
 
-****
-
-
-
-### never
-
-`never`：是永远不会结束的函数，所以也不会有返回值。相比 void 是有null 或undefined 值的。
+`never`：是永远不会结束的函数，不存在返回值。
 
 
 
@@ -225,7 +237,7 @@ console.log(getName())
 
 
 
-### Funtion
+### 函数
 
 ```ts
 let fun:Function
@@ -235,11 +247,89 @@ console.log(fun());
 
 
 
+**函数定义**
+
+函数定义有两种方式：函数声明定义 和 函数表达式
+
+```ts
+// 函数声明（Function Declaration）
+function sum(x, y) {
+  return x + y
+}
+// 函数表达式（Function Expression）
+let mySum = function (x, y) {
+  return x + y
+}
+```
+
+
+
+其中，可以对函数进行**输入输出约束**：
+
+函数声明定义
+
+```ts
+// 函数声明定义
+function sum(x: number, y: number): number {
+    return x + y;
+}
+
+```
+
+函数表达式定义
+
+**在TS中 `=>` 是表示函数的定义，左边是输入类型，右边是输出类型。**
+
+`定义1` 中我仅对 **输出类型** 做了约束，没有对 **输入类型** 做约束，所以在 `定义2` 中我进行了补全。
+
+```ts
+// 函数表达式定义 1
+let mySum = function (x: number, y: number): number {
+  return x + y
+}
+// 函数表达式定义 2
+let mySum: (x: number, y: number) => number = function (
+  x: number,
+  y: number
+): number {
+  return x + y
+}
+
+// 对象结构
+type mySumFunc = (x: number, y: number) => number
+// 函数定义
+let mySum: mySumFunc = (x: number, y: number): number => {
+  return x + y
+}
+```
+
+
+
+**重载定义**
+
+**输入为数字的时候，输出也应该为数字，输入为字符串的时候，输出也应该为字符串。**
+
+重复定义了多次函数 `reverse`，前几次都是函数定义，最后一次是函数实现。在编辑器的代码提示中，可以正确的看到前两个提示。
+
+```ts
+function reverse(x: number): number
+function reverse(x: string): string
+function reverse(x: number | string): number | string | void {
+  if (typeof x === 'number') {
+    return Number(x.toString().split('').reverse().join(''))
+  } else if (typeof x === 'string') {
+    return x.split('').reverse().join('')
+  }
+}
+```
+
+
+
 **参数类型**
 
-c：参数可以不传，默认值是0.8。
+c：**默认值参数**可以不传，默认值是0.8。
 
-d：参数可以不传，没有默认值。
+d：**可选参数**可以不传，没有默认值。
 
 ```ts
 function sum(a: number, b: number, c: number = 0.8, d?: number) {
@@ -250,66 +340,9 @@ console.log(sum(3, 3, 3, 3))
 
 
 
-**返回值类型**
-
-```ts
-function sum(a: number, b: number): string {
-    return `计算结果是：${a + b}`;
-}
-console.log(sum(3, 3));
-```
-
-
-
-**参数声明**
-
-```ts
-let addUser = (user: { name: string; age: number }): void => {
-  console.log('addUser')
-}
-type userType = { name: string; age: number }
-let addUser = (user: userType): void => {
-  console.log('addUser')
-}
-addUser({ name: 'myname', age: 18 })
-```
-
-
-
-**函数定义**
-
-对没有返回值函数的定义，下面实例中我分三步分解。
-
-- 第一个案例中我们定义了 `foo` 函数，函数定义中声明的变量 `a`，在具体实现中可以改为其他名称。
-- 第二个案例中，我们分为三个部分，参数描述、对象结构、函数定义
-
-```ts
-// 1、函数定义
-let foo: (a: number, b: number) => number
-foo = (x: number, y: number): number => {
-  return x + y
-}
-let foo: (a: number, b: number) => number = (x: number, y: number): number => {
-    return x + y;
-}
-
-// 2、参数是对象结构的函数定义
-// 参数描述
-type userType = { name: string; age: number }
-// 对象结构
-// let addUser: (user: userType) => boolean
-type addUserFunc = (user: userType) => boolean
-// 函数定义
-let addUser: addUserFunc = (u: userType): boolean => {
-  console.log('addUser')
-  return true
-}
-addUser({ name: 'myname', age: 12 })
-```
-
-
-
 **剩余参数**
+
+使用 `...rest` 获取
 
 ```ts
 function sum(...args: any[]): number {
@@ -321,67 +354,28 @@ console.log(sum(1, 2, 3, 4, 5))
 
 
 
-**Tuple元组**
-
-元组要为每个值进行类型声明。
-
-```ts
-const arr: (number | string)[] = ['name', 2030]
-arr[1] = 'MYNAME' // 不会报错
-arr[2] = true // 报错
-```
-
-
-
 ****
 
 
 
 ## 断言使用
 
-### Enums 枚举
+> - as & const：断言 和 只读断言
+> - 解构
+>   - 函数的返回值是个数组，包含字符串和函数。如果通过解构的方法获取，TS 无法判断他们的类型，所以会报错。
+>   - **通过断言的方式，指定类型。**
+> - 非空断言：声明该该不为空`!`
+> - 枚举：`enum`
 
-不设置值时，值以0开始递增。常用于程序语言及mysql 等数据库中。
-
-- 当某个字段设置数值类型的值后，**后面的在它基础上递增**。
-
-```ts
-enum SexType {
-  BOY,
-  GIRL,
-}
-const hd = {
-  num: SexType.GIRL,
-}
-console.log(hd) //{ num: 1 }
-
-// 字段设置的数值类型其他的前面
-enum SexType {
-  BOY=1,
-  GIRL,
-}
-console.log(hd) //{ num: 2 }
-
-// 字段设置的数值类型其他的后面
-enum SexType {
-  BOY,
-  GIRL,
-  TEST=1
-}
-console.log(hd) //{ num: 1 }
-```
-
-
-
-****
-
-
-
-### as断言
+### as & const
 
 用户断定这是什么类型，不使用系统推断的类型。
 
 ```ts
+值 as 类型
+// 或
+<类型>值
+
 function hd(arg: number) {
   return arg ? 'name' : 2030
 }
@@ -392,15 +386,7 @@ let f = <string>hd(1) //let f: string
 
 
 
-****
-
-
-
-### const断言
-
-- 字符串、布尔类型转换为具体值
-- 对象转换为只读属性
-- 数组转换成为只读元组
+const断言：只读断言
 
 ```ts
 const hd = 'name' //const hd: "name"
@@ -412,9 +398,15 @@ let user = { name: 'name' } as const
 
 
 
-**解构**
+****
 
-下面案例中，变量类型不是具体类型，他包含 `string | (() => void)`。如果直接调用会报错，因此使用断言。
+
+
+### 解构
+
+函数的返回值是个数组，包含字符串和函数。如果通过解构的方法获取，TS 无法判断他们的类型，所以会报错。
+
+调用时**对返回值断言**、在函数体内声明返回类型、使用 const
 
 ```ts
 function foo() {
@@ -426,12 +418,12 @@ let [n, m] = foo()
 // 报错：因为类型可能是字符串，所以不允许调用
 m(1, 6)
 
-// 正常运行
+// 断言 Function
 console.log((m as Function)(1, 2))
-//使用以下类型声明都是可以的
+// 断言 对象解构
 console.log((m as (x: number, y: number) => number)(1, 5))
 
-// 调用时对返回值断言类型
+// 对 foo 函数的返回值 声明返回类型
 let [n, m] = foo() as [string, (x: number, y: number) => number]
 console.log(m(9, 19))
 
@@ -453,21 +445,11 @@ const [x, y] = foo() //变量 y 的类型为 () => void
 
 
 
-### null/undefined
+同时也可以使用泛型的方式解决：具体看下面->泛型->解构
 
-```ts
-// 默认情况下 null 与undefined 可以赋值给其他类型
-let name: string = 'name'
-name = null
-name = undefined
-```
 
-当我们修改 tsconfig.json 配置文件的strictNullChecks 字段为 true（默认即为 true） 时，则不能将 null、undefined 赋值给其他类型
 
-```ts
-// 除非向下面一样明确指定类型
-let name: string |undefiend|null = 'name'
-```
+****
 
 
 
@@ -486,7 +468,91 @@ const el: HTMLDivElement = document.querySelector('.bd')!
 
 
 
-## 类与接口
+### Enums 枚举
+
+枚举成员会被赋值为从 `0` 开始递增的数字，同时也会对枚举值到枚举名进行反向映射。
+
+```ts
+enum Days {
+  Sun, // 0
+  Mon, // 1
+  Tue, // 2
+  Wed, // 3
+  Thu, // 4
+  Fri, // 5
+  Sat, // 6
+}
+console.log(Days["Sun"] === 0); // true
+console.log(Days["Mon"] === 1); // true
+console.log(Days["Tue"] === 2); // true
+console.log(Days["Sat"] === 6); // true
+
+console.log(Days[0] === "Sun"); // true
+console.log(Days[1] === "Mon"); // true
+console.log(Days[2] === "Tue"); // true
+console.log(Days[6] === "Sat"); // true
+```
+
+
+
+当某个字段设置数值类型的值后，**后面的在它基础上递增**。
+
+```ts
+enum Days {
+  Sun=10, // 10
+  Mon, // 11
+  Tue, // 12
+  Wed, // 13
+  Thu, // 14
+  Fri, // 15
+  Sat, // 16
+}
+```
+
+
+
+常数枚举：使用 `const enum` 定义的枚举类型
+
+区别在于，它会在编译阶段被删除，并且不能包含计算成员。
+
+```ts
+const enum Directions {
+  Up,
+  Down,
+}
+
+let directions = [Directions.Up, Directions.Down]
+
+// 编译后:
+var directions = [0 /* Up */, 1 /* Down */];
+```
+
+外部枚举（Ambient Enums）是使用 `declare enum` 定义的枚举类型：
+
+只会用于编译时的检查，编译结果中会被删除。
+
+```ts
+declare enum Directions {
+  Up,
+  Down,
+}
+let directions = [Directions.Up, Directions.Down]
+// 编译后:
+var directions = [0 /* Up */, 1 /* Down */];
+```
+
+
+
+****
+
+
+
+## 类
+
+> - 类的定义
+> - 修饰符
+> - 类的属性
+>   - **`constructor、static、get/set、abstract`**
 
 类的定义
 
@@ -644,7 +710,46 @@ class Student extends School {
 
 
 
+## 接口
+
+> **如果尝试添加一个接口中不存在的属将报错，移除接口的属性也将报错。**
+>
+> - Interface
+>   - **同名会继承**
+>   - 只读：`readonly`
+>   - 额外属性：必须**包含整个接口的全部类型**。`[key: string]: any`
+>   - 约束对象、数组、类。约束函数的：函数声明、参数列表、返回值、构造函数的参数
+> - Type
+>   - 同名不会继承，Interface 可以使用 `extends` 继承 type。Type 继承 Interface 需使用合并运算符 `&`
+>   - 合并需要使用 `&`，或运算，满足任意一个。`|`
+> - 总结：接口能用Interface就用他。
+
+接口可以使用 `Interface` 或 `type`定义
+
+**其中 interface 会将同名接口进行合并。type不能**
+
+```ts
+interface User {
+  name: string
+}
+interface User {
+  age: number
+}
+const hd: User = {
+name: 'NAME',
+age: 18,
+}
+```
+
+
+
+****
+
+
+
 ### Interface
+
+**如果尝试添加一个接口中不存在的属将报错，移除接口的属性也将报错。**
 
 `Interface`：接口，
 
@@ -653,8 +758,6 @@ class Student extends School {
 接口和接口间继承使用：`extends`
 
 接口**约束函数/对象/数组**使用：`:`
-
-> **约束对象、数组、函数、构造函数的参数、枚举**
 
 ```ts
 interface AnimationInterface {
@@ -665,73 +768,76 @@ interface AnimationInterface {
 
 
 
-> 附：interface 会将同名接口进行合并。type不能
->
-> ```ts
-> interface User {
->   name: string
-> }
-> interface User {
->   age: number
-> }
-> const hd: User = {
->   name: 'NAME',
->   age: 18,
-> }
-> ```
+**只读：`readonly`**
 
-
-
-**1、约束对象**
-
-如果尝试添加一个接口中不存在的属将报错，移除接口的属性也将报错。
-
-如果要添加额外属性可使用：`[key:string]:any`
+做为变量使用的话用`const`，若做为属性则使用`readonly`。
 
 ```ts
-interface UserInterface {
-  name: string
-  age: number
-  info(other: string): string
-  // 允许添加格外属性
-  [key: string]: any
+interface Person {
+	readonly id: number;
 }
-const hd: UserInterface = {
-  name: '我',
-  age: 18,
-  // num: 11	// 报错,因为添加接口不存在的属性
-  info(o: string) {
-    return `${this.name}已经${this.age}岁了,${o}`
-  },
-}
-console.log(hd.info('123'))	// 我已经18岁了,123
 ```
 
 
 
-**2、约束数组**
+**格外属性：`[key: string]: string`**
 
-可以不定义值，让其为空。
+如果使用 `string` 有一个问题那就是**一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集**。什么意思呢？就是额外属性必须**包含整个接口的全部类型**。
+
+
+
+例如->下面案例中，任意属性的值允许是 `string`，但是可选属性 `age` 的值却是 `number`，`number` 不是 `string` 的子属性，所以报错了。
+
+因此可以使用：`[propName: string]: any;`
 
 ```ts
-interface UserInterface {
-  name: string
-  age: number
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string;
+    // [propName: string]: string | number;
+  	// [propName: string]: any;
 }
-const hd: UserInterface = {
-  name: 'name',
-  age: 18,
-}
-const users: UserInterface[] = []
-users.push(hd)
-console.log(users)
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
+
+// index.ts(3,5): error TS2411: Property 'age' of type 'number' is not assignable to string index type 'string'.
+// index.ts(7,5): error TS2322: Type '{ [x: string]: string | number; name: string; age: number; gender: string; }' is not assignable to type 'Person'.
+//   Index signatures are incompatible.
+//     Type 'string | number' is not assignable to type 'string'.
+//       Type 'number' is not assignable to type 'string'.
 ```
 
 
 
-**3、约束函数**
+**约束类**
 
-约束函数，约束函数声明
+```ts
+class Point {
+    x: number;
+    y: number;
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+function printPoint(p: Point) {
+    console.log(p.x, p.y);
+}
+
+printPoint(new Point(1, 2));
+```
+
+
+
+**约束函数的参数列表和返回值**
+
+约束函数的参数列表和返回值。
 
 ```ts
 interface UserInterface {
@@ -750,8 +856,13 @@ let user: UserInterface = {
 }
 lockUser(user, true)
 console.log(user)
+```
 
-// 约束函数声明
+
+
+**约束函数的声明**
+
+```ts
 interface Pay {
   // 参数 price 必须是数字。返回值必须是 boolean
   (price: number): boolean
@@ -761,7 +872,7 @@ const getUserInfo: Pay = (price: number) => true
 
 
 
-**4、约束构造函数**
+**约束函数的构造函数**
 
 将 接口 作为**参数**的 约束。
 
@@ -783,20 +894,6 @@ console.log(u)
 
 
 
-**5、枚举**
-
-```ts
-enum SexType {
-    BOY, GIRL
-}
-interface UserInterface {
-    name: string,
-    sex: SexType
-}
-```
-
-
-
 ****
 
 
@@ -805,65 +902,80 @@ interface UserInterface {
 
 type 与 interface 都可以描述一个对象或者函数，使用 type 用于定义类型的别名。
 
-- type 与 interface 都是可以进行扩展、使用 type 相比 interface 更灵活
-- 使用类(class) 时建议使用接口，这可以与其他编程语言保持统一
+约束对象的方式和接口一样，我这里就不一一赘述了，只对 **不同点** 进行说明。
 
-约束对象的方式和接口一样
 
-**约束函数**
+
+type可以声明基本类型别名、联合类型、元祖等类型
 
 ```ts
-type Pay = (price: number) => boolean
-const wepay: Pay = (price: number) => {
-  console.log(`微信支付${price}`)
-  return true
+// 基本类型别名
+type Name = string
+
+// 联合类型
+interface Dog {
+  wong()
 }
-wepay(100)
+interface Cat {
+  miao()
+}
+type Pet = Dog | Cat
+
+// 具体定义数组每个位置的类型
+type PetList = [Dog, Pet]
+```
+
+type语句中还可以使用typeof获取实例的类型进行赋值
+
+```ts
+// 当你想要获取一个变量的类型时，使用typeof
+let div = document.createElement('div')
+type B = typeof div
+```
+
+type其他骚操作
+
+```ts
+type StringOrNumber = string | number;
+type Text = string | { text: string };
+type NameLookup = Dictionary<string, Person>;
+type Callback<T> = (data: T) => void;
+type Pair<T> = [T, T];
+type Coordinates = Pair<number>;
+type Tree<T> = T | { left: Tree<T>, right: Tree<T> };
 ```
 
 
 
-约束对象、定义索引类型，和 接口 是一样的
+声明继承时
+
+- interface 会将同名接口进行合并。**type 同名不会继承。**
+- interface 可以 extends 继承 type。**type 继承 interface 需使用 `&`**
+- **type 合并需要使用 `&`**
+- **type 或运算，满足任意一个。`|`**
 
 ```ts
-interface User {
-  [key: string]: any
-}
-type UserTYpe = {
-  [key: string]: any
-}
-```
-
-
-
-**声明继承**
-
-- interface 会将同名接口进行合并。
-- interface 可以 extends 继承 type
-- type 合并需要使用 `&`，而 interface 不能。
-- type 或运算，满足任意一个。`|`
-- class 继承 type。`implements`
-
-```ts
-interface Name {
+type Name = {
   name: string
 }
+type Age = {
+  age: number
+}
+
 // interface 可以 extends 继承 type
 interface User1 extends Name {
   age: number
 }
-interface Age {
-  age: number
-}
-// 合并 type
-type User2 = Name & Age
-// 或运算
-type User3 = Name | Age
 
-// class 继承 type
-class User4 implements Name {
-  name: string = 'NAME'
+// type 继承 interface
+type User2 = User1 & {
+  key: string
 }
+
+// 合并 type
+type User3 = Name & Age
+// 或运算
+type User4 = Name | Age
 ```
 
 
@@ -874,9 +986,9 @@ class User4 implements Name {
 
 ## 泛型 Generics
 
-泛型指使用时才定义类型，即类型可以像参数一样定义，主要解决类、接口、函数的复用性，让它们可以处理多种类型。
+泛型指**使用时才定义类型**，即类型可以像参数一样定义，主要解决类、接口、函数的复用性，让它们可以处理多种类型。
 
-
+我们在函数名后添加了 `<T>`，其中 `T` 用来指代**任意输入的类型**，在后面的输入 `arg: T` 和输出 `T` 中即可使用了。
 
 ```ts
 function dump<T>(arg: T): T {
@@ -921,7 +1033,7 @@ console.log(getLength(['NAME'])) // 4
 // 如果只是字符串和数组可以使用联合类型
 function getLength<T extends string | any[]>(arg: T): number {}
 
-// 参数是 T[] 存在 length 只能处理数组
+// 参数是 T[] 就存在 length,缺点是只能处理数组
 function getLength<T>(arg: T[]): number{}
 ```
 
@@ -930,6 +1042,19 @@ function getLength<T>(arg: T[]): number{}
 ```ts
 function getLength<T extends string>(arg: T): [T, number] {
   return [arg, arg.length]
+}
+```
+
+
+
+**第三步中补充一点，可以使用接口**
+
+```ts
+interface Lengthwise {
+  length: number
+}
+function getLength<T extends Lengthwise>(arg: T): number {
+  return arg.length
 }
 ```
 
@@ -961,10 +1086,10 @@ collections.push(1)
 
 // 测试 Object 类型
 type User = { name: string; age: number }
-const hd: User = { name: 'NAME', age: 18 }
+const da: User = { name: 'NAME', age: 18 }
 const userCollection = new Collection<User>()
 
-userCollection.push(hd)
+userCollection.push(da)
 console.log(userCollection.shift())
 ```
 
@@ -998,6 +1123,8 @@ console.log(instance.get().age)
 
 ### 接口
 
+接口的 comments 是一个数组，然后评论类型CommentType是一个对象，那么他就是一个*对象数组**。
+
 ```ts
 // 文章接口
 interface articleInterface<T, B> {
@@ -1027,46 +1154,20 @@ console.log(a)
 
 
 
-### 值类型
+### 解构
 
-下面解构得到的变量类型不是具体类型，面是数组类型，比如变量 y 的类型是` string | (() => void)`
-
-这在写项目时是不安全的，因为可以将 y 随时修改为字符串，同时也不会有友好的代码提示
+通过泛型解决解构，得到具体的值类型，获地更安全的代码，同时会有更好的代码提示。
 
 ```ts
-function hd() {
-    let a = '后盾人'
-    let b = (x: number, y: number): number => x + y
-    return [a, b]
+function foo() {
+  const name: string = 'NAME'
+  const age: number = 19
+  return fo(name, age)
 }
-
-const [x, y] = hd() //变量 y 的类型为 string | (() => void)
-```
-
-使用 as const 就可以很高效的解决上面的问题，可以得到具体的类型，来得到更安全的代码，同时会有更好的代码提示
-
-```ts
-function hd() {
-  let a = '后盾人'
-  let b = (): void => {}
-  return [a, b] as const
+function fo<T extends any[]>(...args: T): T {
+  return args
 }
-
-const [x, y] = hd() //变量 y 的类型为 () => void
-```
-
-也可以使用泛型来得到具体的值类型
-
-```ts
-function hd() {
-    const a: string = '后盾人'
-    const b: number = 2090
-    return f(a, b)
-}
-function f<T extends any[]>(...args: T): T {
-    return args;
-}
-const [r, e] = hd()
+const [l, r] = foo()
 ```
 
 
@@ -1277,7 +1378,7 @@ const ShowDecorator: MethodDecorator = (
   target: Object,
   propertyKey: string | symbol,
   descriptor: PropertyDescriptor
-): void => {
+): void => {P
   // 保存原型方法
   let originalMethod = descriptor.value
   descriptor.value = () => {
@@ -1497,6 +1598,120 @@ console.log(value)
 
 ## 模块
 
+> - 导出
+>   - 简单的导出，对导出部分重命名。
+>   - 重新导出，只导出那个模块的部分内容，使用一个模块包含多个模块一起导出。
+> - 导入
+>   - 简单的导入，重命名导入。导入到一个变量。
+
+### 导出
+
+任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加`export`关键字来导出
+
+**StringValidator.ts**
+
+```ts
+export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+```
+
+简单的导出，同时还可以对导出的部分重命名。
+
+**ZipCodeValidator.ts**
+
+```ts
+import { StringValidator } from "./StringValidator";
+
+export const numberRegexp = /^[0-9]+$/;
+
+class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+    }
+}
+export { ZipCodeValidator };
+// 对导出的部分重命名
+export { ZipCodeValidator as mainValidator };
+```
+
+
+
+**重新导出**
+
+只导出那个模块的部分内容。 
+
+**ParseIntBasedZipCodeValidator.ts**
+
+```ts
+export class ParseIntBasedZipCodeValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && parseInt(s).toString() === s;
+    }
+}
+
+// 导出原先的验证器但做了重命名
+export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidator";
+```
+
+
+
+使用一个模块包含多个模块，一起导出
+
+**AllValidators.ts**
+
+```ts
+export * from "./StringValidator"; // exports 'StringValidator' interface
+export * from "./ZipCodeValidator";  // exports 'ZipCodeValidator' and const 'numberRegexp' class
+export * from "./ParseIntBasedZipCodeValidator"; //  exports the 'ParseIntBasedZipCodeValidator' class
+                                                 // and re-exports 'RegExpBasedZipCodeValidator' as alias
+                                                 // of the 'ZipCodeValidator' class from 'ZipCodeValidator.ts'
+```
+
+
+
+### 导入
+
+使用以下`import`形式之一来导入其它模块中的导出内容。
+
+```ts
+import { ZipCodeValidator } from "./ZipCodeValidator";
+// 重命名
+import { ZipCodeValidator as ZCV } from "./ZipCodeValidator";
+
+let myValidator = new ZipCodeValidator();
+let myValidator = new ZCV();
+```
+
+
+
+将整个模块导入到一个变量，并通过它来访问模块的导出部分
+
+```ts
+import * as validator from "./ZipCodeValidator";
+let myValidator = new validator.ZipCodeValidator();
+```
+
+
+
+### `export =` 和 `import = require()`
+
+若使用`export =`导出一个模块，则必须使用TypeScript的特定语法`import module = require("module")`来导入此模块。
+
+```ts
+// ZipCodeValidator.ts
+class ZipCodeValidator {
+  // ...
+}
+export = ZipCodeValidator;
+
+// Test.ts
+import zip = require("./ZipCodeValidator");
+let validator = new zip();
+```
+
+
+
 `namespace`：数据需要 export 导出才能使用。
 
 ```ts
@@ -1519,17 +1734,27 @@ console.log(User.User2.name)
 
 
 
+别名
+
+```ts
+import else = User.name
+```
+
+
+
+
+
 合并打包1
 
 ```sh
-tsc --outFile ./dist/app.js user.ts index.js
+tsc --outFile ./dist/app.js user.ts index.ts
 ```
 
 
 
 合并打包2
 
-`reference`：在 index.js 中引入依赖文件
+`reference`：在 index.ts 中引入依赖文件
 
 ```ts
 /// <reference path="user.ts"/>
@@ -1537,7 +1762,7 @@ console.log(User.name);
 ```
 
 ```sh
-tsc --outFile ./dist/app.js index.js 
+tsc --outFile ./dist/app.js index.ts 
 ```
 
 
@@ -1551,7 +1776,7 @@ amd 模块打包
 编译
 
 ```sh
-tsc --outFile ./dist/app.js index.js
+tsc --outFile ./dist/app.js index.ts
 ```
 
 ```html
@@ -1563,6 +1788,253 @@ tsc --outFile ./dist/app.js index.js
   })
 </script>
 ```
+
+
+
+## Pro
+
+### 高级类型
+
+> 交叉类型、联合类型、、
+
+**交叉类型使用范围：我希望一个类型对象同时拥有 多种类型 的成员。**理解为：`&`
+
+
+
+第一步：首先 extend 函数有两个泛型参数 First,Second。前者传入 `Person类` ，后者传入 `ConsoleLogger 的属性`。
+
+`Person类` 的作用是通过构造函数设置 name属性。
+
+`ConsoleLogger.prototype` 的作用是 传入log属性 打印 name 值。
+
+
+
+第二步：第二行代码，`Partial<Type>` 将它所有的属性设置为 **可选的**。（可以理解为 result 要么是First 要么是 Second）
+
+
+
+第三步：3到7行，遍历 对象属性，通过 `hasOwnProperty` 判断 prop 是否是 first 的属性。如果是那就通过断言获取。
+
+```ts
+function extend<First, Second>(first: First, second: Second): First & Second {
+    const result: Partial<First & Second> = {};
+    for (const prop in first) {
+        if (first.hasOwnProperty(prop)) {
+            (result as First)[prop] = first[prop];
+        }
+    }
+    for (const prop in second) {
+        if (second.hasOwnProperty(prop)) {
+            (result as Second)[prop] = second[prop];
+        }
+    }
+    return result as First & Second;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+
+interface Loggable {
+    log(name: string): void;
+}
+
+class ConsoleLogger implements Loggable {
+    log(name) {
+        console.log(`Hello, I'm ${name}.`);
+    }
+}
+
+const jim = extend(new Person('Jim'), ConsoleLogger.prototype);
+jim.log(jim.name);
+```
+
+
+
+**联合类型**：传入`number`或`string`类型的参数
+
+```ts
+function padLeft(value: string, padding: string | number) {
+    // ...
+}
+```
+
+
+
+**类型守卫与类型区分**
+
+对象同时拥有多个类型，我们无法确定 这个类型 是谁的时候。可以通过类型断言。
+
+当把 pet 断言成 Fish，判断是否存在 swim 方法，如果不存在那就说明不是这个类型。
+
+```ts
+let pet = getSmallPet();
+
+if ((pet as Fish).swim) {
+    (pet as Fish).swim();
+} else if ((pet as Bird).fly) {
+    (pet as Bird).fly();
+}
+```
+
+
+
+**用户自定义类型守卫**
+
+使用类型判定：`parameterName is Type` 
+
+```ts
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined;
+}
+if (isFish(pet)) {
+    pet.swim();
+}
+else {
+    pet.fly();
+}
+```
+
+
+
+使用`in`操作符：其中`n`是字符串字面量或字符串字面量类型且`x`是个联合类型
+
+**通过 in 判断 pet 是否存在 swim**
+
+```ts
+function move(pet: Fish | Bird) {
+    if ("swim" in pet) {
+        return pet.swim();
+    }
+    return pet.fly();
+}
+```
+
+
+
+`typeof v === "typename"`类型守卫：判断类型 是否是 原始类型
+
+`"typename"`必须为：`"number"`，`"string"`，`"boolean"`或`"symbol"`
+
+```ts
+function padLeft(value: string, padding: string | number) {
+    if (typeof padding === "number") {
+        return Array(padding + 1).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number, got '${padding}'.`);
+}
+```
+
+
+
+`instanceof`：通过构造函数细化类型，左边对象右边函数，沿着原型链查找。
+
+```ts
+interface Padder {
+  	// ...
+}
+class SpaceRepeatingPadder implements Padder {
+  	// ...
+}
+class StringPadder implements Padder {
+  	// ...
+}
+function getRandomPadder() {
+    return Math.random() < 0.5 ?
+        new SpaceRepeatingPadder(4) :
+        new StringPadder("  ");
+}
+
+// 类型为SpaceRepeatingPadder | StringPadder
+let padder: Padder = getRandomPadder();
+
+if (padder instanceof SpaceRepeatingPadder) {
+    padder; // 类型细化为'SpaceRepeatingPadder'
+}
+if (padder instanceof StringPadder) {
+    padder; // 类型细化为'StringPadder'
+}
+```
+
+
+
+
+
+## 注意事项
+
+应该使用`number`，`string`，`boolean`和`symbol`类型。
+
+```ts
+/* 正确 */
+function reverse(s: string): string;
+```
+
+
+
+*不要*定义没有使用过类型参数的泛型类型。 
+
+
+
+请尽量不要使用`any`类型，除非你正在将 JavaScript 代码迁移到 TypeScript 代码。
+
+
+
+回调函数的返回值类型，应该为返回值会被忽略的回调函数设置返回值类型`void`，而不是any：
+
+```ts
+/* 错误 */
+function fn(x: () => any) {
+    x();
+}
+/* 正确 */
+function fn(x: () => void) {
+    x();
+}
+```
+
+
+
+*不要*在回调函数里使用可选参数，除非这是你想要的：
+
+```ts
+/* 错误 */
+interface Fetcher {
+    getObject(done: (data: any, elapsedTime?: number) => void): void;
+}
+/* 正确 */
+interface Fetcher {
+    getObject(done: (data: any, elapsedTime: number) => void): void;
+}
+```
+
+
+
+**函数重载**
+
+*不要*把模糊的重载放在具体的重载前面：
+
+```ts
+/* 错误 */
+declare function fn(x: any): any;
+declare function fn(x: HTMLElement): number;
+declare function fn(x: HTMLDivElement): string;
+
+var myElem: HTMLDivElement;
+var x = fn(myElem); // x: any, wat?
+
+/* 正确 */
+declare function fn(x: HTMLDivElement): string;
+declare function fn(x: HTMLElement): number;
+declare function fn(x: any): any;
+
+var myElem: HTMLDivElement;
+var x = fn(myElem); // x: string, :)
+```
+
+
 
 
 
