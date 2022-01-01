@@ -14,7 +14,8 @@ export default defineUserConfig<DefaultThemeOptions>({
   description: '文档以前端方向为主',
 
   head: [
-    ['script', {}, `
+    [
+      'script', {}, `
             var _hmt = _hmt || [];
             (function() {
               var hm = document.createElement("script");
@@ -23,7 +24,8 @@ export default defineUserConfig<DefaultThemeOptions>({
               s.parentNode.insertBefore(hm, s);
             })();
 
-        `]
+        `,
+    ],
   ],
   theme: path.resolve(__dirname, './theme'),
 
@@ -31,6 +33,8 @@ export default defineUserConfig<DefaultThemeOptions>({
     // logo: '/images/hero.png',
 
     repo: 'zyugat/zyugat-vuepress',
+
+    // docsBranch: 'main',
 
     docsDir: 'docs',
 
