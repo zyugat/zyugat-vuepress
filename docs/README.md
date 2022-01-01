@@ -20,6 +20,10 @@ footer: Powered by <a href="https://github.com/zyugat" target="_blank"> zyugat <
 ---
 
 ## 更新日志
+- 2022/1/1
+  - 新增文档 Vue&TypeScript、Git。
+  - 移动 VueNote 文档中关于 CLI、Router、Vuex 内容至 Vue&TypeScript 中。
+  - 更新 Element-ui 文档内容。
 - 2021/12/25
   - 迁移项目至vuepress 2.0.0-bete，新增部分功能。
   - 新增 Element-ui、vite、uni-app、TypeScript、算法 文档

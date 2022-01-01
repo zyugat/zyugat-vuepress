@@ -21,6 +21,7 @@ export const sidebar: SidebarConfig = {
         '/pages/web/小程序.md',
         '/pages/web/ReactNote.md',
         '/pages/web/VueNote.md',
+        '/pages/web/Vue&TypeScript.md',
       ],
     },
     {
@@ -64,6 +65,7 @@ export const sidebar: SidebarConfig = {
     {
       text: '其他',
       children: [
+        '/pages/else/Git.md',
         '/pages/else/flask.md',
         '/pages/else/算法.md',
       ],

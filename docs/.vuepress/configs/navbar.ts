@@ -25,6 +25,7 @@ export const navbar: NavbarConfig = [
           '/pages/web/小程序.md',
           '/pages/web/ReactNote.md',
           '/pages/web/VueNote.md',
+          '/pages/web/Vue&TypeScript.md',
         ],
       },
       {
@@ -62,6 +63,7 @@ export const navbar: NavbarConfig = [
   {
     text: '其他',
     children: [
+      '/pages/else/Git.md',
       '/pages/else/flask.md',
       '/pages/else/算法.md',
     ],

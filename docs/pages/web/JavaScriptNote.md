@@ -172,6 +172,10 @@ alert('123') = alert `123`
   - `array1.concat(array2)`：在当前数组后面追加新数组
     - 可用扩展运算符解决`[...arr1, ...arr2, ...arr3]`
   - `slice(numStart,numEnd)`：返回开始到结束的所有项
+  - `splice(index, howmany, item1..,itemX)`：删除元素，替换元素
+    - index：从何处开始添加/删除
+    - howmany：删除几个。可选，未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
+    - item：添加到数组的新元素。可选
 
 - 位置方法
 
