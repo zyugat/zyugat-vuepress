@@ -49,9 +49,9 @@ export const navbar: NavbarConfig = [
   {
     text: '软件配置',
     children: [
-      '/pages/softConfig/ESlint-Pretter.md',
-      '/pages/softConfig/VScode.md',
-      '/pages/softConfig/Webstorm.md',
+      '/pages/config/前端自用配置.md',
+      '/pages/config/VScode.md',
+      '/pages/config/Webstorm.md',
     ],
   },
   {
