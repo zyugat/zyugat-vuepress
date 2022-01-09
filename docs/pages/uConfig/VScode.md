@@ -28,47 +28,51 @@ Partial Diff：文档比较
 
 
 
-Settings Sync
+- 主题
+  - Atom One Dark Theme
+- Base
+  - C/C++
+  - Maven for Java
+  - Debugger for Java
+  - Test Runner for Java
+  - Extension Pack for Java
+  - Project Manager for Java
+  - Language Support for Java(TM) by Red Hat
+  - Python
+  - Pylance
+- HTML
+  - HTML CSS Support：代码提示
+  - Auto Close Tag：自动添加HTML/XML关闭标签
+  - Auto Rename Tag：自动重命名配对的HTML/XML标签
+  - IntelliSense for CSS class names in HTML：根据引入CSS类文件提示class
+  - Live Server：动态页面
+- CLI Base
+  - Bootstrap 4, Font awesome 4, Font Awesome 5 Free & Pro snippets for Visual studio code
+  - SASS
+  - ESLint
+  - TSLint
+- CLI
+  - ES7 React/Redux/GraphQL/React-Native snippets：React代码提示补全
+  - JavaScript (ES6) code snippets：代码提示
+  - Prettier - Code formatter：格式化代码
 
-同步环境
-
-`Shift + Alt + U`上传到云端
-
-`Shift + Alt + D`下载云端的配置
-
-
-
-Monokai Pro：主题
-
-Beautify：格式化代码，保存就行
-
-prettier：格式化代码
-
-ESLint：自动修复代码
-
-Auto Close Tag：自动添加HTML/XML关闭标签
-
-Auto Rename Tag：自动重命名配对的HTML/XML标签
+  - Vetur：对Vue的格式化代码，语法高亮显示
+  - Vue 3 Snippets
+- 附录
+  - Visual Studio IntelliCode
+  - vscode-icons：图标
+  - Code Runner
+  - Code Spell Checker：拼写检查
+  - Partial Diff：文档比较
+  - Settings Sync：同步
+  - npm
+  - Jupyter
+  - Jupyter Keymap
+  - Jupyter Notebook Renderers
 
 
 
-Tabnine：智能提示代码
 
-HTML CSS Support：htmlAndCSS代码提示
-
-Vetur：对Vue的格式化代码，语法高亮显示
-
-Code Spell Checker ：拼写检查
-
-
-
-Code Runner自动搭建语言环境，右键Run code
-
-Live Server：HTML代码实时调试
-
-Remote-SSH：远程SSH
-
-Remote Development：远程调试
 
 
 
@@ -92,7 +96,7 @@ Remote Development：远程调试
 
   "diffEditor.ignoreTrimWhitespace": false,
   // 代码编辑配置
-  "editor.fontSize": 22,
+  "editor.fontSize": 18,
   // 是否启用字体连字
   "editor.fontLigatures": true,
   // 字体
@@ -137,17 +141,22 @@ Remote Development：远程调试
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // 对 .scss 文件的格式化
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 
   // eslint配置
   "eslint.alwaysShowStatus": true,
   "eslint.validate": [
-    "html",
     "vue",
+    "html",
     "typescript",
     "javascript",
     "javascriptreact",
     "jsonc",
-    "css"
+    "css",
+    "scss"
   ],
 
   // 资源管理器对文件操作的设置
@@ -174,7 +183,7 @@ Remote Development：远程调试
   "http.proxyStrictSSL": false,
 
   // java配置
-  "java.home": "D:\\winSoftware\\program\\RedHat\\java-11-openjdk-11.0.12-1",
+  // "java.home": "D:\\winSoftware\\program\\RedHat\\java-11-openjdk-11.0.12-1",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
 
   "liveServer.settings.donotShowInfoMsg": true,
@@ -185,13 +194,14 @@ Remote Development：远程调试
   "prettier.arrowParens": "avoid",
   // 使用单引号
   "prettier.singleQuote": true,
-  // 是否保留末尾分号
+  // 取消尾分号
   "prettier.semi": false,
-  //
+  // 尾随逗号
   "prettier.trailingComma": "es5",
 
   // sync同步
   "sync.quietSync": false,
+  "sync.gist": "",
   "sync.autoUpload": true,
 
   // 终端
@@ -199,25 +209,41 @@ Remote Development：远程调试
   // 终端字体大小
   "terminal.integrated.fontSize": 18,
 
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   // 关闭vetur的模板修正，避免跟eslint的代码修正冲突。
   "vetur.validation.template": false,
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   //格式化.vue中html
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.css": "prettier",
+  "vetur.format.defaultFormatter.sass": "sass-formatter",
+  "vetur.format.defaultFormatter.postcss": "prettier",
+  "vetur.format.defaultFormatter.scss": "prettier",
+  "vetur.format.defaultFormatter.less": "prettier",
+  "vetur.format.defaultFormatter.stylus": "stylus-supremacy",
+  "vetur.format.defaultFormatter.html": "prettier",
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  "vetur.format.defaultFormatter.ts": "prettier",
+  "vetur.format.options.tabSize": 2,
+  // 设置是否使用tab键缩进 默认false，即不使用，该配置将被所有格式化器继承
+  "vetur.format.options.useTabs": false,
+  "vetur.ignoreProjectWarning": true,
   "vetur.format.defaultFormatterOptions": {
-    "js-beautify-html": {
-      //属性强制折行对齐
-      // "wrap_attributes": "force-aligned"
+    "prettier": {
+      // 是否加分号
+      "semi": false,
+      // 是否用单引号
+      "singleQuote": true,
+      "trailingComma": "es5"
     }
   },
-  "vetur.ignoreProjectWarning": true,
 
   // 主题颜色
   "workbench.colorTheme": "Atom One Dark",
   // 图标
   "workbench.iconTheme": "vscode-icons",
+
   "vsicons.dontShowNewVersionMessage": true
 }
+
 ```
 
 

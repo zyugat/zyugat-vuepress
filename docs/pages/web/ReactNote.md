@@ -66,16 +66,16 @@
 const data = ['Angular','React','Vue']
 //1.创建虚拟DOM
 const VDOM = (
-        <div>
-          <h1>前端js框架列表</h1>
-          <ul>
-            {
-              data.map((item,index)=>{
-                return <li key={index}>{item}</li>
-              })
-            }
-          </ul>
-        </div>
+  <div>
+    <h1>前端js框架列表</h1>
+    <ul>
+      {
+        data.map((item,index)=>{
+          return <li key={index}>{item}</li>
+        })
+      }
+    </ul>
+  </div>
 )
 //2.渲染虚拟DOM到页面
 ReactDOM.render(VDOM,document.getElementById('test'))
@@ -116,9 +116,9 @@ ReactDOM.render(VDOM,document.getElementById('test'))
       ```
 
   - 5）只有一个**根标签**
-
+  
   - 6）标签必须闭合
-
+  
   - 7）标签首字母
     - (1)若**小写字母开头**，则将该标签转为**html中同名元素**，若html中无该标签对应的同名元素，则报错。
     - (2)若**大写字母开头**，react就去渲染对应的**组件**，若组件没有定义，则报错。
@@ -127,15 +127,15 @@ ReactDOM.render(VDOM,document.getElementById('test'))
 const myId = 'aTgUiGu'
 const myData = 'HeLlo,rEaCt'
 const VDOM = (
-        <div>
-          <h2 className="title" id={myId.toLowerCase()}>
-            <span style={{color:'white',fontSize:'29px'}}>{myData.toLowerCase()}</span>
-          </h2>
-          <h2 className="title" id={myId.toUpperCase()}>
-            <span style={{color:'white',fontSize:'29px'}}>{myData.toLowerCase()}</span>
-          </h2>
-          <input type="text"/>
-        </div>
+  <div>
+    <h2 className="title" id={myId.toLowerCase()}>
+      <span style={{color:'white',fontSize:'29px'}}>{myData.toLowerCase()}</span>
+    </h2>
+    <h2 className="title" id={myId.toUpperCase()}>
+      <span style={{color:'white',fontSize:'29px'}}>{myData.toLowerCase()}</span>
+    </h2>
+    <input type="text"/>
+  </div>
 )
 ReactDOM.render(VDOM,document.getElementById('test'))
 ```
@@ -151,12 +151,12 @@ ReactDOM.render(VDOM,document.getElementById('test'))
 > **TIP：**
 >
 > - 注意
-    >   - 组件名必须首字母大写
+>   - 组件名必须首字母大写
 >   - 虚拟DOM元素只能有一个根元素
 >   - 虚拟DOM元素必须有结束标签
 > - 渲染类组件标签的基本流程
-    >
-    >   - React内部会创建组件实例对象
+>
+>   - React内部会创建组件实例对象
 >   - 调用render()得到虚拟DOM, 并解析为真实DOM
 >   - 插入到指定的页面元素内部
 
@@ -209,13 +209,13 @@ ReactDOM.render(<MyComponent/>,document.getElementById('test'))
 > TIP：
 >
 > - 理解
-    >
-    >   - 1）每个组件对象都会有props(properties的简写)属性
+>
+>   - 1）每个组件对象都会有props(properties的简写)属性
 >   - 2）**组件标签**的所有属性都保存在props中
 >
 > - 作用
-    >
-    >   - 1）通过标签属性从组件外向组件内传递变化的数据
+>
+>   - 1）通过标签属性从组件外向组件内传递变化的数据
 >   - 2） 注意: 组件内部不要修改props数据
 
 - **3->**`Props`
@@ -228,8 +228,8 @@ ReactDOM.render(<MyComponent/>,document.getElementById('test'))
 class Person extends React.Component{
   // 添加属性
   test = 100	// 这样是给Car的实例添加，是错误的
-  static test = 100	// 给Car本身添加属性
-
+	static test = 100	// 给Car本身添加属性
+  
   // 对标签属性进行类型、必要性的限制
   static propTypes = {}
   // 指定默认标签属性值
@@ -238,10 +238,10 @@ class Person extends React.Component{
   render(){
     const {name,age} = this.props
     return (
-            <ul>
-              <li>姓名：{name}</li>
-              <li>年龄：{age+1}</li>
-            </ul>
+      <ul>
+        <li>姓名：{name}</li>
+        <li>年龄：{age+1}</li>
+      </ul>
     )
   }
 }
@@ -274,35 +274,35 @@ ReactDOM.render(<Person name="jerry" age={19}  />,document.getElementById('test'
 // 组件1
 function Comment(props) {
   return (
-          <div className="Comment">
-            <UserInfo user={props.author} />
-            <div className="Comment-text">
-              {props.text}
-            </div>
-            <div className="Comment-date">
-              {formatDate(props.date)}
-            </div>
-          </div>
+    <div className="Comment">
+      <UserInfo user={props.author} />
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
   );
 }
 // 组件2
 function UserInfo(props) {
   return (
-          <div className="UserInfo">
-            <Avatar user={props.user} />
-            <div className="UserInfo-name">
-              {props.user.name}
-            </div>
-          </div>
+    <div className="UserInfo">
+      <Avatar user={props.user} />
+      <div className="UserInfo-name">
+        {props.user.name}
+      </div>
+    </div>
   );
 }
 // 组件3
 function Avatar(props) {
   return (
-          <img className="Avatar"
-               src={props.user.avatarUrl}
-               alt={props.user.name}
-          />
+    <img className="Avatar"
+      src={props.user.avatarUrl}
+      alt={props.user.name}
+    />
   );
 }
 ```
@@ -318,11 +318,11 @@ function Avatar(props) {
 > TIP：
 >
 > - 理解
-    >   - 1）state是组件对象最重要的属性, 值是对象(可以包含多个key-value的组合)
+>   - 1）state是组件对象最重要的属性, 值是对象(可以包含多个key-value的组合)
 >   - 2）组件被称为"状态机", 通过更新组件的state来更新对应的页面显示(重新渲染组件)
 > - 注意
-    >
-    >   - 组件中render方法中的this为组件实例对象
+>
+>   - 组件中render方法中的this为组件实例对象
 >   - 组件自定义的方法中this为undefined，如何解决？a)   强制绑定this: 通过函数对象的bind()或。b)   箭头函数
 >   - 状态数据，不能直接修改或更新，需用`setState`
 
@@ -428,7 +428,7 @@ ReactDOM.render(<Weather/>,document.getElementById('test'))
 
 ```jsx
 // 卸载组件按钮的回调
-death = ()=>{
+death = ()=>{  
   ReactDOM.unmountComponentAtNode(document.getElementById('test'))
 }
 // 强制更新按钮的回调
@@ -438,13 +438,13 @@ force = ()=>{
 
 // ——————挂载时——————
 // 若state的值在任何时候都取决于props，那么可以使用getDerivedStateFromPropsstatic 
-getDerivedStateFromProps(props,state){
-  console.log('getDerivedStateFromProps',props,state);
+getDerivedStateFromProps(props,state){  
+  console.log('getDerivedStateFromProps',props,state);  
   // return {count: 100}	// 这样设置那么count一直都是100  return null}
 }
 // 组件挂载完毕的钩子
-componentDidMount(){
-  console.log('Count---componentDidMount');
+componentDidMount(){  
+	console.log('Count---componentDidMount');
 }
 
 // ——————更新时——————
@@ -454,9 +454,9 @@ shouldComponentUpdate(){
   return true
 }
 // 更新前，准备交给DOM节点前，返回值交给
-getSnapshotBeforeUpdate(){
-  console.log('getSnapshotBeforeUpdate');
-  return 'atguigu'
+getSnapshotBeforeUpdate(){ 	
+  console.log('getSnapshotBeforeUpdate');  
+	return 'atguigu'
 }
 // 组件更新完毕的钩子
 componentDidUpdate(preProps,preState,snapshotValue){
@@ -465,8 +465,8 @@ componentDidUpdate(preProps,preState,snapshotValue){
 
 // ——————卸载时——————
 // 组件将要卸载的钩子
-componentWillUnmount(){
-  console.log('Count---componentWillUnmount');
+componentWillUnmount(){  
+console.log('Count---componentWillUnmount');
 }
 ```
 
@@ -493,11 +493,11 @@ showData = ()=>{
 }
 render(){
   return(
-          <div>
-            // 定义ref属性
-            <input ref="inputRef" type="text" placeholder="点击按钮提示数据"/>
-            <button onClick={this.showData}>点我提示左侧的数据</button>
-          </div>
+    <div>
+    	// 定义ref属性
+      <input ref="inputRef" type="text" placeholder="点击按钮提示数据"/>
+      <button onClick={this.showData}>点我提示左侧的数据</button>
+    </div>
   )
 }
 ```
@@ -523,7 +523,7 @@ showData = ()=>{
 }
 // 内联函数回调形式，更新的时候会执行两次
 <input ref={c => this.inputRef = c } type="text" placeholder="点击按钮提示数据"/>
-
+  
 // 回调形式
 saveInput = (c)=>{
   this.input1 = c;
@@ -531,9 +531,9 @@ saveInput = (c)=>{
 }
 render(){
   return(
-          <div>
-            <input ref={this.saveInput} type="text"/>
-          </div>
+    <div>
+      <input ref={this.saveInput} type="text"/>
+    </div>
   )
 }
 ```
@@ -563,10 +563,10 @@ function ActionLink() {
     console.log('The link was clicked.');
   }
   return (
-          <a href="#" onClick={handleClick}>
-            {' '}
-            Click me{' '}
-          </a>
+    <a href="#" onClick={handleClick}>
+      {' '}
+      Click me{' '}
+    </a>
   );
 }
 ```
@@ -608,22 +608,22 @@ function Greeting(props) {
 下面例子中，通过获取登陆状态从而判断采用什么组件。
 
 ```jsx
-render() {
+render() {  
   // 获取登陆状态
   const isLoggedIn = this.state.isLoggedIn;
   let button;
   // 判断登陆状态
   if (isLoggedIn) {
-    button = <LogoutButton onClick={this.handleLogoutClick} />;
+    button = <LogoutButton onClick={this.handleLogoutClick} />;  
   } else {
-    button = <LoginButton onClick={this.handleLoginClick} />;
-  }
+    button = <LoginButton onClick={this.handleLoginClick} />;  
+  }  
   // 最后返回
   return (
-          <div>
-            <Greeting isLoggedIn={isLoggedIn} />
-            {button}
-          </div>  );
+        <div>
+          <Greeting isLoggedIn={isLoggedIn} />
+          {button}
+        </div>  );
 }
 ReactDOM.render(  <LoginControl />,  document.getElementById('root'))
 ```
@@ -635,13 +635,13 @@ ReactDOM.render(  <LoginControl />,  document.getElementById('root'))
 
 ```jsx
 return (
-        <div>
-          {' '}
-          <h1>Hello!</h1>{' '}
-          {unreadMessages.length > 0 && (
-                  <h2> You have {unreadMessages.length} unread messages. </h2>
-          )}{' '}
-        </div>
+  <div>
+    {' '}
+    <h1>Hello!</h1>{' '}
+    {unreadMessages.length > 0 && (
+      <h2> You have {unreadMessages.length} unread messages. </h2>
+    )}{' '}
+  </div>
 );
 ```
 
@@ -649,10 +649,10 @@ return (
 
 ```jsx
 return (
-        <div>
-          {' '}
-          The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.{' '}
-        </div>
+  <div>
+    {' '}
+    The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.{' '}
+  </div>
 );
 ```
 
@@ -692,22 +692,22 @@ this.state = {inputValue: ''};
 // 受控组件
 handleChange(event) {
 
-  const value = event.target.value;
-  const name = event.target.name;
-  this.setState({[name]: value});
+    const value = event.target.value;
+    const name = event.target.name;  
+    this.setState({[name]: value});
 }
-handleSubmit(event)
-alert('提交的名字: ' + this.state.value);
-event.preventDefault();
+handleSubmit(event) 
+  alert('提交的名字: ' + this.state.value);  
+  event.preventDefault();
 }
-render() {
-  return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              名字:<input name="inputValue" type="text" onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="提交" />
-          </form>
+render() {  
+  return (    
+    <form onSubmit={this.handleSubmit}>
+    <label>
+      名字:<input name="inputValue" type="text" onChange={this.handleChange} />      
+    </label>
+    <input type="submit" value="提交" />    
+    </form>  
   );
 }
 ```
@@ -753,10 +753,10 @@ class Login extends React.Component{
   }
   render(){
     return(
-            <form onSubmit={this.handleSubmit}>
-              用户名：<input onChange={this.saveFormData('username')} type="text" name="username"/>
-              <button>登录</button>
-            </form>
+      <form onSubmit={this.handleSubmit}>
+        用户名：<input onChange={this.saveFormData('username')} type="text" name="username"/>
+        <button>登录</button>
+      </form>
     )
   }
 }
@@ -769,7 +769,7 @@ class Login extends React.Component{
 
 
 - **函数柯里化**
-  - 特性：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。
+  - 特性：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。 
 
 ```jsx
 function sum(a) {
@@ -796,16 +796,16 @@ const result = sum(1)(2)(3);
 
 ```jsx
   render() {
-  return (
-          <div>
-            <h1>hello</h1> <input type="text" />
-            {/*只有span标签内会更新，而span标签内的input是不会更新的。*/}
-            <span>
+    return (
+      <div>
+        <h1>hello</h1> <input type="text" />
+        {/*只有span标签内会更新，而span标签内的input是不会更新的。*/}
+        <span>
           现在是：{this.state.date.toTimeString()} <input type="text" />
         </span>
-          </div>
-  );
-}
+      </div>
+    );
+  }
 ```
 
 
@@ -824,8 +824,8 @@ const result = sum(1)(2)(3);
   - 1）简单的说：**key是虚拟DOM对象的标识**, 在更新显示时key起着极其重要的作用。
   - 2）详细的说：当状态中的数据发生变化时，react会根据【新数据】生成【新的虚拟DOM】, 随后React进行【新虚拟DOM】与【旧虚拟DOM】的diff比较，比较规则如下：
     -  a. 旧虚拟DOM中找到了与新虚拟DOM**相同的key**：
-      - (1).若虚拟DOM中**内容没变**, 直接使用之前的真实DOM
-      - (2).若虚拟DOM中**内容变了**, 则生成新的真实DOM，随后替换掉页面中之前的真实DOM
+       - (1).若虚拟DOM中**内容没变**, 直接使用之前的真实DOM
+       - (2).若虚拟DOM中**内容变了**, 则生成新的真实DOM，随后替换掉页面中之前的真实DOM
     -  b. **旧虚拟DOM中未找到与新虚拟DOM相同的key**：根据数据创建新的真实DOM，随后渲染到到页面
 
 > 2. index作为Key的问题
@@ -841,8 +841,8 @@ const result = sum(1)(2)(3);
   - 3）注意！如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，仅用于渲染列表用于展示，使用index作为key是没有问题的。
 
 - 3. **开发中如何选择key：**
-  1. 1）最好使用每条数据的唯一标识作为key, 比如id、手机号、身份证号、学号等唯一值。
-  2. 2）如果确定只是简单的展示数据，用index也是可以的。
+     1. 1）最好使用每条数据的唯一标识作为key, 比如id、手机号、身份证号、学号等唯一值。
+     2. 2）如果确定只是简单的展示数据，用index也是可以的。
 
   - 实例中，li节点发生改变，但input框复用了，因此导致信息错乱。
 
@@ -950,11 +950,11 @@ const newTodos = [todoNew, ...this.state.todos]
 // 2.修改局部数据※※※
 c={a:1, b:2}
 b = 3
-c={...c, b}
+c={...c, b} 
 // a:1, b:3
 return {...item, done}
 // 3.获取键盘按键数字
-e.keyCode
+e.keyCode	
 // 13代表回车
 // 4.提示框，带确认取消
 window.confirm('确定删除吗？')
@@ -1031,12 +1031,12 @@ const {value} = this.keyWordElement
 // 2.连续解构赋值
 let obj = {a:{b:{c:1}}}
 const {a:{b:{c}}} = obj
-console.log(c)
+console.log(c)	
 // 1
 
 // 2.5连续解构赋值重命名
 const {a:{b:{c:data}}} = obj
-console.log(data)
+console.log(data)	
 // 1
 ```
 
@@ -1143,9 +1143,9 @@ activeClassName：更改点击的样式
 // index.html
 <style>
   .demo {
-        background-color: red !important;
-  color: white !important;
-}
+    background-color: red !important;
+    color: white !important;
+  }
 </style>
 // index.jsx
 <NavLink activeClassName="demo" className="list-group-item" to={"/Home"}>Home</NavLink>
@@ -1310,10 +1310,10 @@ export default withRouter(Header);
       BrowserRouter使用的是H5的history API，不兼容IE9及以下版本。
       HashRouter使用的是URL的哈希值。
 2.path表现形式不一样
-BrowserRouter的路径中没有#,例如：localhost:3000/demo/test
-HashRouter的路径包含#,例如：localhost:3000/#/demo/test
+      BrowserRouter的路径中没有#,例如：localhost:3000/demo/test
+      HashRouter的路径包含#,例如：localhost:3000/#/demo/test
 3.刷新后对路由state参数的影响
-(1).BrowserRouter没有任何影响，因为state保存在history对象中。
+      (1).BrowserRouter没有任何影响，因为state保存在history对象中。
       (2).HashRouter刷新后会导致路由state参数的丢失！！！
 4.备注：HashRouter可以用于解决一些路径错误相关的问题。
 ```
@@ -1386,8 +1386,8 @@ export const createIncrementAction = data => ({type: INCREMENT, data})
 ```jsx
 const initState = 0 //初始化状态
 export default function countReducer(preState = initState, action) {
-  //从action对象中获取：type、data
-  const {type, data} = action
+	//从action对象中获取：type、data
+	const {type, data} = action
 }
 ```
 
@@ -1453,11 +1453,11 @@ export const createIncrementAction = data => ({type:INCREMENT,data})
 // redux/count_action.js
 export const createIncrementAsyncAction = (data,time) => {
   // 函数是store调用的，同时也会传一个dipatch，所以可以直接用。
-  return (dispatch)=>{
-    setTimeout(()=>{
-      dispatch(createIncrementAction(data))
-    },time)
-  }
+	return (dispatch)=>{
+		setTimeout(()=>{
+			dispatch(createIncrementAction(data))
+		},time)
+	}
 }
 
 // redux/store.js
@@ -1505,8 +1505,8 @@ import { connect } from 'react-redux'
 
 ```jsx
 connect(
-        state => ({key:value}),	// 映射状态mapStateToProps
-        {key:xxxxxAction}	// 映射操作状态的方法
+  state => ({key:value}),	// 映射状态mapStateToProps
+  {key:xxxxxAction}	// 映射操作状态的方法
 )(UI组件)
 ```
 
@@ -1522,9 +1522,9 @@ import store from './Redux/store'
 
 render() {
   return (
-          <div>
-            <Count store={store} />
-          </div>
+      <div>
+        <Count store={store} />
+      </div>
   );
 ```
 
@@ -1534,10 +1534,10 @@ render() {
 import { Provider } from 'react-redux'
 import store from './components/ReactRedux/Redux/store'
 ReactDOM.render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-        document.getElementById('root')
+    <Provider store={store}>
+      <App />
+    </Provider>,
+		document.getElementById('root')
 );
 ```
 
@@ -1564,9 +1564,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // 引入action
 import {
-  createIncrementAction,
-  createDecrementAction,
-  createIncrementAsyncAction
+	createIncrementAction,
+	createDecrementAction,
+	createIncrementAsyncAction
 } from '../../Redux/count_action'
 ```
 
@@ -1584,13 +1584,13 @@ class Count extends Component {...}
 
 ```jsx
 export default connect(
-        state => ({count: state}),
-        // mapDispatchToProps的简写
-        {
-          jia: createIncrementAction,
-          jian: createDecrementAction,
-          jiaAsync: createIncrementAsyncAction
-        }
+		state => ({count: state}),
+		// mapDispatchToProps的简写
+		{
+			jia: createIncrementAction,
+			jian: createDecrementAction,
+			jiaAsync: createIncrementAsyncAction
+		}
 )(Count)
 ```
 
@@ -1614,8 +1614,8 @@ import thunk from 'redux-thunk'
 
 //汇总所有的reducer变为一个总的reducer
 const allReducer = combineReducers({
-  he:countReducer,
-  rens:personReducer
+	he:countReducer,
+	rens:personReducer
 })
 
 //暴露store
@@ -1699,13 +1699,13 @@ import React, { Component, lazy } from 'react'
 //1.通过React的lazy函数配合import()函数动态加载路由组件 ===> 路由组件代码会被分开打包
 const Login = lazy(()=>import('@/pages/Login'))
 
-        //2.通过<Suspense>指定在加载得到路由打包文件前显示一个自定义loading界面
-        <Suspense fallback={<h1>loading.....</h1>}>
-<Switch>
-<Route path="/xxx" component={Xxxx}/>
-<Redirect to="/login"/>
-</Switch>
-</Suspense>
+//2.通过<Suspense>指定在加载得到路由打包文件前显示一个自定义loading界面
+<Suspense fallback={<h1>loading.....</h1>}>
+      <Switch>
+          <Route path="/xxx" component={Xxxx}/>
+          <Redirect to="/login"/>
+      </Switch>
+  </Suspense>
 ```
 
 
@@ -1751,7 +1751,7 @@ Hook是React 16.8.0版本增加的新特性/新语法，可以让你在函数组
 如果第一个参数的函数有`return`则表示卸载前执行。（componentWillUnmount()）
 
 ```jsx
-useEffect(() => {
+useEffect(() => { 
   // 在此可以执行任何带副作用操作
   return () => { // 在组件卸载前执行
     // 在此做一些收尾工作, 比如清除定时器/取消订阅等
@@ -1779,7 +1779,7 @@ useEffect(() => {
 
 ```jsx
 <Fragment><Fragment>
-  <></>
+<></>
 ```
 
 
@@ -1796,27 +1796,27 @@ useEffect(() => {
 
 ```jsx
 1) 创建Context容器对象：
-	const Context = React.createContext()
-
+	const Context = React.createContext()  
+	
 2) 渲染子组时，外面包裹Context.Provider, 通过value属性给后代组件传递数据：
 	<Context.Provider value={数据}>
-      子组件
+		子组件
     </Context.Provider>
-
+    
 3) 后代组件读取数据：
 
-//第一种方式:仅适用于类组件 
-static contextType = Context  // 声明接收context
-this.context // 读取context中的value数据
-
-//第二种方式: 函数组件与类组件都可以
-<Context.Consumer>
-{
-  value => ( // value就是context中的value数据
-        要显示的内容
-)
-}
-</xxxContext.Consumer>
+	//第一种方式:仅适用于类组件 
+	  static contextType = Context  // 声明接收context
+	  this.context // 读取context中的value数据
+	  
+	//第二种方式: 函数组件与类组件都可以
+	  <Context.Consumer>
+	    {
+	      value => ( // value就是context中的value数据
+	        要显示的内容
+	      )
+	    }
+	  </xxxContext.Consumer>
 ```
 
 
@@ -1842,15 +1842,15 @@ this.context // 读取context中的value数据
 解决办法：
 
 ```jsx
-办法1:
-        重写shouldComponentUpdate(nextProps,nextState)方法
-比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false
-办法2:
-        使用PureComponent
-PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true
-注意:
-        只是进行state和props数据的浅比较, 如果只是数据对象内部数据变了, 返回false
-不要直接修改state数据, 而是要产生新数据
+办法1: 
+	重写shouldComponentUpdate(nextProps,nextState)方法
+	比较新旧state或props数据, 如果有变化才返回true, 如果没有返回false
+办法2:  
+	使用PureComponent
+	PureComponent重写了shouldComponentUpdate(), 只有state或props数据有变化才返回true
+	注意: 
+		只是进行state和props数据的浅比较, 如果只是数据对象内部数据变了, 返回false  
+		不要直接修改state数据, 而是要产生新数据
 项目中一般使用PureComponent来优化
 ```
 
@@ -1897,17 +1897,17 @@ getDerivedStateFromError配合componentDidCatch
 ```jsx
 // 生命周期函数，一旦后台组件报错，就会触发
 static getDerivedStateFromError(error) {
-  console.log(error);
-  // 在render之前触发
-  // 返回新的state
-  return {
-    hasError: true,
-  };
+    console.log(error);
+    // 在render之前触发
+    // 返回新的state
+    return {
+        hasError: true,
+    };
 }
 
 componentDidCatch(error, info) {
-  // 统计页面的错误。发送请求发送到后台去
-  console.log(error, info);
+    // 统计页面的错误。发送请求发送到后台去
+    console.log(error, info);
 }
 ```
 
@@ -1919,7 +1919,7 @@ componentDidCatch(error, info) {
 
 **组件通信总结**
 
-组件间的关系：
+ 组件间的关系：
 
 - 父子组件
 - 兄弟组件（非嵌套组件）

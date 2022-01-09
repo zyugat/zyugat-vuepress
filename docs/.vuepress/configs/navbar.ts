@@ -22,7 +22,7 @@ export const navbar: NavbarConfig = [
         children: [
           '/pages/web/Bootstrap4.md',
           '/pages/web/Element-ui.md',
-          '/pages/web/小程序.md',
+          '/pages/web/wxWeb.md',
           '/pages/web/ReactNote.md',
           '/pages/web/VueNote.md',
           '/pages/web/VueCLI&TypeScript.md',
@@ -49,9 +49,9 @@ export const navbar: NavbarConfig = [
   {
     text: '软件配置',
     children: [
-      '/pages/userConfig/前端自用配置.md',
-      '/pages/userConfig/VScode.md',
-      '/pages/userConfig/Webstorm.md',
+      '/pages/uConfig/VScode.md',
+      '/pages/uConfig/Webstorm.md',
+      '/pages/uConfig/WebUserConfig.md',
     ],
   },
   {
