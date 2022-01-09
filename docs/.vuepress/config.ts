@@ -1,13 +1,12 @@
-import {defineUserConfig} from '@vuepress/cli'
-import type {DefaultThemeOptions} from '@vuepress/theme-default'
-import {sidebar} from './configs/sidebar'
-import {navbar} from './configs/navbar'
+import { defineUserConfig } from '@vuepress/cli'
+import type { DefaultThemeOptions } from '@vuepress/theme-default'
+import { sidebar } from './configs/sidebar'
+import { navbar } from './configs/navbar'
 
-const {path} = require('@vuepress/utils')
+const { path } = require('@vuepress/utils')
 const isProd = process.env.NODE_ENV === 'production'
 
 export default defineUserConfig<DefaultThemeOptions>({
-
   base: '/',
 
   title: 'Zyugat 个人文档',
@@ -15,7 +14,9 @@ export default defineUserConfig<DefaultThemeOptions>({
 
   head: [
     [
-      'script', {}, `
+      'script',
+      {},
+      `
             var _hmt = _hmt || [];
             (function() {
               var hm = document.createElement("script");
@@ -34,7 +35,7 @@ export default defineUserConfig<DefaultThemeOptions>({
 
     repo: 'zyugat/zyugat-vuepress',
 
-    // docsBranch: 'main',
+    docsBranch: 'dev',
 
     docsDir: 'docs',
 
@@ -95,5 +96,4 @@ export default defineUserConfig<DefaultThemeOptions>({
       },
     ],
   ],
-
 })
