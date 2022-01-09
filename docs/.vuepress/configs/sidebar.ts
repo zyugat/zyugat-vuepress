@@ -21,7 +21,7 @@ export const sidebar: SidebarConfig = {
         '/pages/web/小程序.md',
         '/pages/web/ReactNote.md',
         '/pages/web/VueNote.md',
-        '/pages/web/Vue&TypeScript.md',
+        '/pages/web/VueCLI&TypeScript.md',
       ],
     },
     {
@@ -36,19 +36,13 @@ export const sidebar: SidebarConfig = {
   '/pages/linux': [
     {
       text: 'Linux',
-      children: [
-        '/pages/linux/Docker.md',
-        '/pages/linux/LinuxVPS.md',
-      ],
+      children: ['/pages/linux/Docker.md', '/pages/linux/LinuxVPS.md'],
     },
   ],
   '/pages/db': [
     {
       text: '数据库',
-      children: [
-        '/pages/db/MongoDB.md',
-        '/pages/db/Mysql.md',
-      ],
+      children: ['/pages/db/MongoDB.md', '/pages/db/Mysql.md'],
     },
   ],
   '/pages/softConfig': [

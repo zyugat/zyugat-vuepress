@@ -1861,3 +1861,71 @@ p {
 </style>
 ```
 
+
+
+## 项目
+
+```sh
+yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier @types/node vuex@next vue-router@4 -D
+```
+
+
+
+```sh
+// package.json
+{
+  "name": "vite-ts-todo",
+  "version": "0.0.0",
+  "license": "ISC",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "auto": "prettier --write src/**/*.{html,js,jsx,ts,tsx,json,css,scss,less} & eslint --fix --ext src/**/*.{html,js,jsx,ts,tsx,json,css,scss,less}"
+  },
+  "dependencies": {
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier-eslint": "^13.0.0",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2",
+    "vue-router": "4",
+    "vue-tsc": "^0.29.8",
+    "vuex": "^3.6.2"
+  }
+}
+```
+
+
+
+> 目录：
+>
+> - src
+>   - components 组件
+>   - hooks 方法接口
+>     - 操作
+>   - store
+>   - typings 数据接口
+>     - 定义数据集的接口
+>
+> 
+
+
+
+hooks：
+
+方法 useTodo 保存所有操作数据的方法、设置了 Watch 监听数据变化，如果发生变化则 保存至缓存。
+
+
+
+
+
+
+
+TodoInput组件是输入框组件，
+

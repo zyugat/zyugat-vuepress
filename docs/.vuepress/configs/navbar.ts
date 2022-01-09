@@ -1,8 +1,8 @@
-import type {NavbarConfig} from '@vuepress/theme-default'
+import type { NavbarConfig } from '@vuepress/theme-default'
 
 export const navbar: NavbarConfig = [
   // 链接页面链接的根地址为/docs
-  {text: '首页', link: '/'},
+  { text: '首页', link: '/' },
   {
     text: 'Web',
     children: [
@@ -25,7 +25,7 @@ export const navbar: NavbarConfig = [
           '/pages/web/小程序.md',
           '/pages/web/ReactNote.md',
           '/pages/web/VueNote.md',
-          '/pages/web/Vue&TypeScript.md',
+          '/pages/web/VueCLI&TypeScript.md',
         ],
       },
       {
@@ -40,17 +40,11 @@ export const navbar: NavbarConfig = [
   },
   {
     text: 'Linux',
-    children: [
-      '/pages/linux/Docker.md',
-      '/pages/linux/LinuxVPS.md',
-    ],
+    children: ['/pages/linux/Docker.md', '/pages/linux/LinuxVPS.md'],
   },
   {
     text: '数据库',
-    children: [
-      '/pages/db/MongoDB.md',
-      '/pages/db/Mysql.md',
-    ],
+    children: ['/pages/db/MongoDB.md', '/pages/db/Mysql.md'],
   },
   {
     text: '软件配置',
