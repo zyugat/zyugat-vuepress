@@ -49,9 +49,9 @@ export const navbar: NavbarConfig = [
   {
     text: '软件配置',
     children: [
-      '/pages/config/前端自用配置.md',
-      '/pages/config/VScode.md',
-      '/pages/config/Webstorm.md',
+      '/pages/userConfig/前端自用配置.md',
+      '/pages/userConfig/VScode.md',
+      '/pages/userConfig/Webstorm.md',
     ],
   },
   {
