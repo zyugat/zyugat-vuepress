@@ -14,10 +14,17 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/prettier'],
+  extends: [
+    'plugin:vue/essential',
+    'eslint:recommended',
+    '@vue/eslint-config-typescript/recommended',
+    // '@vue/eslint-config-prettier',
+    // '@vue/typescript/recommended',
+  ],
   parserOptions: {
-    parser: 'babel-eslint',
+    ecmaVersion: 2020,
   },
+  // off warn error
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -27,6 +34,15 @@ module.exports = {
     quotes: ['error', 'single'],
     // 行尾分号是否加分号,默认加 always,不加never
     semi: ['warn', 'never'],
+
+    // 禁止 types
+    '@typescript-eslint/ban-types': 'warn',
+    // 禁止 require()
+    '@typescript-eslint/no-var-requires': 'off',
+    // 禁止 any
+    '@typescript-eslint/no-explicit-any': ['off'],
+    // template 必须由一个根元素包含
+    'vue/no-multiple-template-root':'off'
   },
 }
 ```
@@ -37,7 +53,6 @@ module.exports = {
 
 ```json
 {
-  "tabWidth": 2,
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
@@ -53,64 +68,92 @@ module.exports = {
 {
   "compilerOptions": {
     "target": "esnext",
-    "useDefineForClassFields": true,
     "module": "esnext",
-    "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
     "baseUrl": ".",
+    "types": [
+      "webpack-env"
+    ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
-    "importHelpers": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
 ```
 
 
 
-## vite.config.ts
+## CLI
 
-```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
+````
+yarn add -D @vue/eslint-config-prettier standard babel-eslint
+````
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-      apis: path.resolve(__dirname, 'src/apis'),
-      components: path.resolve(__dirname, 'src/components'),
-      dirs: path.resolve(__dirname, 'src/directives'),
-      hooks: path.resolve(__dirname, 'src/hooks'),
-      layouts: path.resolve(__dirname, 'src/layouts'),
-      plugins: path.resolve(__dirname, 'src/plugins'),
-      styles: path.resolve(__dirname, 'src/styles'),
-      typings: path.resolve(__dirname, 'src/typings'),
-      utils: path.resolve(__dirname, 'src/utils'),
-      views: path.resolve(__dirname, 'src/views'),
-    },
+```json
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "auto": "prettier --write src/**/*.{html,js,jsx,ts,tsx,json,css,scss,less,vue} & eslint --fix --ext src/**/*.{html,js,jsx,ts,tsx,json,css,scss,less,vue}"
+  },
+```
+
+
+
+vue.config.js
+
+```js
+const { defineConfig } = require('@vue/cli-service')
+const path = require('path')
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+module.exports = defineConfig({
+  transpileDependencies: true,
+  chainWebpack: config => {
+    // 修改文件引入自定义路径
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('style', resolve('src/assets/style'))
+      .set('components', resolve('src/components'))
+      .set('views', resolve('src/views'))
+      .set('apis', resolve('src/apis'))
   },
 })
 ```
 
 
 
-## package.json
-
-### vite
+## vite
 
 ```sh
-yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier @types/node vuex@next vue-router@4 -D
+yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-vue @vue/eslint-config-prettier @types/node vuex@next vue-router@4 -D
 ```
 
 ```json
@@ -141,5 +184,33 @@ yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier @t
     "vuex": "^4.0.2"
   }
 }
+```
+
+
+
+```JS
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      apis: path.resolve(__dirname, 'src/apis'),
+      components: path.resolve(__dirname, 'src/components'),
+      dirs: path.resolve(__dirname, 'src/directives'),
+      hooks: path.resolve(__dirname, 'src/hooks'),
+      layouts: path.resolve(__dirname, 'src/layouts'),
+      plugins: path.resolve(__dirname, 'src/plugins'),
+      styles: path.resolve(__dirname, 'src/styles'),
+      typings: path.resolve(__dirname, 'src/typings'),
+      utils: path.resolve(__dirname, 'src/utils'),
+      views: path.resolve(__dirname, 'src/views'),
+    },
+  },
+})
 ```
 

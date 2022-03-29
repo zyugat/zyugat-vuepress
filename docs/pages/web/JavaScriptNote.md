@@ -2145,47 +2145,6 @@ iterator.next();
 
 
 
-模块化的优势：防止命名冲突、代码复用、高维护性
-
-三种包暴露方式
-
-```javascript
-// 第一种：分别暴露
-export let school = '尚硅谷';
-
-// 第二种：统一暴露
-let school = '尚硅谷';
-function findJob(){
-    console.log("我们可以帮助你找工作!!");
-}
-export {school, findJob};
-
-// 第三种：默认暴露
-export default {
-    school: 'ATGUIGU',
-    change: function(){
-        console.log("我们可以改变你!!");
-    }
-}
-```
-
-三种包引入方式
-
-```javascript
-// 第一种：通用引入
-import * as m1 from "./src/javascript/m1.javascript";
-
-// 第二种：解构赋值
-import {school, teach} from "./src/javascript/m1.javascript";
-import {school as guigu, findJob} from "./src/javascript/m2.javascript";
-import {default as m3} from "./src/javascript/m3.javascript";
-
-// 第三种：简便形式针对默认暴露
-import m3 from "./src/javascript/m3.javascript";
-```
-
-
-
 - `Array.prototype.includes`
 - 检查数组中是否包含某个元素，返回布尔值
 - 指数操作符
@@ -2293,5 +2252,46 @@ globalThis：永远指向全局对象，Windows对象
 
 
 
-## 补
+## 导入导出
+
+模块化的优势：防止命名冲突、代码复用、高维护性
+
+三种包暴露方式
+
+```javascript
+// 第一种：分别暴露
+export let school = '尚硅谷';
+
+// 第二种：统一暴露
+let school = '尚硅谷';
+function findJob(){
+    console.log("我们可以帮助你找工作!!");
+}
+export {school, findJob};
+
+// 第三种：默认暴露
+export default {
+    school: 'ATGUIGU',
+    change: function(){
+        console.log("我们可以改变你!!");
+    }
+}
+```
+
+三种包引入方式
+
+```javascript
+// 第一种：通用引入
+import * as m1 from "./src/javascript/m1.javascript";
+
+// 第二种：解构赋值
+import {school, teach} from "./src/javascript/m1.javascript";
+import {school as guigu, findJob} from "./src/javascript/m2.javascript";
+import {default as m3} from "./src/javascript/m3.javascript";
+
+// 第三种：简便形式针对默认暴露
+import m3 from "./src/javascript/m3.javascript";
+```
+
+
 

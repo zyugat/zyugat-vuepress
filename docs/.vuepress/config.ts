@@ -14,6 +14,13 @@ export default defineUserConfig<DefaultThemeOptions>({
 
   head: [
     [
+      'link',
+      {
+        rel: 'icon',
+        href: 'https://img.zyugat.cn/zyuimg/2022-03-14_a694cf3fa809e.ico',
+      },
+    ],
+    [
       'script',
       {},
       `

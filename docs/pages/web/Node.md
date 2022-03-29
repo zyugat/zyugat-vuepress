@@ -1155,7 +1155,7 @@ app.listen(3000, () => {
 
 
 
-### 脚手架
+## 脚手架
 
 ```shell
 npm i -g koa-generator
@@ -1198,4 +1198,179 @@ app.use(users.routes(), users.allowedMethods())
 ```
 
 
+
+### TS
+
+这里使用这个项目初始化：https://github.com/unix/koa-ts
+
+```sh
+npm init koa-ts
+
+yarn
+
+# 迁移数据库模型
+prisma migrate dev
+
+yarn dev
+```
+
+
+
+### prisma
+
+https://prisma.yoga/
+
+初始化
+
+```sh
+npx prisma init
+
+npx prisma generate
+```
+
+
+
+配置：`prisma/schema.prisma`
+
+```json
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+```
+
+
+
+格式化：`prisma format`
+
+数据库模型迁移
+
+```sh
+prisma migrate
+```
+
+
+
+
+
+检查数据库：
+
+```sh
+npx prisma db pull
+```
+
+
+
+**为 Prisma 模型设置别名**
+
+- 使用`@map`(用于字段名称)和`@@map`(用于模型名称)指向底层表和列。
+
+```json
+model MyUser {
+  userId    Int     @id @default(autoincrement()) @map("user_id")
+  firstName String? @map("first_name")
+  lastName  String  @unique @map("last_name")
+
+  @@map("my_user")
+}
+```
+
+处理后Prisma客户端API->
+
+```ts
+const user = await prisma.myUser.create({
+  data: {
+    firstName: 'Alice',
+    lastName: 'Smith',
+  },
+})
+```
+
+
+
+安装 Prisma Client
+
+```sh
+yarn add @prisma/client
+```
+
+
+
+查询表
+
+```ts
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  const allUsers = await prisma.user.findMany()
+  console.log(allUsers)
+}
+
+main()
+  .catch((e) => {
+    throw e
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
+```
+
+
+
+插入
+
+```ts
+async function main() {
+  await prisma.user.create({
+    data: {
+      name: 'Alice',
+      email: 'alice@prisma.io',
+      posts: {
+        create: { title: 'Hello World' },
+      },
+      profile: {
+        create: { bio: 'I like turtles' },
+      },
+    },
+  })
+
+  const allUsers = await prisma.user.findMany({
+    include: {
+      posts: true,
+      profile: true,
+    },
+  })
+  console.dir(allUsers, { depth: null })
+}
+```
+
+
+
+更新数据
+
+```ts
+await prisma.user.create({
+  where: {
+    name: 'Alice'
+  },
+  data: {
+    name: 'NEW'
+  }
+})
+```
+
+
+
+只查询ID和NAME
+
+```ts
+prisma.user.findMany({
+  select: {
+    id: true,
+    name: true
+  }
+})
+```
 

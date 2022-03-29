@@ -99,7 +99,7 @@
 单选框如何判断被选中：
 
 ```html
-<input type="radio" v-model="pick" v-bin:value="a" />
+<input type="radio" v-model="pick" :value="a" />
 // 当选中时
 vm.pick === vm.a
 ```
@@ -236,8 +236,6 @@ keyup.*
 ```
 
 ![image-20211116165554876](https://img-blog.csdnimg.cn/img_convert/1d478d66eebfd2065ef910411909a225.png)
-
-`v-for 与 v-if `一同使用：因if优先级比for高，故无法访问for中变量。
 
 
 
@@ -447,9 +445,9 @@ unwatch = vm.$watch(
 
 ![lifecycle](http://img.zyugat.cn/zyuimg/2021-11-04_4ac4594b73f24.png)
 
-`beforeCreate`：实例创建前
+`beforeCreate`：实例初始化后
 
-`created`：实例创建后
+`created`：实例创建完成后
 
 `beforeMount`：挂载前
 

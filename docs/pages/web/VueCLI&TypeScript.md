@@ -6,11 +6,33 @@
 
 ```bash
 npm install -g @vue/cli
+# OR
+yarn global add @vue/cli
+
 vue create vue-test
 vue create vue-test
 cd vue-test
 npm run serve
 ```
+
+
+
+```sh
+Vue CLI v5.0.4
+? Please pick a preset: Manually select features
+? Check the features needed for your project: Babel, TS, Router, Vuex, CSS Pre-processors, Linter
+? Choose a version of Vue.js that you want to start the project with 3.x
+? Use class-style component syntax? No
+? Use Babel alongside TypeScript (required for modern mode, auto-detected polyfills, transpiling JSX)? Yes
+? Use history mode for router? (Requires proper server setup for index fallback in production) Yes
+? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Sass/SCSS (with dart-sass)
+? Pick a linter / formatter config: Prettier
+? Pick additional lint features: Lint on save
+? Where do you prefer placing config for Babel, ESLint, etc.? In package.json
+? Save this as a preset for future projects? (y/N)
+```
+
+
 
 
 
@@ -28,7 +50,7 @@ npm run dev
 ```
 
 ```bash
-yarn create vite <project-name> --template vue
+yarn create vite <project-name> --template vue-ts
 cd <project-name>
 yarn
 yarn dev
@@ -1866,7 +1888,7 @@ p {
 ## 项目
 
 ```sh
-yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier @types/node vuex@next vue-router@4 -D
+yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-vue @types/node vuex@next vue-router@4 -D
 ```
 
 
@@ -1906,22 +1928,33 @@ yarn add eslint prettier-eslint eslint-config-prettier eslint-plugin-prettier @t
 > 目录：
 >
 > - src
+>   - api
+>   - assets
+>     - fonts
+>     - scss
 >   - components 组件
->   - hooks 方法接口
->     - 操作
->   - store
->   - typings 数据接口
->     - 定义数据集的接口
+>   - store Vuex
+>   - typings 声明
+>   - utils 封装的方法
+>   - views 视图
 >
 > 
 
 
 
-hooks：
+utils：
 
 方法 useTodo 保存所有操作数据的方法、设置了 Watch 监听数据变化，如果发生变化则 保存至缓存。
 
+要记住，里面的方法最好包含注释提示
 
+```ts
+/**
+ * 获取数据类型
+ * @param value
+ * @return "String","Object","Array"...
+ */
+```
 
 
 

@@ -46,7 +46,7 @@ node hello.js
 
 当限定对象值类型时，可以声明为对象、数组、原型对象。
 
-```ts
+```typescript
 // 定义基本类型
 const num:number = 100
 const str:string = 'zyugat'
@@ -2032,6 +2032,18 @@ declare function fn(x: any): any;
 
 var myElem: HTMLDivElement;
 var x = fn(myElem); // x: string, :)
+```
+
+
+
+### 注释
+
+```ts
+/**
+ * 获取数据类型
+ * @param {any} value 需要判断的值
+ * @return "String","Object","Array"...
+ */
 ```
 
 

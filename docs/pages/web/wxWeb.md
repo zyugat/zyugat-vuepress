@@ -249,6 +249,16 @@ data-自定义属性名="{{要传递的值}}"
 
 - 组件的使用
 
+在子组件的 json文件中，将该文件声明为组件
+
+````
+{
+ "component": true
+}
+````
+
+
+
 打开`index.json`，找到`"usingComponents": {}`，在里面填写组件路径
 
 ```javascriptON

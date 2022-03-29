@@ -1192,7 +1192,21 @@ crontab -e
 /etc/init.d/cron restart
 ```
 
+> 7、安装PHP 8.1
+>
+> 
 
+```
+# 添加 ondrej/php PPA
+apt install apt-transport-https lsb-release ca-certificates wget -y
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg 
+sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+apt update
+
+apt search php8
+
+apt install php8.1 -y
+```
 
 
 
