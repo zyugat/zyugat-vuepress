@@ -17,7 +17,7 @@ features:
     details: 喜欢学习新技术，有良好的文档编写和代码书写规范。
 footerHtml: true
 footer:
-  Powered by <a href="https://github.com/zyugat" target="_blank"> zyugat </a> 粤ICP备2021116118号<br>
+  Powered by <a href="https://github.com/zyugat" target="_blank"> zyugat </a> <br> <a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2021116118号</a><br>
   Copyright © 2020-2021 zyugat All Rights Reserved.
   <br>
   联系邮箱：zyugatcn@gmail.com
