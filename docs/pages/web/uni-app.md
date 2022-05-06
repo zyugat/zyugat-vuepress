@@ -424,7 +424,7 @@ formReset: function(e) {
 </view>
 ```
 
-<img src="C:\Users\zyugat\AppData\Roaming\Typora\typora-user-images\image-20220421171054418.png" alt="image-20220421171054418" style="zoom:67%;" />
+<img src="http://img.zyugat.cn/zyuimg/2022-04-21_9e41be616539f.png" alt="image-20220421171054418" style="zoom:67%;" />
 
 - 多列选择器
 - `mode = multiSelector`
