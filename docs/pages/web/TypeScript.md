@@ -165,6 +165,10 @@ obj.show()
 
 
 
+
+
+
+
 ### unknown
 
 `unknown`：类型也是顶部类型这与 any 一样。**unknown 赋值时要求明确类型，unknown 需要明确类型后赋值，any 则不需要。**

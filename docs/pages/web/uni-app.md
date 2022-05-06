@@ -36,7 +36,7 @@
 
 
 
-## 配置
+## 全局配置pages.json
 
 具体参考：https://uniapp.dcloud.io/collocation/pages
 
@@ -60,7 +60,54 @@
 
 
 
-`globalStyle`：全局配置，可以修改**导航栏**的 背景颜色、文字内容和样式、导航栏图片、**下拉窗口背景颜色和样式和 loading 样式**、是否开启下拉刷新、页面上拉事件、窗口显示的动画效果等。
+### pages
+
+`pages`：页面配置。
+
+```json
+"pages": [
+  {
+    // 路径
+    "path": "pages/list/message",
+    // 页面窗口表现
+    "style": {
+      // 标题
+      "navigationBarTitleText": "信息页",
+      // 标题图片地址,用于替换标题文字
+      "titleImage":'string',
+      // 标题透明设置
+      "transparentTitle":'always 一直透明 / auto 滑动自适应 / none 不透明',
+      // 标题背景颜色
+      "navigationBarBackgroundColor": "#007AFF",
+      // 上下滚动,为true时不能滚动,默认false
+      "disableScroll":'false',
+      
+      // 是否开启下拉刷新
+      "enablePullDownRefresh": false,
+      // 下拉刷新样式颜色
+      "backgroundTextStyle": "dark/light",
+      
+      // 页面上拉触底事件的触发距离
+      "onReachBottomDistance": 200,
+      
+      // 是否禁用滑动返回
+      "disableSwipeBack": false
+      // 编译到H5时的样式
+      "h5": {
+        "pullToRefresh": {
+          "color": "#7D26CD"
+        }
+      }
+    }
+  }
+]
+```
+
+
+
+### globalStyle
+
+`globalStyle`：全局CSS配置，可以修改**导航栏**的 背景颜色、文字内容和样式、导航栏图片、**下拉窗口背景颜色和样式和 loading 样式**、是否开启下拉刷新、页面上拉事件、窗口显示的动画效果等。
 
 ```json
 "globalStyle": {
@@ -81,79 +128,85 @@
 
 
 
-`pages`：页面配置。
-
-```json
-"pages": [
-  {
-    "path": "pages/list/list",
-    "style": {
-      // 开启下拉刷新
-      "enablePullDownRefresh": true,
-      // 页面上拉触底事件触发时距页面底部距离，单位只支持px。
-      "onReachBottomDistance": 200
-    }
-  },
-  {
-    "path": "pages/message/message",
-    "style": {
-      // 标题
-      "navigationBarTitleText": "信息页",
-      // 背景颜色
-      "navigationBarBackgroundColor": "#007AFF",
-      // 编译到H5时的样式
-      "h5": {
-        "pullToRefresh": {
-          "color": "#7D26CD"
-        }
-      }
-    }
-  },
-]
-```
 
 
+### tabbar
 
-`tabBar`：导航栏，文字颜色、选中颜色、上边框颜色、列表、文字大小、图片和文字间距、高度。**list中最多只能配置5个tab。**
-
-**如果应用是一个多 tab 应用，可以通过 tabBar 配置项指定一级导航栏，以及 tab 切换时显示的对应页。**
+list中最多只能配置5个tab。
 
 ```json
 "tabBar": {
+  // 文字颜色
   "color": "#A0522D",
   // tab 上的文字选中时的颜色
   "selectedColor": "#B3EE3A",
-  "backgroundColor": "#fff",
+  // 背景颜色
+  "backgroundColor": "#007AFF",
   // 边框颜色
   "borderStyle": "white",
+  // 导航栏的位置
   // 可选值 bottom、top
   "position": "bottom",
+  // 字体大小
+  "fontSize":"10px",
+  "iconWidth":"24px",
+  // 图标和文字的间距
+  "spacing":"3px",
+  // tabBar 默认高度
+  "height":"50px",
   "list": [{
-      "text": "首页",
-      "pagePath": "pages/index/index",
-      "iconPath": "static/tabs/home.png",
-      // 选中时的图片路径
-      "selectedIconPath": "static/tabs/home-active.png"
-    }
-  ]
+    "text": "首页",
+    "pagePath": "pages/index/index",
+    "iconPath": "static/tabs/home.png",
+    "selectedIconPath": "static/tabs/home-active.png",
+    // 是否显示
+    "visible": true
+  },
 }
 ```
 
 
 
-
-
 ## 组件
 
-和微信小程序一样。
+### 基础内容
 
-### text
+- ` progress`
+  - 进度条
+  - `percent`：0-100，Number
+  - `show-info`：右边显示百分比数字，默认false
+  - `font-size`：右边百分比字体大小，默认16
+  - `stroke-width`：进度条宽度，默认6
+  - `activeColor`：已选的颜色。`backgroundColor`：未选的颜色
+    - 左边是已选，右边是未选。
+    - ![image-20220421150839461](http://img.zyugat.cn/zyuimg/2022-04-21_407bd0844b9a5.png)
+  - `active`：进度条动画，默认false
+  - `active-mode`：backwards: 动画从头播；forwards：动画从上次结束点接着播
+  - `duration`：每增加1%所需的毫秒，默认30
+  - `@activeend`：完成事件,微信小程序、京东小程序
 
-|    属性    |  类型   | 默认值 | 必填 |                      说明                      |
-| :--------: | :-----: | :----: | :--: | :--------------------------------------------: |
-| selectable | boolean | false  |  否  |                  文本是否可选                  |
-|   space    | string  |   .    |  否  | 显示连续空格，可选参数：`ensp`、`emsp`、`nbsp` |
-|   decode   | boolean | false  |  否  |                    是否解码                    |
+```html
+<view class="progress-box">
+  <progress percent="80" activeColor="red" active stroke-width="8" />
+</view>
+```
+
+
+
+
+
+- **`text`**
+  - 文本组件
+  - 支持 `\n` 方式换行。
+  - 如果使用 `<span>` 组件编译时会被转换为 `<text>`。
+
+
+|    属性     |  类型   | 默认值 | 必填 |                             说明                             |                     |
+| :---------: | :-----: | :----: | :--: | :----------------------------------------------------------: | ------------------- |
+| selectable  | boolean | false  |  否  |                         文本是否可选                         | App、H5、快手小程序 |
+| user-select | boolean | false  |  否  |                         文本是否可选                         | 微信小程序          |
+|    space    | string  |   .    |  否  | 显示连续空格，可选参数：`ensp`中文字符空格一半大小、`emsp`中文字符空格大小、`nbsp`根据字体设置的空格大小 | App、H5、微信小程序 |
+|   decode    | boolean | false  |  否  |                           是否解码                           | App、H5、微信小程序 |
 
 ```html
 <text selectable='true'>长安文本复制</text>
@@ -161,11 +214,61 @@
 <text decode='true'>&nbsp; &lt; &gt; &amp; &apos; &ensp; &emsp;</text>
 ```
 
+- **`rich-text`**
+  - 富文本，支持默认事件，包括：click、touchstart、touchmove、touchcancel、touchend、longpress。
+  - `nodes`：节点列表，Array/String，[]，数组
+    - name：标签名称
+    - attrs：属性，Object
+      - 全局支持 class 和 style 属性，**不支持 id 属性**。
+    - children：子节点列表。
+  - `space`：显示连续空格，string
+  - `selectable`：是否可以长安选中，默认true
+  - `@itemclick`：点击事件,只支持a、img标签。返回当前node信息 `event.detail={node}`
+
+```html
+<template>
+	<view class="content">
+		<page-head :title="title"></page-head>
+		<view class="uni-padding-wrap">
+			<view class="uni-title uni-common-mt">
+				数组类型
+				<text>\nnodes属性为Array</text>
+			</view>
+			<view class="uni-common-mt" style="background:#FFF; padding:20rpx;">
+				<rich-text :nodes="nodes"></rich-text>
+			</view>
+		</view>
+	</view>
+</template>
+```
+
+```js
+data() {
+  return {
+    title: 'Hello',
+    nodes: [{
+      name: 'div',
+      attrs: {
+        class: 'div-class',
+        style: 'line-height: 60px; color: red; text-align:center;'
+      },
+      children: [{
+        type: 'text',
+        text: 'Hello&nbsp;uni-app!'
+      }]
+    }],
+  }
+},
+```
+
+![image-20220421145602031](http://img.zyugat.cn/zyuimg/2022-04-21_b60a3ebb3bf63.png)
 
 
-### view
 
-视图容器
+### 视图
+
+- **`view`**
+  - 
 
 | 属性名                 | 类型    | 默认值 | 说明                                                         |
 | :--------------------- | :------ | :----- | :----------------------------------------------------------- |
@@ -178,59 +281,268 @@
 <view class='box1' hover-class='active' hover-stop-propagation :hover-start-time="2000" :hover-stay-time='2000'>
 ```
 
-
-
-### button
-
-|  属性名  |  类型   | 默认值  |           说明           |
-| :------: | :-----: | :-----: | :----------------------: |
-|   size   | String  | default |        按钮的大小        |
-|   type   | String  | default |      按钮的样式类型      |
-|  plain   | Boolean |  false  | 按钮是否镂空，背景色透明 |
-| disabled | Boolean |  false  |         是否按钮         |
-| loading  | Boolean |  false  | 名称是否带 loading t图标 |
-
-`button` 组件默认独占一行，设置 `size` 为 `mini` 时可以在一行显示多个
+- `scroll-view`
+  - 区域滚动
+  - `scroll-x`、`scroll-y`：允许横向/纵向滚动（必须要设置的
+  - `@scrolltoupper`和`@scrolltolower`：滚动到顶部或底部时触发。
+  - `@scroll`：滚动时触发
+  - `upper-threshold`和`lower-threshold`：距离顶部或右边多少时触发`scrolltoupper `/`scrolltolower`事件
 
 
 
-### image
+### 表单
 
-| 属性名 | 类型   | 默认值        | 说明                 | 平台差异说明 |
-| ------ | ------ | ------------- | -------------------- | ------------ |
-| src    | String |               | 图片资源地址         |              |
-| mode   | String | 'scaleToFill' | 图片裁剪、缩放的模式 |              |
+- form
+  - `@submit`、`@reset`
+    - 携带 form 中的数据触发 submit 事件，`event.detail = {value : {'name': 'value'} , formId: ''}`
+    - report-submit 为 true 时才会返回 formId
 
-页面结构复杂，css样式太多的情况，使用 image 可能导致样式生效较慢，出现 “闪一下” 的情况，此时设置 `image{will-change: transform}` ,可优化此问题。
+```html
+<form @submit="formSubmit" @reset="formReset">
+  <view class="uni-form-item uni-column">
+    <view class="title">Form</view>
+    <radio-group name="radio">
+      <label>
+        <radio value="radio1" /><text>选项一</text>
+      </label>
+      <label>
+        <radio value="radio2" /><text>选项二</text>
+      </label>
+    </radio-group>
+  </view>
+  <view class="uni-btn-v">
+    <button form-type="submit">Submit</button>
+    <button type="default" form-type="reset">Reset</button>
+  </view>
+</form>
+```
+
+```js
+formSubmit: function(e) {
+  console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
+  var formdata = e.detail.value
+  uni.showModal({
+    content: '表单数据内容：' + JSON.stringify(formdata),
+    showCancel: false
+  });
+},
+formReset: function(e) {
+  console.log('清空数据')
+}
+```
+
+![image-20220421165654277](http://img.zyugat.cn/zyuimg/2022-04-21_6acdb4b707a04.png)
 
 
 
-## uni的特性
+- `textarea`：多行输入，自己看文档
+- Button
+  - 默认独占一行，设置 `size` 为 `mini` 时可以在一行显示多个
 
-### 生命周期
+|  属性名   |  类型   | 默认值  |                             说明                             |
+| :-------: | :-----: | :-----: | :----------------------------------------------------------: |
+|   size    | String  | default |                          按钮的大小                          |
+|   type    | String  | default |                        按钮的样式类型                        |
+|   plain   | Boolean |  false  |                   按钮是否镂空，背景色透明                   |
+| disabled  | Boolean |  false  |                           是否按钮                           |
+|  loading  | Boolean |  false  |                   名称是否带 loading t图标                   |
+| form-type | String  |         | 用于 `<form>` 组件，点击分别会触发 `<form>` 组件的 submit/reset 事件 |
 
-生命周期的概念：一个对象从创建、运行、销毁的整个过程被成为生命周期。
+- checkbox
+  - 多选
 
-生命周期函数：在生命周期中每个阶段会伴随着每一个函数的触发，这些函数被称为生命周期函数
+```html
+<view>
+  <checkbox-group>
+    <label>
+      <checkbox value="cb" checked="true" />选中
+    </label>
+    <label>
+      <checkbox value="cb" />未选中
+    </label>
+  </checkbox-group>
+</view>
+```
 
-**应用生命周期**
+- input
 
-| 函数名   | 说明                                           |
-| -------- | ---------------------------------------------- |
-| onLaunch | 当`uni-app` 初始化完成时触发（全局只触发一次） |
-| onShow   | 当 `uni-app` 启动，或从后台进入前台显示        |
-| onHide   | 当 `uni-app` 从前台进入后台                    |
-| onError  | 当 `uni-app` 报错时触发                        |
+  - 他只是一个输入框，如果需要其他功能uni-app有单独的组件或API：[radio组件 (opens new window)](https://uniapp.dcloud.io/component/radio)、[checkbox组件 (opens new window)](https://uniapp.dcloud.io/component/checkbox)、[时间选择 (opens new window)](https://uniapp.dcloud.io/component/picker?id=时间选择器)、[日期选择 (opens new window)](https://uniapp.dcloud.io/component/picker?id=日期选择器)、[图片选择 (opens new window)](https://uniapp.dcloud.io/api/media/image?id=chooseimage)、[视频选择 (opens new window)](https://uniapp.dcloud.io/api/media/video?id=choosevideo)、[多媒体文件选择(含图片视频) (opens new window)](https://uniapp.dcloud.io/api/media/video?id=choosemedia)、[通用文件选择 (opens new window)](https://uniapp.dcloud.io/api/media/file?id=choosefile)。
 
-**页面生命周期**
+- label
 
-| 函数名   | 说明                                                         | 平台差异说明 | 最低版本 |
-| -------- | ------------------------------------------------------------ | ------------ | -------- |
-| onLoad   | 监听页面加载，其参数为上个页面传递的数据，参数类型为Object（用于页面传参），参考[示例](https://uniapp.dcloud.io/api/router?id=navigateto) |              |          |
-| onShow   | 监听页面显示。页面每次出现在屏幕上都触发，包括从下级页面点返回露出当前页面 |              |          |
-| onReady  | 监听页面初次渲染完成。                                       |              |          |
-| onHide   | 监听页面隐藏                                                 |              |          |
-| onUnload | 监听页面卸载                                                 |              |          |
+  - ```html
+    <checkbox-group class="uni-list" @change="checkboxChange">
+      <label class="uni-list-cell uni-list-cell-pd" v-for="item in checkboxItems" :key="item.name">
+        <view>
+          <checkbox :value="item.name" :checked="item.checked"></checkbox>
+        </view>
+        <view>{{item.value}}</view>
+      </label>
+    </checkbox-group>
+    ```
+
+- slider
+  - 滑动选择器
+  - min、start、step：最小、最大、步长
+  - value：当前取值
+  - show-value：是否隐藏，默认false
+  - `block-size`：大小，默认28
+  - `block-color`：块颜色
+  - `@change`、`@changing`：拖动后、拖动时
+  - `activeColor`：左侧颜色、`backgroundColor`：右侧颜色
+
+![image-20220421172905275](http://img.zyugat.cn/zyuimg/2022-04-21_292999eccf659.png)
+
+- switch
+  - 开关
+  - checked：是否选中，默认false
+  - disabled：是否禁用，默认false
+  - type：样式，switch/checkbox
+  - `color`、`@change`
+
+
+
+
+
+- picker
+  - 从底部弹起的滚动选择器。支持五种选择器，通过mode来区分，分别是普通选择器，多列选择器，时间选择器，日期选择器，省市区选择器，默认是普通选择器。
+
+- 普通选择器
+- `mode = selector`
+  - `range`：值
+  - `value`：当前选择第几个（index就可以，下标从0开始
+  - `disabled`：是否禁用
+  - `@change`：发生改变时
+  - `@cancel`：取消选择时触发
+  - `disabled`：是否禁用
+
+```html
+<view class="uni-list-cell-db">
+  <picker @change="bindPickerChange" :value="index" :range="array">
+    <view class="uni-input">{{array[index]}}</view>
+  </picker>
+</view>
+```
+
+<img src="C:\Users\zyugat\AppData\Roaming\Typora\typora-user-images\image-20220421171054418.png" alt="image-20220421171054418" style="zoom:67%;" />
+
+- 多列选择器
+- `mode = multiSelector`
+  - `@columnchange`：当某一列触发时，就会返回`event.detail = {column: column, value: value}`
+  - 其余和普通一样
+
+
+
+![image-20220421171412706](http://img.zyugat.cn/zyuimg/2022-04-21_d3458867086c3.png)
+
+- 时间选择器
+- `mode = time`
+  - `value`：选中的时间，格式`hh:mm`
+  - `start`、`end`：开始和结束时间格式均为`hh:mm`
+  - `@change`：发生改变时
+  - `@cancel`：取消选择时触发
+  - `disabled`：是否禁用
+
+```html
+<view class="uni-list-cell-db">
+  <picker mode="time" :value="time" start="09:01" end="21:01" @change="bindTimeChange">
+    <view class="uni-input">{{time}}</view>
+  </picker>
+</view>
+```
+
+- 日期选择器
+- `mode = date`
+  - value、start、end：字符串格式为"YYYY-MM-DD"
+  - fields：日期粒度，默认day
+  - `@change`：发生改变时
+  - `@cancel`：取消选择时触发
+  - `disabled`：是否禁用
+
+```html
+<view class="uni-title uni-common-pl">时间选择器</view>
+<view class="uni-list">
+  <view class="uni-list-cell">
+    <view class="uni-list-cell-left">
+      当前选择
+    </view>
+    <view class="uni-list-cell-db">
+      <picker mode="time" :value="time" start="09:01" end="21:01" @change="bindTimeChange">
+        <view class="uni-input">{{time}}</view>
+      </picker>
+    </view>
+  </view>
+</view>
+```
+
+```js
+export default {
+  data() {
+    const currentDate = this.getDate({
+      format: true
+    })
+    return {
+      date: currentDate,
+      time: '12:01'
+    }
+  },
+  computed: {
+    startDate() {
+      return this.getDate('start');
+    },
+    endDate() {
+      return this.getDate('end');
+    }
+  },
+  methods: {
+    getDate(type) {
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+
+      if (type === 'start') {
+          year = year - 60;
+      } else if (type === 'end') {
+          year = year + 2;
+      }
+      month = month > 9 ? month : '0' + month;
+      day = day > 9 ? day : '0' + day;
+      return `${year}-${month}-${day}`;
+    }
+  }
+}
+```
+
+
+
+- 省市区选择器
+- `mode = region`
+
+
+
+### 页面跳转
+
+- `navigator`
+
+  - 理解成A标签即可
+  - `url`：地址
+
+  - `open-type`：跳转方式
+
+  - `hover-class`：点击时样式类
+
+```html
+<navigator url="/pages/list/list" open-type="navigate" hover-class="navigator-hover">
+  <button type="default">跳转到list</button>
+</navigator>
+```
+
+
+
+### Vue组件
+
+> component、template、transition、transition-group、keep-alive、slot
 
 **组件生命周期**
 
@@ -246,30 +558,97 @@
 
 
 
+### 页面通信
+
+> `uni.$emit`、 `uni.$on` 、 `uni.$once` 、`uni.$off`
+
+- 监听事件
+  - `uni.$on`
+- 移除监听
+  - `uni.$off`
+- 触发监听
+  - `uni.$emit`
+- 一次性的事件，直接使用 `uni.$once` 监听，不需要移除。
+
+- 1、
+  - **假设场景：进入一个app需要在页面登录，登陆完后就返回到页面。**
+
+```js
+// 我的页面  
+onLoad(){  
+  // 进入页面,监听事件  
+  uni.$on('login',(usnerinfo)=>{  
+    this.usnerinfo = usnerinfo;  
+  })  
+},  
+onUnload() {  
+  // 离开页面后,移除监听事件  
+  uni.$off('login');  
+},
+```
+
+- 2、
+  - 进入登陆页面，触发事件
+  - 使用 `uni.$emit` 触发事件后，对应的 `uni.$on` 就会监听到事件触发，在回调中去执行相关的逻辑。
+
+```js
+// 登陆页面  
+uni.$emit('login', {  
+                avatarUrl: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/nav_menu/10.jpg',  
+                token: 'user123456',  
+                userName: 'unier',  
+                login: true  
+            });
+```
+
+
+
+## uni的特性
+
+### 生命周期
+
+**应用生命周期**：只能在App.vue里监听应用的生命周期
+
+| 函数名               | 说明                                                         |
+| -------------------- | ------------------------------------------------------------ |
+| onLaunch             | 当`uni-app` 初始化完成时触发（全局只触发一次）               |
+| onShow               | 当 `uni-app` 启动，或从后台进入前台显示                      |
+| onHide               | 当 `uni-app` 从前台进入后台                                  |
+| onError              | 当 `uni-app` 报错时触发                                      |
+| onUniNViewMessage    | 对 `nvue` 页面发送的数据进行监听，可参考 [nvue 向 vue 通讯(opens new window)](https://uniapp.dcloud.io/tutorial/nvue-api?id=communication) |
+| onUnhandledRejection | 对未处理的 Promise 拒绝事件监听函数（2.8.1+）                |
+| onPageNotFound       | 页面不存在监听函数                                           |
+| onThemeChange        | 监听系统主题变化                                             |
+
+**页面生命周期**：
+
+| 函数名            | 说明                                                         | 平台差异说明                | 最低版本 |
+| ----------------- | ------------------------------------------------------------ | --------------------------- | -------- |
+| onInit            | 监听页面初始化，其参数同 onLoad 参数，为上个页面传递的数据，参数类型为 Object（用于页面传参），触发时机早于 onLoad | 百度小程序                  | 3.1.0+   |
+| onLoad            | 监听页面加载，其参数为上个页面传递的数据，参数类型为 Object（用于页面传参），参考[示例](https://uniapp.dcloud.io/api/router#navigateto) |                             |          |
+| onShow            | 监听页面显示。页面每次出现在屏幕上都触发，包括从下级页面点返回露出当前页面 |                             |          |
+| onReady           | 监听页面初次渲染完成。注意如果渲染速度快，会在页面进入动画完成前触发 |                             |          |
+| onHide            | 监听页面隐藏                                                 |                             |          |
+| onResize          | 监听窗口尺寸变化                                             | App、微信小程序、快手小程序 |          |
+| onPullDownRefresh | 监听用户下拉动作，一般用于下拉刷新，参考[示例](https://uniapp.dcloud.io/api/ui/pulldown) |                             |          |
+| onReachBottom     | 页面滚动到底部的事件（不是scroll-view滚到底），常用于下拉下一页数据。具体见下方注意事项 |                             |          |
+| onPageScroll      | 监听页面滚动，参数为Object                                   | nvue暂不支持                |          |
+
+- `onPageScroll` （监听滚动、滚动监听、滚动事件）参数说明：
+
+  | 属性      | 类型   | 说明                                 |
+  | --------- | ------ | ------------------------------------ |
+  | scrollTop | Number | 页面在垂直方向已滚动的距离（单位px） |
+
+
+
 
 
 ****
 
 
 
-### 路由
-
-https://uniapp.dcloud.io/component/navigator
-
-`navigator`
-
-- `url`：地址
-
-- `open-type`：跳转方式
-- `hover-class`：点击时样式类
-
-```html
-<navigator url="/pages/list/list" open-type="navigate" hover-class="navigator-hover">
-  <button type="default">跳转到list</button>
-</navigator>
-```
-
-
+### 路由跳转
 
 https://uniapp.dcloud.io/api/router?id=navigateto
 
@@ -405,10 +784,6 @@ sendGet () {
   })
 }
 ```
-
-
-
-***
 
 
 

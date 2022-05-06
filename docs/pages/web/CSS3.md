@@ -712,16 +712,24 @@ margin-left: -版心盒子宽度的一半
 开局老三样
 
 ```css
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing:border-box;
-}
-li {
-  list-style: none;
-}
-a {
-  text-decoration: none;
+.app {
+  * {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+  li {
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  select,
+  input,
+  label,
+  button {
+    vertical-align: middle;
+  }
 }
 ```
 
@@ -730,6 +738,8 @@ a {
 如果图片和文字有缝隙可以使用：`vertical-align:top`（给图片添加）
 
 ![image-20211129172113568](http://img.zyugat.cn/zyuimg/2021-11-29_34f764e9b1fc1.png)
+
+
 
 当元素水平排列的时候，请使用 **浮动**
 
@@ -744,6 +754,8 @@ a {
 
 
 按钮边框：`border: 0;`
+
+按钮取消选中效果：outline:none;
 
 
 
@@ -2184,13 +2196,20 @@ https://www.swiper.com.cn/
 
 
 
-
-
-
-
-
-
 ## 小知识
+
+### 单位
+
+- 
+
+  - em：相对于父元素字体大小
+
+  * rem：相对于html字体大小
+  * **什么意思？例如父元素字体大小是10，10em=100px**
+
+
+
+### 补充
 
 去除列表的圆点：
 

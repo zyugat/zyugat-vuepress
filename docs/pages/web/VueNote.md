@@ -392,7 +392,7 @@ vm.$watch('someObject', callback, {
 
 
 
-`immediate:true`：Watch在最初绑定时不会被调用，如果想开始就调用则加上该参数。
+`immediate:true`：Watch在最初绑定时会被调用，如果想开始就调用则加上该参数。
 
 在回调内部调用取消监听函数，需检查其函数的可用性
 
@@ -436,7 +436,7 @@ unwatch = vm.$watch(
 <!-- str:'<h3>你好啊！</h3>' -->
 <div v-text="str"></div>	<!-- <h3>你好啊！</h3> -->
 <div v-html="str"></div>	<!-- 你好啊！ --> <!-- h2标签大小的你好啊 -->
-<h2 v-once>初始化的n值是:{{n}}</h2>
+<h2 v-once>初始化的a值是:{{a}}</h2>
 ```
 
 ![image-20211116172030660](http://img.zyugat.cn/zyuimg/2021-11-16_9bcfbf1989f56.png)
@@ -1229,12 +1229,37 @@ app.component('save-button', {
 
 ![Transition Diagram](https://v3.cn.vuejs.org/images/transitions.svg)
 
-1. `v-enter-from`：进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
-2. `v-enter-active`：进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。
-3. `v-enter-to`：进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 `v-enter-from` 被移除)，在过渡/动画完成之后移除。
-4. `v-leave-from`：离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
-5. `v-leave-active`：离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
-6. `v-leave-to`：离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 `v-leave-from` 被删除)，在过渡/动画完成之后移除。
+- 须知
+  - `in-out`： 新元素先进行进入过渡，完成之后当前元素过渡离开。
+  - `out-in`：当前元素先进行离开过渡，完成之后新元素过渡进入。
+
+- 我这里直接上总结
+  - 下面两个是必须要设置的，设置动画的过程，例如：`属性、持续时间、运动曲线`，需用`transition`或`animation`
+  - `v-enter-active`：进入过渡生效时的状态。
+  - `v-leave-active`：离开过渡生效时的状态。
+- 接下来就是**定义动作**
+  - `v-leave-from`：离开过度，原地
+  - `v-leave-to`：离开过渡，目的地
+  - 
+  - `v-enter-from`：进入过渡，原地
+  - `v-enter-to`：进入过度，目的地
+- 有点懵？没事看下面实例
+  - 我们拿案例1过来说明，我们希望文字向**右移动消失**
+  - ![动画](http://img.zyugat.cn/zyuimg/2022-05-06_31574d9f0e57d.gif)
+  - 1、当点击按钮触发，离开过度，`v-leave-from/to`
+    - `from`：我们没有设置。故动画位置是`0`，原地不动
+    - `to`：`translateX(20px)`目的地是右移20像素。此时动画位置是`20`
+  - 2、当消失以后，我们在点一次，文字就会出现，`v-enter-from/to`
+    - `from`：刚刚动画位置是`20`，我们希望能从20的位置上出现。
+    - `to`：我们需要他归位，故无需设置。
+- 实例2
+  - ![动画2](http://img.zyugat.cn/zyuimg/2022-05-06_fc3938666eff4.gif)
+- 钩子
+  - ![动画](http://img.zyugat.cn/zyuimg/2022-05-06_2b385b9df4df3.gif)
+
+- 左右切换
+  - ![动画](http://img.zyugat.cn/zyuimg/2022-05-06_b821fe01f54fb.gif)
+
 
 
 
@@ -1243,6 +1268,7 @@ app.component('save-button', {
 显示控制过度持续时间：`:duration="1000"`，声明钩子，在 **`enter` 和 `leave` 钩中必须使用 `done` 进行回调**。
 
 ```html
+<!-- 设置持续时间 -->
 <transition :duration="1000">...</transition>
 <transition :duration="{ enter: 500, leave: 800 }">...</transition>
 <transition
@@ -1262,24 +1288,29 @@ app.component('save-button', {
 
 ```js
 methods: {
-  // --------
-  // ENTERING
-  // --------
-
   beforeEnter(el) {
-    // ...
+		alert('beforeEnter 进入过渡状态 开始 前')
   },
   // 当与 CSS 结合使用时
   // 回调函数 done 是可选的
   enter(el, done) {
-    // ...
-    done()
+    alert('enter 进入过渡状态 开始')
+    // 方法1： 这里不调用，但参数done必须传，不传或调用done的话由于会立即删除元素导致动画不执行
+    // 过渡动画会执行，且style 里  display 不为none，不隐藏
+    // done();
+    // 方法2:
+    // setTimeout(done,5000)
+    // 方法3:
+    //   el.addEventListener('transitionend', function () {
+    //     done()
+    //   })
+    // },
   },
   afterEnter(el) {
-    // ...
+    alert('afterEnter 进入过渡状态 结束')
   },
   enterCancelled(el) {
-    // ...
+    alert('enterCancelled 进入过渡状态 被打断')
   },
 
   // --------
@@ -1287,20 +1318,20 @@ methods: {
   // --------
 
   beforeLeave(el) {
-    // ...
+    alert('beforeLeave 离开过渡状态 开始 前')
   },
   // 当与 CSS 结合使用时
   // 回调函数 done 是可选的
   leave(el, done) {
-    // ...
+    alert('leave 离开过渡状态 开始')
     done()
   },
   afterLeave(el) {
-    // ...
+    alert('afterLeave 离开过渡状态 结束')
   },
   // leaveCancelled 只用于 v-show 中
   leaveCancelled(el) {
-    // ...
+    alert('leaveCancelled 离开过渡状态 被打断')
   }
 }
 ```
@@ -1312,11 +1343,7 @@ methods: {
 案例1,设置进入和离开动画
 
 - 进入动画则是使用 ease-out。
-- `*-enter-active` 和 `*-leave-active` ：是必需定义 transition 属性，因为他是定义动画的显示速度和时间。
-- `enter-from` 和 `leave-to` ：
-  - 之所以写在一起，是因为需要**离开和进入方向的相同**
-  -  `leave-to` ：从右边离开
-  - `enter-from`：从右边进入
+- `enter-from` 和 `leave-to` ：之所以写在一起，是因为需要**离开和进入方向的相同**
 
 ```html
 <button @click="show = !show">Toggle render</button>
@@ -1342,9 +1369,9 @@ methods: {
 }
 ```
 
+![动画](http://img.zyugat.cn/zyuimg/2022-05-06_31574d9f0e57d.gif)
 
-
-案例1,设置进入和离开动画
+案例2,设置进入和离开动画
 
 - `reverse`：反向播放动画
 - `bounce-in {}`：
@@ -1356,19 +1383,17 @@ methods: {
 <button @click="show = !show">Toggle show</button>
 <transition name="bounce">
   <p v-if="show">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-    facilisis enim libero, at lacinia diam fermentum id. Pellentesque
-    habitant morbi tristique senectus et netus.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </p>
 </transition>
 ```
 
 ```css
 .bounce-enter-active {
-  animation: bounce-in 0.5s;
+  animation: bounce-in 1s;
 }
 .bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
+  animation: bounce-in 1s reverse;
 }
 @keyframes bounce-in {
   0% {
@@ -1383,19 +1408,18 @@ methods: {
 }
 ```
 
-
+![动画2](http://img.zyugat.cn/zyuimg/2022-05-06_fc3938666eff4.gif)
 
 **组件的过度**
 
 使用动态组件：`:is`
 
 ```html
-<input v-model="view" type="radio" value="home" id="home" /><label for="home"
-  >Home</label
+<input v-model="view" type="radio" value="aView" id="a" /><label for="a"
+  >A</label
 >
-<input v-model="view" type="radio" value="about" id="about" /><label
-  for="about"
-  >About</label
+<input v-model="view" type="radio" value="bView" id="b" /><label for="b"
+  >B</label
 >
 <transition name="component-fade" mode="out-in">
   <component :is="view"></component>
@@ -1416,69 +1440,159 @@ methods: {
 
 
 
-**列表渲染**
+### 过渡动画钩子流程
 
-使用：`<transition-group>`
-
-- 他不会包含整个组件，需要使用 `tag` 指定渲染一个元素。
-- 列表的平滑移动过度效果：`v-move` 类
+![动画](http://img.zyugat.cn/zyuimg/2022-05-06_2b385b9df4df3.gif)
 
 ```html
-<div id="list-demo">
-  <button @click="shuffle">Shuffle</button>
-  <button @click="add">Add</button>
-  <button @click="remove">Remove</button>
-  <transition-group name="list" tag="p">
-    <span v-for="item in items" :key="item" class="list-item">
-      {{ item }}
-    </span>
-  </transition-group>
-</div>
+<button @click="flag = !flag">显示/隐藏</button><br />
+<transition
+  name="fade"
+  @before-enter="beforeEnter"
+  @enter="enter"
+  @after-enter="afterEnter"
+  @enter-cancelled="enterCancelled"
+  @before-leave="beforeLeave"
+  @leave="leave"
+  @after-leave="afterLeave"
+  @leave-cancelled="leaveCancelled"
+>
+  <div v-show="flag" class="mybtn"></div>
+</transition>
 ```
 
-```js
-// import _ from 'lodash'
-
-data() {
-  return {
-    items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    nextNum: 10,
-  }
-},
+```ts
 methods: {
-  randomIndex() {
-    return Math.floor(Math.random() * this.items.length)
+  beforeEnter() {
+    alert('beforeEnter 进入过渡状态 开始 前')
   },
-  add() {
-    this.items.splice(this.randomIndex(), 0, this.nextNum++)
+  enter(el: any) {
+    alert('enter 进入过渡状态 开始')
+    setTimeout(() => {
+      el.style.backgroundColor = 'green'
+    }, 1000)
   },
-  remove() {
-    this.items.splice(this.randomIndex(), 1)
+  afterEnter() {
+    alert('afterEnter 进入过渡状态 结束')
   },
-  shuffle() {
-    this.items = _.shuffle(this.items)
+  enterCancelled() {
+    alert('enterCancelled 进入过渡状态 被打断')
+  },
+
+  beforeLeave() {
+    alert('beforeLeave 离开过渡状态 开始 前')
+  },
+  leave(el: any) {
+    alert('leave 离开过渡状态 开始')
+    el.style.backgroundColor = 'red'
+  },
+  afterLeave() {
+    alert('afterLeave 离开过渡状态 结束')
+  },
+  leaveCancelled() {
+    alert('leaveCancelled 离开过渡状态 被打断')
   },
 },
 ```
 
 ```css
-.list-item {
-  display: inline-block;
-  margin-right: 10px;
+.mybtn {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transform: translateX(20px);
 }
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 2s;
 }
-.list-enter-from,
-.list-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(0px);
 }
-.list-move {
-  transition: transform 0.8s ease;
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateX(20px);
 }
 ```
+
+
+
+### 左右切换组件
+
+![动画](http://img.zyugat.cn/zyuimg/2022-05-06_b821fe01f54fb.gif)
+
+```html
+<h2>TRANSITION 5</h2>
+<span>左右切换：</span>
+<input
+  v-model="view2"
+  type="radio"
+  value="aView"
+  id="a"
+  @click="view2Toggle"
+/><label for="a2">A</label>
+<input
+  v-model="view2"
+  type="radio"
+  value="bView"
+  id="b"
+  @click="view2Toggle"
+/><label for="b2">B</label>
+<transition :name="transitionName" mode="out-in">
+  <component :is="view2"></component>
+</transition>
+```
+
+```ts
+import { defineComponent } from 'vue'
+import aView from './aView.vue'
+import bView from './bView.vue'
+export default defineComponent({
+  name: 'HelloWorld',
+  data() {
+    return {
+      view2: 'aView',
+      transitionName: 'transitionRight',
+    }
+  },
+  components: {
+    aView,
+    bView,
+  },
+  methods: {
+    view2Toggle() {
+      this.transitionName =
+        this.transitionName === 'transitionRight'
+          ? 'transitionLeft'
+          : 'transitionRight'
+    },
+})
+```
+
+```css
+.transitionLeft-enter-from,
+.transitionRight-leave-active {
+  /* -webkit-transform: translate(100%, 0); */
+  transform: translate(100%, 0);
+}
+.transitionLeft-leave-active,
+.transitionRight-enter-from {
+  /* -webkit-transform: translate(-100%, 0); */
+  transform: translate(-100%, 0);
+}
+
+.transitionLeft-leave-active,
+.transitionRight-leave-active,
+.transitionLeft-enter-active,
+.transitionRight-enter-active {
+  transition: all 0.4s ease-out;
+}
+```
+
+
 
 
 

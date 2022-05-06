@@ -25,8 +25,10 @@ footer:
 
 ## 更新日志
 
+- 2022/5/6
+  - 重构 VueNote 过渡动画章节，优化 NODEJS KOA 章节、Axios，更新 Uniapp 文章。
 - 2022/3/29
-  - 日常文档更新，已更新eslintrc.js和vuecli的配置，等。
+  - 日常文档更新，已更新 eslintrc.js 和 vuecli 的配置，等。
 - 2022/1/1
   - 新增文档 Vue&TypeScript、Git。
   - 移动 VueNote 文档中关于 CLI、Router、Vuex 内容至 Vue&TypeScript 中。

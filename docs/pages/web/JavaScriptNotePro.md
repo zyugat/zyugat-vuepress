@@ -165,7 +165,7 @@ console.log(obj.name)
 let a = obj
 ```
 
-![P](http://img.zyugat.cn/zyuimg/js赋值拷贝_JOshPjtC.png)
+![js赋值拷贝_JOshPjtC](http://img.zyugat.cn/zyuimg/2022-04-19_481e68855b457.png)
 
 - 当赋值的是对象，就直接赋对象的内存地址
 
@@ -173,7 +173,7 @@ let a = obj
 let obj = { name:'Tom' }
 ```
 
-![对象赋值](http://img.zyugat.cn/zyuimg/js对象赋值_spsF30ut.png)
+![js对象赋值_spsF30ut](http://img.zyugat.cn/zyuimg/2022-04-19_5252a512801f2.png)
 
 ****
 
@@ -585,9 +585,7 @@ fn.__proto__ = Fn.prototype	// 默认值是=> prototype的值
   fn.test()
 ```
 
-![显示与隐式原型](http://img.zyugat.cn/zyuimg/js显示与隐式原型_j9WKAKdR.png)
-
-
+![js显示与隐式原型_j9WKAKdR](http://img.zyugat.cn/zyuimg/2022-04-19_f1d486191f066.png)
 
 ****
 
@@ -625,7 +623,7 @@ fn.__proto__ = Fn.prototype	// 默认值是=> prototype的值
   fn.test3()
 ```
 
-![原型链分析](http://img.zyugat.cn/zyuimg/js原型链分析_OIfAPCKn.png)
+![js原型链分析_OIfAPCKn](http://img.zyugat.cn/zyuimg/2022-04-19_bc0477044dd8d.png)
 
 
 
@@ -652,7 +650,7 @@ var o2 = {};
 
 
 
-![构造函数与原型与实体对象的关系小](http://img.zyugat.cn/zyuimg/js构造函数与原型与实体对象的关系小_6UYZkpdf.png)
+![js构造函数与原型与实体对象的关系小_6UYZkpdf](http://img.zyugat.cn/zyuimg/2022-04-19_8f6de20836bbc.png)
 
 
 
@@ -665,7 +663,7 @@ var o2 = {};
 - 1）首先创建一个函数，他有一个显示原型属性（`Foo.prototype`），默认是空的Object对象
   - **此时是构造函数**
   - `function Foo(){  }`
-  - ![构造函数与原型与实体对象的关系小图2](http://img.zyugat.cn/zyuimg/js构造函数与原型与实体对象的关系小图2_xh05PJOX.png)
+  - ![js构造函数与原型与实体对象的关系小图2_xh05PJOX](http://img.zyugat.cn/zyuimg/2022-04-19_6456cc815ce7a.png)
 
 
 
@@ -683,14 +681,14 @@ var o2 = {};
 - 3）为什么`Function`的隐式原型指向自身的显示原型？
   - `Function = new Function()`
   - 因为`Function`是`Function()`的实例对象，那么**隐式原型**必定指向**显示原型**
-  - ![构造函数与原型与实体对象的关系小图1](http://img.zyugat.cn/zyuimg/js构造函数与原型与实体对象的关系小图1_PE3ZyVQN.png)
+  - ![js构造函数与原型与实体对象的关系小图1_PE3ZyVQN](http://img.zyugat.cn/zyuimg/2022-04-19_5c0407d164984.png)
 
 
 
 - 4）我们继续看图：
   - `let Object = new Function()`
   - 我创建了一个新的函数名为Object，他的隐式原型同样也会指向`Function`的显示原型，因为他也是`New Function`产生的
-  - ![构造函数与原型与实体对象的关系小图3](http://img.zyugat.cn/zyuimg/js构造函数与原型与实体对象的关系小图3_PxgeZ4G4.png)
+  - ![js构造函数与原型与实体对象的关系小图3_PxgeZ4G4](http://img.zyugat.cn/zyuimg/2022-04-19_d046e36954a6a.png)
 
 
 
@@ -718,7 +716,7 @@ Function = new Function()
 
 
 
-![构造函数与原型与实体对象的关系](http://img.zyugat.cn/zyuimg/js构造函数与原型与实体对象的关系_Bgng2pKD.png)
+![js构造函数与原型与实体对象的关系_Bgng2pKD](http://img.zyugat.cn/zyuimg/2022-04-19_20debddaced47.png)
 
 
 
@@ -842,7 +840,7 @@ console.log(f1 instanceof Object); // true
 - 定理2：实例对象的隐式原型**永远等于**构造函数显示原型。
   - 红线是**显示原型**，**显示原型**指向显示原型属性。
   - 紫线是**隐式原型**，而显示原型指向哪里，**隐式原型**就会跟着指向哪里。
-  - ![原型总结1](http://img.zyugat.cn/zyuimg/js原型总结1_dhPefQ8O.png)
+  - ![js原型总结1_dhPefQ8O](http://img.zyugat.cn/zyuimg/2022-04-19_28d2157aac5a1.png)
 - **定理3**：构造函数的**显示原型属性**默认是**空的Object实例对象**。（除了Object）
 - **定理4**：所有**函数对象**都是`Function`的**实例对象**。（包括Function）
 - **定理4**：所有**构造函数**的隐式原型必定指向`Function`的显示原型。
@@ -923,7 +921,7 @@ var fn = function(y) {
 bar(10)
 ```
 
-![执行上下文](http://img.zyugat.cn/zyuimg/js执行上下文_4BSkV4Lf.png)
+![js执行上下文_4BSkV4Lf](http://img.zyugat.cn/zyuimg/2022-04-19_d7e69bc0122bf.png)
 
 
 
@@ -1002,7 +1000,7 @@ function foo(i) {
 
 
 
-作用域链：![作用域链](http://img.zyugat.cn/zyuimg/js作用域链_G7muSMFA.png)
+作用域链：![js作用域链_G7muSMFA](http://img.zyugat.cn/zyuimg/2022-04-19_0ce43c13a6bf9.png)
 
 
 
@@ -1589,9 +1587,7 @@ console.log(sub)  // Sub
 
 - 线程池(thread pool): 保存多个线程对象的容器, 实现线程对象的反复利用
 
-![线程](http://img.zyugat.cn/zyuimg/js线程_liWzMQlJ.png)
-
-
+![js线程_liWzMQlJ](http://img.zyugat.cn/zyuimg/2022-04-19_098225e32b1f7.png)
 
 4. 什么是**多进程**与**多线程**？
 
@@ -1707,7 +1703,7 @@ console.log(sub)  // Sub
 
 2. 事件循环模型
 
-![事件循环模型](http://img.zyugat.cn/zyuimg/js事件循环模型_SCNoDzPg.png)
+![js事件循环模型_SCNoDzPg](http://img.zyugat.cn/zyuimg/2022-04-19_3fd87d239fe6b.png)
 
 - 所有代码分类
   - 初始化执行代码(同步代码): 包含绑定dom事件监听, 设置定时器, 发送ajax请求的代码

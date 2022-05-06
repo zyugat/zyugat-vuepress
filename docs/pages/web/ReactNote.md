@@ -403,7 +403,7 @@ ReactDOM.render(<Weather/>,document.getElementById('test'))
 
 
 - **生命周期**
-  - 旧版生命周期：![react生命周期旧](http://img.zyugat.cn/zyuimg/react生命周期旧_arZ0HyVa.png)
+  - 旧版生命周期：![react生命周期旧_arZ0HyVa](http://img.zyugat.cn/zyuimg/2022-04-19_f92c2f68576c3.png)
 
 
 
@@ -411,7 +411,7 @@ ReactDOM.render(<Weather/>,document.getElementById('test'))
 
 - 新版生命周期
 
-![react生命周期新](http://img.zyugat.cn/zyuimg/react生命周期新_kVIgnj3H.png)
+![react生命周期新_kVIgnj3H](http://img.zyugat.cn/zyuimg/2022-04-19_94c5a973f6e39.png)
 
 - 挂载时：
   - 由`ReactDOM.render()`触发---初次渲染
@@ -1360,7 +1360,7 @@ export default withRouter(Header);
 
 ### Redux
 
-![redux原理图](http://img.zyugat.cn/zyuimg/redux原理图_KBCdbp8C.png)
+![redux原理图_KBCdbp8C](http://img.zyugat.cn/zyuimg/2022-04-19_d338ed2761cb2.png)
 
 安装：`yarn add redux`
 
@@ -1475,7 +1475,7 @@ export default createStore(countReducer,applyMiddleware(thunk))
 
 ### react-redux
 
-![react-redux模型图](http://img.zyugat.cn/zyuimg/react-redux模型图_tnW9nOXv.png)
+![react-redux模型图_tnW9nOXv](http://img.zyugat.cn/zyuimg/2022-04-19_4a49ef7444e48.png)
 
 
 

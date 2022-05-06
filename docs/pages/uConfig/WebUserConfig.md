@@ -13,13 +13,13 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    'vue/setup-compiler-macros': true,
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-typescript/recommended',
-    // '@vue/eslint-config-prettier',
-    // '@vue/typescript/recommended',
+    '@vue/typescript/recommended',
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -35,6 +35,8 @@ module.exports = {
     // 行尾分号是否加分号,默认加 always,不加never
     semi: ['warn', 'never'],
 
+    // https://github.com/johnsoncodehk/volar/issues/47
+    '@typescript-eslint/no-unused-vars': 'off',
     // 禁止 types
     '@typescript-eslint/ban-types': 'warn',
     // 禁止 require()
@@ -42,9 +44,12 @@ module.exports = {
     // 禁止 any
     '@typescript-eslint/no-explicit-any': ['off'],
     // template 必须由一个根元素包含
-    'vue/no-multiple-template-root':'off'
+    'vue/no-multiple-template-root': 'off',
+    // Enable vue/script-setup-uses-vars rule
+    'vue/script-setup-uses-vars': 'error',
   },
 }
+
 ```
 
 
@@ -79,20 +84,13 @@ module.exports = {
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
+    // https://github.com/johnsoncodehk/volar/issues/47
+    "noUnusedLocals": true,
+    "types": ["webpack-env"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
@@ -101,9 +99,7 @@ module.exports = {
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
 ```
 
@@ -126,7 +122,7 @@ yarn add -D @vue/eslint-config-prettier standard babel-eslint
 
 
 
-vue.config.js
+## vue.config.js
 
 ```js
 const { defineConfig } = require('@vue/cli-service')
@@ -136,16 +132,16 @@ function resolve(dir) {
 }
 module.exports = defineConfig({
   transpileDependencies: true,
+  publicPath: './',
   chainWebpack: config => {
     // 修改文件引入自定义路径
-    config.resolve.alias
-      .set('@', resolve('src'))
-      .set('style', resolve('src/assets/style'))
-      .set('components', resolve('src/components'))
-      .set('views', resolve('src/views'))
-      .set('apis', resolve('src/apis'))
+    config.resolve.alias.set('@', resolve('src/'))
+    config.resolve.alias.set('components', resolve('src/components/'))
+    config.resolve.alias.set('hooks', resolve('src/hooks/'))
+    config.resolve.alias.set('view', resolve('src/views/'))
   },
 })
+
 ```
 
 
@@ -212,5 +208,14 @@ export default defineConfig({
     },
   },
 })
+```
+
+
+
+```json
+// tsconfig.json
+// ++
+    // https://github.com/johnsoncodehk/volar/issues/47
+    "noUnusedLocals": true
 ```
 

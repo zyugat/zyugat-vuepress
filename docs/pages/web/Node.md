@@ -1216,6 +1216,21 @@ yarn dev
 
 
 
+### cors
+
+```
+yarn add koa2-cors
+```
+
+```
+const cors = require('koa2-cors')
+app.use(cors())
+```
+
+
+
+
+
 ### prisma
 
 https://prisma.yoga/

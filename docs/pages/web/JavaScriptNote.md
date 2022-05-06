@@ -15,25 +15,85 @@ for (let i of text) {
 
 
 
-****
-
-
-
 `concat()`：将一个或多个字符串拼接起来
 
-`trim()`：删除前置和后缀空格
-
-`match()`：字符串正则表达式匹配
-
-`search()`：返回第一个匹配项的索引
+`trim()`、`trimStart()`、`trimEnd()`：删除前置和后缀空格
 
 `parseInt()`：字符串转整数
 
 `parseFloat()`：字符串转浮点数
 
+`toLowerCase()` 和 `toUpperCase()`方法可以用于字符串的大小写转换。
 
 
-****
+
+`replace()`：用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+
+```js
+let str = "abcdef";
+str.replace("c", "z") // 输出结果：abzdef
+```
+
+`match()`：检索指定的值，或找到一个或多个`正则表达式的匹配`。一般用于正则表达式。
+
+```js
+string.match(regexp)
+let str = "abcdef";
+console.log(str.match("c")) // ["c", index: 2, input: "abcdef", groups: undefined]
+```
+
+`search()`：返回第一个匹配项的索引
+
+```js
+string.search(searchvalue)
+let str = "abcdef";
+str.search(/bcd/)   // 输出结果：1
+```
+
+
+
+
+
+- `split()`：方法用于把一个字符串分割成字符串数组。该方法不会改变原始字符串。
+
+```js
+let str = "abcdef";
+str.split("c");    // 输出结果：["ab", "def"]
+str.split("", 4)   // 输出结果：['a', 'b', 'c', 'd'] 
+```
+
+
+
+- 截取字符串
+  - slice()：返回的子串**包括开始处的字符**，但**不包括结束处的字符**。
+  - substr()：方法用于在字符串中抽取从开始下标开始的指定数目的字符。
+  - substring()：方法用于提取字符串中介于两个指定下标之间的字符。
+    - `如果 from 比 to 大`，那么该方法在提取子串之前会先交换这两个参数。并且该方法不接受负的参数，如果参数是个负数，就会返回这个字符串。
+
+```js
+let str = "abcdefg";
+str.slice(1,6);   // 输出结果："bcdef" 
+
+string.substr(start,length)
+str.substr(1,6); // 输出结果："bcdefg" 
+
+string.substring(from, to)
+str.substring(1,6); // 输出结果："bcdef" [1,6)
+str.substring(1);   // 输出结果："bcdefg" [1,str.length-1]
+str.substring(6,1); // 输出结果 "bcdef" [1,6)
+str.substring();  // 输出结果："abcdefg"
+```
+
+
+
+
+
+返回重复n次的新字符串：`reqeat()`
+
+```javascript
+'x'.repeat(3) 		// "xxx"
+'na'.repeat(2.9) 	// "nana"
+```
 
 
 
@@ -42,9 +102,13 @@ for (let i of text) {
 
 
 
-- `includes(string)` ：返回布尔值，表示是否找到了参数字符串 。
-- `startsWith(string)`： 返回布尔值 ， 表示参数字符串是否在源字符串的头部 。  
-- `endsWith(string)`：返回布尔值， 表示参数字符串是否在源字符串的尾部 。
+- `indexOf()`：查找某个字符，**有则返回第一次匹配到的位置**，否则返回-1，其语法如下：
+  - searchvalue：必需，规定需检索的字符串值；
+  - fromindex：可选的整数参数，规定在字符串中开始检索的位置。
+- `lastIndexOf()`：查找某个字符，有则返回最后一次匹配到的位置，否则返回-1
+- `includes(string)` ：返回布尔值，字符串是否包含指定的子字符串。
+- `startsWith(string)`： 返回布尔值 ， 字符串**是否以指定的子字符串开始**。
+- `endsWith(string)`：返回布尔值， 字符串**是否是以指定的子字符串结尾**。
 
 ```javascript
 var s = 'Hello world!';
@@ -59,23 +123,6 @@ s.includes ('Hello', 6) // false
 s.startsWith ( 'world', 6) //true
 s.endsWith ( 'Hello', 5) // true
 ```
-
-
-
-****
-
-
-
-返回重复n次的新字符串：`reqeat()`
-
-```javascript
-'x'.repeat(3) 		// "xxx"
-'na'.repeat(2.9) 	// "nana"
-```
-
-
-
-****
 
 
 
@@ -95,10 +142,6 @@ s.endsWith ( 'Hello', 5) // true
 '12'.padStart(10, 'YYYY-MM- DD') // 'YYYY-MM-12'
 '09-12'.padStart(10, 'YYYY-MM- DD') // 'YYYY-09-12'
 ```
-
-
-
-****
 
 
 
@@ -148,20 +191,14 @@ alert('123') = alert `123`
 
 1）数组简单的操作方式
 
-- 栈
-  - push、pop（删除最后一个元素）
-
-- 队列
-  - push、shift（删除第一个元素）
-  - unshift(newelementX)，向数组添加的第一个元素。
-
+- pop（删除最后一个元素）
+- shift（删除第一个元素）
+- push：尾部添加
+- unshift(newelementX)：头部添加
 - 重排序
   - reverse()：反转数组
   - sort()：升序
-
-
-
-****
+- `.join(分隔符)`：数组转字符
 
 
 
@@ -171,17 +208,17 @@ alert('123') = alert `123`
 
   - `array1.concat(array2)`：在当前数组后面追加新数组
     - 可用扩展运算符解决`[...arr1, ...arr2, ...arr3]`
-  - `slice(numStart,numEnd)`：返回开始到结束的所有项
-  - `splice(index, howmany, item1..,itemX)`：删除元素，替换元素
+  - `slice(numStart,numEnd)`：返回开始到结束的所有项**（不改变原数组**
+    - **`浅拷贝`**
+  - `splice(index, howmany, item1..,itemX)`：删除元素，替换元素**（改变原数组**
+    - **`深拷贝`**
     - index：从何处开始添加/删除
     - howmany：删除几个。可选，未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
     - item：添加到数组的新元素。可选
-
 - 位置方法
 
   -  `indexOf()`：返回索引
   -  `lasIndexOf()`：从队尾开始找
-
 - 迭代方法
 
   - `every()`：与，所有返回值为**true**时返回**true**
@@ -193,8 +230,11 @@ alert('123') = alert `123`
 
 
 
-
-****
+- `Array.prototype.includes`
+- 检查数组中是否包含某个元素，返回布尔值
+- 指数操作符
+- <code>**</code>
+- 跟<code>Math.pow</code>是一样的，都是幂运算，计算次方
 
 
 
@@ -214,10 +254,6 @@ alert('123') = alert `123`
 
 
 
-****
-
-
-
 - 缩小方法
 
   - `reduce()`：迭代数组所有项，从头开始
@@ -234,9 +270,7 @@ alert(sum);	// 15
 
 
 
-****
-
-
+**查找**
 
 `inclides()`
 
@@ -254,10 +288,6 @@ alert(sum);	// 15
 
 
 
-****
-
-
-
 `find()`
 
 找出第一个符合条件的数组对象
@@ -269,10 +299,6 @@ alert(sum);	// 15
 [1, 4, -5, 10].find((n) => n<0)
 // -5
 ```
-
-
-
-****
 
 
 
@@ -297,9 +323,10 @@ alert(sum);	// 15
 
 
 
-`fill()`
-
-给定值填充一个数组，一般用来给空数据初始化，接受第二个和第三个参数。
+- 填充数组->`fill()`
+  - 参数1：值
+  - 参数2：填充开始位置
+  - 参数3：填充结束位置
 
 ```javascript
 new Array(3).fill(8)
@@ -307,10 +334,6 @@ new Array(3).fill(8)
 ['a', 'b', 'c'].fill(7,1,2)
 // ['a', 7, 'c']
 ```
-
-
-
-****
 
 
 
@@ -534,60 +557,19 @@ Array(3, 11, 8)	// [3,11,8]
 
 ### Object对象
 
-对象扩展
-
-```javascript
-var foo = 'bar'
-var baz = {foo}
-baz // {foo: "bar"}
-```
-
-
-
-****
+- `JSON.stringify(value [, replacer] [, space)`，将json对象转换成json字符串。
+- `JSON.parse(test)`：将json字符串转换成json对象。
+- `Object.assign(target, source1, source2)`：将源对象(source)复制到目标对象(target)。
+- `Object.fromEntries`
+  - 将二维数组转换为对象
+- `Object.Entries`
+  - 将对象转换为二维数组
+- `trimStart`和`trimEnd`
+  - 清除字符串，左侧或右侧空白
 
 
 
-属性值=属性名所代表的的变量
 
-```javascript
-function f(x, y){
-  return {x, y}
-}
-// 等同于
-function f(x, y){
-  return {x: x, y: y}
-}
-```
-
-
-
-****
-
-
-
-**对象字面量**
-
-表达式作为对象的属性名
-
-```javascript
-let propKey = 'foo'
-let obj = {
-	[propKey]: true,
-  ['a' + 'bc']: 123
-}
-```
-
-定义方法名
-
-```javascript
-let obj = {
-	['h' + 'ello']() {
-    return 'hi'
-  }
-}
-obj.hello()
-```
 
 **注意！**
 
@@ -605,10 +587,6 @@ console.log(myObject);
 ```
 
 你会神奇的发现，打印出来只有keyB。这是因为keyA和keyB都是[object Object]，所以keyB将keyA覆盖了，最后myObject就剩下一个[object Object]属性了
-
-
-
-****
 
 
 
@@ -633,13 +611,12 @@ configurable: ture
 
 
 
-**属性的遍历**
-
-`for...in`与`for...of`
-
-循环遍历自身的和继承的可枚举属性（不含Symbol属性）
-
-`for-of`只能遍历数组
+- 遍历
+  - `for...in`：返回键
+  - `for...of`：只能遍历数组，需用（key、values、entries等方法将其变成数组。
+  - `Object.keys(obj)`：返回键
+  - `Object.values(obj)`：值
+  - `Object.entries(obj)`：键值对
 
 ```javascript
 var user = {name:'张三',age:10,sex:'男'}
@@ -647,51 +624,11 @@ for(let index in user){
   console.log(index+':'+user[index])
   //"name:张三""age:10""sex:男"
 }
-for(let index of Object.keys(user)){
- console.log(index+':'+user[index])
- //"name:张三""age:10""sex:男"
-}
-```
 
-
-
-`Object.keys(obj)`
-
-返回一个数组，成员是参数对象自身的所有可遍历（enumerable）属性的**键名**
-
-```javascript
-var obj = {foo: 'bar', baz: 42}
-Object.keys(obj)
-//	["foo", "baz"]
-```
-
-
-
-`Object.values`
-
-返回一个数组，成员是参数对象自身的所有可遍历（enumerable）属性的**键值**
-
-```javascript
-let obj = {a: 1, b: 2, c: 3}
-console.log(Object.values(obj));
-// [1,2,3]
-```
-
-
-
-`Object.entries`
-
-返回一个数组，成员是参数对象自身的所有可遍历（enumerable）属性的**键值对**
-
-```java
 var obj = {foo: 'bar', baz: 42}
 console.log(Object.entries(obj));
 //	[ ["foo", "bar"], ["baz", 42] ]
-```
 
-
-
-```javascript
 let {keys, values, entries} = Object
 let obj = {a: 1, b: 2, c: 3}
 // keys->键名
@@ -719,15 +656,6 @@ for (let [key, value] of entries(obj)) {
 
 
 
-- `JSON.stringify(value [, replacer] [, space)`，将json对象转换成json字符串。
-- `JSON.parse(test)`：将json字符串转换成json对象。
-
-
-
-****
-
-
-
 - `Object.getOwnPropertyNames(obj)`
   - 返回一个数组，包含自身所有属性（不含Symbol属性，包括不可枚举属性）
 - `Object.getOwnPropertySymbols(obj)`
@@ -741,15 +669,6 @@ for (let [key, value] of entries(obj)) {
 Object.getOwnPropertyDescriptor([], 'length').enumerable
 // fasle
 ```
-
-
-
-- `Object.fromEntries`
-  - 将二维数组转换为对象
-- `Object.Entries`
-  - 将对象转换为二维数组
-- `trimStart`和`trimEnd`
-  - 清除字符串，左侧或右侧空白
 
 
 
@@ -769,38 +688,6 @@ NaN === NaN	// false
 
 Object.is(+0, -0)	//false
 Object.is(NaN, NaN)	// true
-```
-
-
-
-****
-
-
-
-`Object.assign()`
-
-将源对象（source）的所有可枚举属性复制到目标对象（target）。
-
-第一个参数是目标对象，后面的参数都是源对象。
-
-```javascript
-var target = {a: 1}
-var source1 = {b: 2}
-var source2 = {c: 3}
-Object.assign(target, source1, source2)
-target	// {a:1, b:2, c:3}
-```
-
-如果后续有多个同名属性，那么后面会**覆盖前一个**。
-
-而且如果第一个参数不是对象，那么会转成对象，
-
-如果是非对象参数出现在→源对象的位置，那么会将该参数转为对象，如果无法转变就会跳过，这就意味着<code>undefined</code>和<code>null</code>不在首参数就不会报错。
-
-```javascript
-Object.assign(undefined)	// 报错
-Object.assign(null)	// 报错
-Object.assign(obj, undefined)	=== obj	//ture
 ```
 
 
@@ -1751,13 +1638,13 @@ console.log(new RegExp('xyz', 'i'));
 >
 > `\S`：除了空格
 >
-> `\b`：单词边界=>单词或非单词之间
+> `\b`：单词边界=>单词或非单词之间(意思是,该单词前面或后面**不存在内容**)看下面例子
 >
 > `\B`：除了单词边界
 >
 > 
 >
-> 例：创建一个正则表达式检查一个字符串中是否含有单词child=>`/\bchild\b/`
+> 例：创建一个正则表达式检查一个字符串中是否含有单词child=>`/\bchild\b/`--->`'hello child'`
 >
 > 例：去掉开头和结尾空格=>`/^\s*|\s*$/g`
 >
@@ -1768,7 +1655,7 @@ console.log(new RegExp('xyz', 'i'));
 - 采用字面量形式是共享同一个RegExp实例，如果使用构造函数创建则每一个RegExp实例都是一个新的实例。
   - `string.split()`：根据任意字母来将字符串拆分
   - `string.search()`：搜索字符串中是否含有指定内容，只会搜索一个，返回位置。
-  - `string.match()`：查询数组
+  - `string.match()`：将符合条件的内容提取出来
   - `string.replace()`：将字符串中指定内容替换为新的内容，两个参数，替换内容和新内容。
   - **--------------以下都是正则表达式的方法**
   - `test()`：返回true和false
@@ -2112,50 +1999,151 @@ iterator.next();
 
 
 
-**Promise**
+### Promise
 
-- 语法上 Promise 是一个构造函数
-- `Promise 构造函数:Promise (excutor)()`
-- `Promise.prototype.then`
-- `Promise.prototype.catch`
+Promise包含`pending`、`fulfilled`、`rejected`三种状态
+
+- `pending` 指初始等待状态，初始化 `promise` 时的状态
+
+- `resolve` 指已经解决，将 `promise` 状态设置为`fulfilled`
+
+- `reject` 指拒绝处理，将 `promise` 状态设置为`rejected`
+
+- ---------------------------------
+
 - `Promise.allSettled`：不管数组中的 Promise 是否成功或失败 都会执行完全部
 
-成功就调用`resolve`，失败调用`reject`
+- `.then`：第一个参数是成功、第二个是失败。
+- `.catch`：处理错误
+- `.finally`：无论结果如何都会执行。
+- 总结：
+  - 实例1：promise是异步的，故先执行`console.log`后执行promise，执行完后默认是`undefined`也就是`fulfilled`状态（因为已经执行完毕,所以自动被删除了。
+  - 实例2：`.then`的相对于上一个promise的处理，如果后续每个then都是一个全新的Promise，默认转递`fulfilled`状态。
+  - 实例3：如果存在返回值，那么值一定是promise。
 
 ```javascript
-    //实例化 Promise 对象
-    const p = new Promise(function(resolve, reject){
-        setTimeout(function(){
-            //
-            // let data = '数据库中的用户数据';
-            // resolve
-            // resolve(data);
-            let err = '数据读取失败';
-            reject(err);
-        }, 1000);
-    });
+const p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    //
+    // let data = '数据库中的用户数据';
+    // resolve
+    // resolve(data);
+    let err = '数据读取失败'
+    reject(err)
+  }, 1000)
+})
+
   
-    //调用 promise 对象的 then 方法
-    p.then(function(value){
-        console.log(value);
-    }, function(reason){
-        console.error(reason);
-    })
+const promise = new Promise((resolve, reject) => {
+  resolve('success')
+}).then(
+  res => {
+    console.log(`解决：${res}`)
+  },
+  rej => {
+    console.log(`拒绝:${rej}`)
+  }
+)
+// 只关心失败状态
+.then(null, err=>{})
+
+// catch
+const promise = new Promise((resolve, reject) => {
+  throw new Error('fail')
+}).catch(msg => {
+  console.log(msg.toString() + 'NONONO')
+})
+
 ```
 
 
 
-- `Array.prototype.includes`
-- 检查数组中是否包含某个元素，返回布尔值
-- 指数操作符
-- <code>**</code>
-- 跟<code>Math.pow</code>是一样的，都是幂运算，计算次方
+- 实例1
+  - 第一：先打印p1p2状态
+    - 10-11
+  - 第二：然后因创建了p1p2所以执行他们
+    - 第一行和第四行定义了p1p2的promise
+  - 最后：打印p1p2状态
+    - 因为已经执行完毕所以两者都是undefined
+
+```js
+let p1 = new Promise(resolve => {
+  resolve()
+})
+let p2 = p1.then(() => {
+  console.log('bili')
+})
+p2.then(() => {
+  console.log('bili.com')
+})
+console.log(p1) // Promise {<resolved>}
+console.log(p2) // Promise {<pending>}
+
+setTimeout(() => {
+  console.log(p1) // Promise {<resolved>}
+  console.log(p2) // Promise {<resolved>}
+})
+// Promise { undefined }
+// Promise { <pending> }
+// bili
+// bili.com
+// Promise { undefined }
+// Promise { undefined }
+```
+
+
+
+- 实例2
+  - `then` 是对上个 promise 的`rejected` 的处理，每个 `then` 会是一个新的promise，默认传递 `fulfilled`状态
+
+```js
+new Promise((resolve, reject) => {
+  reject()
+})
+  .then(
+    resolve => console.log('fulfilled'),
+    reject => console.log('rejected')
+  )
+  .then(
+    resolve => console.log('fulfilled'),
+    reject => console.log('rejected')
+  )
+  .then(
+    resolve => console.log('fulfilled'),
+    reject => console.log('rejected')
+  )
+// rejected
+// fulfilled
+// fulfilled
+```
+
+
+
+- 实例3
+  - 如果存在返回值，那么值一定是promise
+
+```js
+let a = new Promise(resolve => {
+  resolve()
+})
+let b = a
+  .then(() => {
+    return new Promise(r => {
+      r('bili.com')
+    })
+  })
+  .then(v => {
+    console.log(v)
+  })
+```
+
+
 
 
 
 ### async和await
 
-`async`函数返回值为`promist`对象
+`async`函数返回值为`promise`对象
 
 - `await`表达式：
   - 必须写在async函数中

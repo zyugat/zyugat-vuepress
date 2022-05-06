@@ -46,6 +46,7 @@ Partial Diff：文档比较
   - Auto Rename Tag：自动重命名配对的HTML/XML标签
   - IntelliSense for CSS class names in HTML：根据引入CSS类文件提示class
   - Live Server：动态页面
+  - Tabnine AI Autocomplete for Javascript, Python, Typescript, PHP, Go, Java, Ruby & more
 - CLI Base
   - Bootstrap 4, Font awesome 4, Font Awesome 5 Free & Pro snippets for Visual studio code
   - SASS
@@ -55,8 +56,8 @@ Partial Diff：文档比较
   - ES7 React/Redux/GraphQL/React-Native snippets：React代码提示补全
   - JavaScript (ES6) code snippets：代码提示
   - Prettier - Code formatter：格式化代码
-
   - Vetur：对Vue的格式化代码，语法高亮显示
+  - Vue Language Features (Volar)：对setup的支持
   - Vue 3 Snippets
 - 附录
   - Visual Studio IntelliCode
@@ -96,7 +97,7 @@ Partial Diff：文档比较
 
   "diffEditor.ignoreTrimWhitespace": false,
   // 代码编辑配置
-  "editor.fontSize": 18,
+  "editor.fontSize": 20,
   // 是否启用字体连字
   "editor.fontLigatures": true,
   // 字体
@@ -113,10 +114,12 @@ Partial Diff：文档比较
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  // 启用ESLint作为已验证文件的格式化程序
+  "eslint.format.enable": true,
 
   // 对 .vue 文件的格式化
   "[vue]": {
-    "editor.defaultFormatter": "octref.vetur"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // 对 .html 文件格式化
   "[html]": {
@@ -201,7 +204,7 @@ Partial Diff：文档比较
 
   // sync同步
   "sync.quietSync": false,
-  "sync.gist": "",
+  "sync.gist": "a2091874af8368dda2d422faae3e7e2a",
   "sync.autoUpload": true,
 
   // 终端
