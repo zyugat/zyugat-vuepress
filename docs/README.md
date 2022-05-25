@@ -6,7 +6,7 @@ actions:
     link: /pages/web/CSS3.html
     type: primary
   - text: 博客导航
-    link: https://doc.zyugat.cn/
+    link: https://zyugat.cn/
     type: secondary
 features:
   - title: 开发笔记
