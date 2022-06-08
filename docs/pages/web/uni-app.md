@@ -777,7 +777,7 @@ onReachBottom() {
 ```js
 sendGet () {
   uni.request({
-    url: 'http://localhost:300',
+    url: 'http://localhost:3000',
     success(res) {
       console.log(res)
     }

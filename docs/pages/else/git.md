@@ -6,6 +6,9 @@
 
 ```sh
 ssh-keygen
+ssh-keygen -t ed25519 -C "zyugatcn@gmail.com"
+set http_proxy=http://127.0.0.1:7890
+set https_proxy=http://127.0.0.1:7890
 ```
 
 Github添加SSH密钥

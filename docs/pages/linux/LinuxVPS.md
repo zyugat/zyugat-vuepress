@@ -80,6 +80,19 @@ cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_m
 
 
 
+- NPM
+
+```sh
+# 更新包
+yarn upgrade-interactive --latest
+# 需要手动选择升级的依赖包，按空格键选择，a 键切换所有，i 键反选选择
+
+# x
+npm uninstall -g <packageName>
+```
+
+
+
 
 
 

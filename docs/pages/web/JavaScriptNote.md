@@ -1999,142 +1999,69 @@ iterator.next();
 
 
 
-### Promise
 
-Promise包含`pending`、`fulfilled`、`rejected`三种状态
+
+## Promise
+
+首先，Promise是异步的，其包含`pending`、`fulfilled`、`rejected`三种状态。
 
 - `pending` 指初始等待状态，初始化 `promise` 时的状态
-
 - `resolve` 指已经解决，将 `promise` 状态设置为`fulfilled`
-
 - `reject` 指拒绝处理，将 `promise` 状态设置为`rejected`
 
-- ---------------------------------
 
-- `Promise.allSettled`：不管数组中的 Promise 是否成功或失败 都会执行完全部
+
+Promise的方法
 
 - `.then`：第一个参数是成功、第二个是失败。
 - `.catch`：处理错误
 - `.finally`：无论结果如何都会执行。
-- 总结：
-  - 实例1：promise是异步的，故先执行`console.log`后执行promise，执行完后默认是`undefined`也就是`fulfilled`状态（因为已经执行完毕,所以自动被删除了。
-  - 实例2：`.then`的相对于上一个promise的处理，如果后续每个then都是一个全新的Promise，默认转递`fulfilled`状态。
-  - 实例3：如果存在返回值，那么值一定是promise。
+- `.all`：接收promise数组，需要全部状态为`resolve`，有一个为`rej`则返回`rej`
+- `.any`：接收promise数组，与all相反，有一个是`reslove`那就是`reslove`。
+- `.race`：接收promise数组，race是赛跑，以状态变化最快的那个 `Promise` 实例为准，最快的 `Promise` 成功 `Promise.race` 就成功，最快的 `Promise` 失败 `Promise.race` 就失败。
+- `.allSettled`：接收promise数组，返回所有promise的失败/成功的状态数组，下面有例子。
+
+
+
+当操作成功时调用 `resolve`，失败时调用 `reject`。
 
 ```javascript
-const p = new Promise((resolve, reject) => {
+new Promise((resolve, reject) => {
+  resolve('A')
+})
+  .then(res => {
+    console.log('resolve: ' + res)
+  })
+  .catch(err => {
+    console.log('reject: ' + err)
+  })
+```
+
+
+
+- `allSettled`
+
+```js
+let p1 = new Promise(res => {
   setTimeout(() => {
-    //
-    // let data = '数据库中的用户数据';
-    // resolve
-    // resolve(data);
-    let err = '数据读取失败'
-    reject(err)
+    res('P1')
   }, 1000)
 })
-
-  
-const promise = new Promise((resolve, reject) => {
-  resolve('success')
-}).then(
-  res => {
-    console.log(`解决：${res}`)
-  },
-  rej => {
-    console.log(`拒绝:${rej}`)
-  }
-)
-// 只关心失败状态
-.then(null, err=>{})
-
-// catch
-const promise = new Promise((resolve, reject) => {
-  throw new Error('fail')
-}).catch(msg => {
-  console.log(msg.toString() + 'NONONO')
+let p2 = new Promise((res, rej) => {
+  setTimeout(() => {
+    rej('error')
+  }, 1000)
 })
-
-```
-
-
-
-- 实例1
-  - 第一：先打印p1p2状态
-    - 10-11
-  - 第二：然后因创建了p1p2所以执行他们
-    - 第一行和第四行定义了p1p2的promise
-  - 最后：打印p1p2状态
-    - 因为已经执行完毕所以两者都是undefined
-
-```js
-let p1 = new Promise(resolve => {
-  resolve()
+Promise.all([p1, p2]).then(res => {
+  console.log(res)
+}) // Uncaught (in promise) error
+Promise.allSettled([p1, p2]).then(res => {
+  console.log(res)
 })
-let p2 = p1.then(() => {
-  console.log('bili')
-})
-p2.then(() => {
-  console.log('bili.com')
-})
-console.log(p1) // Promise {<resolved>}
-console.log(p2) // Promise {<pending>}
-
-setTimeout(() => {
-  console.log(p1) // Promise {<resolved>}
-  console.log(p2) // Promise {<resolved>}
-})
-// Promise { undefined }
-// Promise { <pending> }
-// bili
-// bili.com
-// Promise { undefined }
-// Promise { undefined }
-```
-
-
-
-- 实例2
-  - `then` 是对上个 promise 的`rejected` 的处理，每个 `then` 会是一个新的promise，默认传递 `fulfilled`状态
-
-```js
-new Promise((resolve, reject) => {
-  reject()
-})
-  .then(
-    resolve => console.log('fulfilled'),
-    reject => console.log('rejected')
-  )
-  .then(
-    resolve => console.log('fulfilled'),
-    reject => console.log('rejected')
-  )
-  .then(
-    resolve => console.log('fulfilled'),
-    reject => console.log('rejected')
-  )
-// rejected
-// fulfilled
-// fulfilled
-```
-
-
-
-- 实例3
-  - 如果存在返回值，那么值一定是promise
-
-```js
-let a = new Promise(resolve => {
-  resolve()
-})
-let b = a
-  .then(() => {
-    return new Promise(r => {
-      r('bili.com')
-    })
-  })
-  .then(v => {
-    console.log(v)
-  })
+// [
+//   ({ status: 'fulfilled', value: 'P1' },
+//   { status: 'rejected', reason: 'error' })
+// ]
 ```
 
 
