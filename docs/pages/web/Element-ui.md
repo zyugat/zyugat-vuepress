@@ -602,7 +602,7 @@ https://element-plus.gitee.io/zh-CN/component/cascader.html
 
   - Select 选择器
   - Cascader 级联选择器
-    - <img src="C:\Users\zyugat\AppData\Roaming\Typora\typora-user-images\image-20220507144729396.png" alt="image-20220507144729396" style="zoom:80%;" />
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_430fdddf721a4.png" alt="image-20220507144729396" style="zoom:80%;" />
 
   
 
@@ -1069,7 +1069,7 @@ const next = () => {
   - Pagination 分页
     - ![image-20220507154407387](http://img.zyugat.cn/zyuimg/2022-05-07_f79936e185e56.png)
   - Result 结果
-    - <img src="C:\Users\zyugat\AppData\Roaming\Typora\typora-user-images\image-20220507154454198.png" alt="image-20220507154454198" style="zoom:67%;" />
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_964514c8aa07b.png" alt="image-20220507154454198" style="zoom:67%;" />
   - Timeline 时间线
     - ![image-20220507154642951](http://img.zyugat.cn/zyuimg/2022-05-07_b60459fb5ee1c.png)
   - Tree 树形控件
