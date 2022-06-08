@@ -408,7 +408,7 @@ box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
 
 
 
-### Link
+### Link 链接
 
 ```html
 <template>
@@ -441,7 +441,7 @@ box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
 
 
 
-### Scrollbar
+### Scrollbar 滚动条
 
 ```html
 <el-scrollbar></el-scrollbar>
@@ -589,9 +589,81 @@ https://element-plus.gitee.io/zh-CN/component/cascader.html
 
 
 
-### 基础表单
+- 1、常用表单元素
 
-在每个 `form` 组件中，需要一个 `from-item` 字段作为**输入项的容器**。（理解为一个 label）
+  - Radio 单选
+  - Checkbox 多选
+  - Input 输入框
+  - InputNumber 计数器
+  - Switch 开关
+  - Slider 滑块，通过拖动滑块在一个固定区间内进行选择
+
+- 2、选择器
+
+  - Select 选择器
+  - Cascader 级联选择器
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_430fdddf721a4.png" alt="image-20220507144729396" style="zoom:80%;" />
+
+  
+
+- 3、选择器
+
+  - TimePicker 时间选择器
+  - DatePicker 日期选择器
+  - DateTimePicker 日期时间选择器
+  - ColorPicker 颜色选择器
+
+- 其他
+
+  - Upload 上传
+  - Rate 评分
+  - Transfer 穿梭框
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_9821406e53d74.png" alt="image-20220507145015649" style="zoom:80%;" />
+
+  
+
+
+
+### 基础表单-Form
+
+- BASE
+
+  - 1、在每个 `form` 组件中，需要一个 `from-item` 字段作为**输入项的容器**。（理解为一个 label）
+
+  - 2、当一个 form 元素中只有一个输入框时，在该输入框中按下回车应提交该表单。如果希望阻止这一默认行为，可以在 `<el-form>` 标签上添加 `@submit.native.prevent`。
+
+  - 3、数字类型验证
+
+    - 只能输入数字，输入其他则自动删除。在 `v-model` 处加上 `.number` 的修饰符
+
+  - 4、控制整个表单的展示方式
+
+    - size：大小（large、default、small
+
+    - labelPosition：标签的位置（Left、Right、Top
+
+    - ```HTML
+      <el-form  
+               :label-position="labelPosition" 
+               :size="size"></el-form>
+      ```
+
+    - 
+
+- 表示方法
+
+  - 1、变成行内元素：设置 `inline` 属性
+
+    - ```html
+      <el-form :inline="true"></el-form>
+      ```
+
+  - 2、标签对其方式：设置 `label-position` 属性，可选值为 `top`、`left`、`Right`。
+
+    - **`文字靠左对齐`**
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_bbb38685da51a.png" alt="image-20220507145416172" style="zoom:80%;" />
+
+  - 
 
 例如一个简单的输入名字功能
 
@@ -640,15 +712,9 @@ const onSubmit = () => {
 
 
 
-行内表单：一行显示，`inline` 属性为 `true`
-
-```html
-<el-form :inline="true" :model="formInline"></el-form>
-```
 
 
 
-标签对其方式：设置 `label-position` 属性可以改变表单域标签的位置，可选值为 `top`、`left`、`Right`。
 
 top 意思是一个标签为一行。left 是指文字居左对齐，right 相反。
 
@@ -660,7 +726,11 @@ top 意思是一个标签为一行。left 是指文字居左对齐，right 相�
 
 
 
-### 表单校验
+### 表单的其他操作
+
+- 1、表单校验
+- 2、动态增减表单项
+  - 字面意思，这里就不展示代码了，具体看文档
 
 验证用户的输入是否符合规范。
 
@@ -719,28 +789,137 @@ const rules = reactive({
 
 
 
-例子：数字类型验证。`v-model` 处加上 `.number` 的修饰符，将绑定值转化为数字类型。因此无法输入其他字符只能输入数字。
+## Nav 导航
+
+https://element-plus.gitee.io/zh-CN/component/menu.html#menu-%E5%B1%9E%E6%80%A7
+
+- 1、导航
+  - Munu 菜单
+  - Dropdown 下拉菜单
+  - Tabs 标签页
+  - Breadcrumb 面包屑
+- 2、小工具
+  - Affix 图钉
+  - BackTop 返回顶部
+  - Page Header 页头
+    - ![image-20220507153848086](http://img.zyugat.cn/zyuimg/2022-05-07_46853f6058ee9.png)
+  - Setps 步骤条
+
+
+
+### Menu 菜单
+
+- 1、设置el-munu元素
+  - **设置属性**
+  - `mode`：展示方向，水平/垂直。horizontal / vertical
+  - `:default-active`：绑定激活菜单的index
+  - `@select`：点击菜单时激活的回调
+- 2、设置主页 `el-menu-item`
+  - `index`：必须要绑定
+- 3、设置一级菜单 `el-sub-menu`
+  - `template #title`：该元素是设置**菜单名称**
+  - `index`：必须要绑定
+- 4、设置菜单内容 `el-menu-item`
+  - `index`：必须要绑定
+- 5、设置二级菜单和设置一级一样
 
 ```vue
-<el-form-item
-  label="age"
-  prop="age"
-  :rules="[
-    { required: true, message: 'age is required' },
-    { type: 'number', message: 'age must be a number' },
-  ]"
->
-  <el-input
-    v-model.number="numberValidateForm.age"
-    type="text"
-    autocomplete="off"
-  ></el-input>
-</el-form-item>
+<template>
+  <el-menu
+    :default-active="activeIndex"
+    class="el-menu-demo"
+    mode="horizontal"
+    @select="handleSelect"
+  >
+    <!-- 主页 -->
+    <el-menu-item index="1">Processing Center</el-menu-item>
+    <!-- 一级标题 -->
+    <el-sub-menu index="2">
+      <template #title>Workspace</template>
+      <!-- 二级标题 -->
+      <el-menu-item index="2-1">item one</el-menu-item>
+      <el-menu-item index="2-2">item two</el-menu-item>
+      <el-menu-item index="2-3">item three</el-menu-item>
+      <!-- 三级标题 -->
+      <el-sub-menu index="2-4">
+        <template #title>item four</template>
+        <el-menu-item index="2-4-1">item one</el-menu-item>
+        <el-menu-item index="2-4-2">item two</el-menu-item>
+        <el-menu-item index="2-4-3">item three</el-menu-item>
+      </el-sub-menu>
+    </el-sub-menu>
+    <el-menu-item
+      index="3"
+      disabled
+    >Info</el-menu-item>
+    <el-menu-item index="4">Orders</el-menu-item>
+  </el-menu>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const activeIndex = ref("1");
+const activeIndex2 = ref("1");
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+</script>
 ```
 
+![image-20211231183801833](http://img.zyugat.cn/zyuimg/2021-12-31_0ef6a8acc1387.png)
 
 
-## Nav 导航
+
+### Tabs 标签页
+
+- 属性
+  - `v-model`：绑定当前活跃的导航（绑的是name
+- 事件
+  - `tab-click`：点击触发
+  - `tab-change`：`activeName` 改变时触发
+  - `tab-remove`、`tab-add`、`edit`：移除增加,点击增加或移除时触发
+- 风格
+  - 卡片
+    - `type="card"`
+  - 带有边框的卡片
+    - `type="border-card"`
+  - 标签位置
+    -  `tabPosition="left|right|top|bottom"`
+  - 自定义标签页内容，看下面例子
+    - ![image-20220507153512756](http://img.zyugat.cn/zyuimg/2022-05-07_0e66f9dfbada1.png)
+  - 动态增减标签页
+
+```HTML
+<el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+  <el-tab-pane label="User" name="first">User</el-tab-pane>
+  <el-tab-pane label="Config" name="second">Config</el-tab-pane>
+  <el-tab-pane label="Role" name="third">Role</el-tab-pane>
+  <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
+</el-tabs>
+```
+
+**自定义标签页内容**
+
+```html
+<el-tab-pane>
+  <template #label>
+    <span class="custom-tabs-label">
+      <el-icon><calendar /></el-icon>
+      <span>Route</span>
+    </span>
+  </template>
+  Route
+</el-tab-pane>
+```
+
+![image-20220507153512756](http://img.zyugat.cn/zyuimg/2022-05-07_0e66f9dfbada1.png)
+
+
+
+
+
+****
 
 
 
@@ -800,65 +979,101 @@ const rules = reactive({
 
 
 
-### Menu 菜单
+### Steps 步骤条
 
-属性和方法过多这里就不作搬运，自行查看文档。
-
-https://element-plus.gitee.io/zh-CN/component/menu.html#menu-%E5%B1%9E%E6%80%A7
-
-
-
-主页：`el-menu-item`
-
-标题名称：`template #title`，如果**存在二级标题**则需要该标签
-
-一级标题：`el-sub-menu`，通过属性 `index` 标识。
-
-菜单：`el-menu-item`
-
-```vue
+```HTML
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-  >
-    <!-- 主页 -->
-    <el-menu-item index="1">Processing Center</el-menu-item>
-    <!-- 一级标题 -->
-    <el-sub-menu index="2">
-      <template #title>Workspace</template>
-      <!-- 二级标题 -->
-      <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
-      <!-- 三级标题 -->
-      <el-sub-menu index="2-4">
-        <template #title>item four</template>
-        <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item
-      index="3"
-      disabled
-    >Info</el-menu-item>
-    <el-menu-item index="4">Orders</el-menu-item>
-  </el-menu>
+  <el-steps :active="active" finish-status="success">
+    <el-step title="Step 1" />
+    <el-step title="Step 2" />
+    <el-step title="Step 3" />
+  </el-steps>
+
+  <el-button style="margin-top: 12px" @click="next">Next step</el-button>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const activeIndex = ref("1");
-const activeIndex2 = ref("1");
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
+const active = ref(0)
+
+const next = () => {
+  if (active.value++ > 2) active.value = 0
+}
 </script>
 ```
 
-![image-20211231183801833](http://img.zyugat.cn/zyuimg/2021-12-31_0ef6a8acc1387.png)
 
+
+## Feedback 反馈组件
+
+- **`Drawer 抽屉`**
+  - 侧边栏！！！！！！！！侧边栏！！！！！！！！侧边栏！！！！！！！！
+- 提示
+  - 1、Alert 提示
+    - ![image-20220507154820141](http://img.zyugat.cn/zyuimg/2022-05-07_07ea013db894e.png)
+  - 2、Loading 加载
+  - 3、Dialog 对话框
+    - **弹出一个对话框，告知用户并承载相关操作。**
+  - 4、Notification 通知
+    - 浏览器右侧中弹出：![image-20220507155049585](http://img.zyugat.cn/zyuimg/2022-05-07_a025a1c6189f1.png)
+  - 5、Tooltip 文字提示
+    - 鼠标放上去提示内容，![image-20220507154953113](http://img.zyugat.cn/zyuimg/2022-05-07_978aa602246c0.png)
+  - 6、Popover 气泡卡片
+    - 与 `Tooltip` 差不多，但他可以点击后持续显示。
+- 确认
+  - 1、Message 消息提示
+    - 点击后，顶部出现一个对话框，3秒后消失
+  - 2、MessageBox 弹框
+    - 弹窗，用于消息提示、确认消息和提交内容，类似`Alert`
+  - 3、Popconfirm 气泡确认框
+    - ![image-20220507155318452](http://img.zyugat.cn/zyuimg/2022-05-07_aa2c02d9d01c7.png)
+
+
+
+
+
+## Data
+
+这里只对部分做一个展示，不说明用法
+
+- 重要
+  - Image 图片
+  - **Card 卡片**
+    - 可用于展示商品之类的
+  - Carousel 走马灯
+    - 轮播图
+  - Table 表格
+  - **`Progress 进度条`**
+  - Descriptions 描述列表
+    - 用于展示账单
+    - ![image-20220507154229817](http://img.zyugat.cn/zyuimg/2022-05-07_a0d3632500ae5.png)
+
+- 1、展示用
+  - Avatar 头像
+  - Tag 标签
+  - Badge 徽章，显示消息的
+    - ![image-20220507154024498](http://img.zyugat.cn/zyuimg/2022-05-07_498f0ee5d6cfd.png)
+  - Calendar 日历
+  - Collapse 折叠面板
+  - Empty 空状态
+    - 空状态时的占位提示。
+    - ![image-20220507154255053](http://img.zyugat.cn/zyuimg/2022-05-07_8547dcec35098.png)
+  - Skeleton 骨架屏
+    - 等待加载，比Loading好
+    - ![image-20220507154533038](http://img.zyugat.cn/zyuimg/2022-05-07_65e7156ca751a.png)
+- 3、杂七杂八
+  - Infinite Scroll 无限滚动
+    - 自动加载底部内容
+  - - 
+  - Pagination 分页
+    - ![image-20220507154407387](http://img.zyugat.cn/zyuimg/2022-05-07_f79936e185e56.png)
+  - Result 结果
+    - <img src="http://img.zyugat.cn/zyuimg/2022-05-07_964514c8aa07b.png" alt="image-20220507154454198" style="zoom:67%;" />
+  - Timeline 时间线
+    - ![image-20220507154642951](http://img.zyugat.cn/zyuimg/2022-05-07_b60459fb5ee1c.png)
+  - Tree 树形控件
+    - ![image-20220507154657597](http://img.zyugat.cn/zyuimg/2022-05-07_1fda01ddf5eab.png)
+  - TreeSelect 树形选择
+  - 
+    - ![image-20220507154709859](http://img.zyugat.cn/zyuimg/2022-05-07_3672c1651806d.png)

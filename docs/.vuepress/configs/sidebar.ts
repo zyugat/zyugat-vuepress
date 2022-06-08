@@ -19,6 +19,7 @@ export const sidebar: SidebarConfig = {
         '/pages/web/Bootstrap4.md',
         '/pages/web/Element-ui.md',
         '/pages/web/wxWeb.md',
+        '/pages/web/uni-app.md',
         '/pages/web/ReactNote.md',
         '/pages/web/VueNote.md',
         '/pages/web/VueCLI&TypeScript.md',
