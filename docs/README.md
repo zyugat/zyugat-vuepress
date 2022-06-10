@@ -25,6 +25,10 @@ footer:
 
 ## 更新日志
 
+- 2022/6/10
+  - 根据最新官网文档优化 VueNote 、 VueCli&TypeScript, 将VueCli&TypeScript内的 单文件组件 移动至 VueNote。
+  - 简化了大量 VueNote 中关于 单文件组件 和 script setup 内容并重写了部分关于 Components 的内容。
+  - 补充：VueNote只涉及Vue3及基础内容和组合式API Setup。而VueCli&TypeScript则涉及的是 vuex + router + ts。
 - 2022/6/8
   - 重写小程序、Uni-app 全部内容。Element-ui 添加部分组件内容。重写 JavaScriptNote 的 Promise 章节。
 - 2022/5/6

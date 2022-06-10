@@ -4,6 +4,28 @@
 
 ## base
 
+- **指令**
+
+- `v-text`
+  - 向其所在的节点中渲染文本内容、**替换掉节点中的内容**，意思是不管div中有什么内容，直接覆盖。
+- `v-html`
+  - 向指定节点中渲染包含html结构的内容
+- `v-once`
+  - 初次渲染后，变成静态内容。
+- `v-pre`
+  - 跳过其所在节点的编译过程，用于**加快编译**(没有使用指令语法、没有使用插值语法的节点)
+
+```html
+<!-- str:'<h3>你好啊！</h3>' -->
+<div v-text="str"></div>	<!-- <h3>你好啊！</h3> -->
+<div v-html="str"></div>	<!-- 你好啊！ --> <!-- h2标签大小的你好啊 -->
+<h2 v-once>初始化的a值是:{{a}}</h2>
+```
+
+![image-20211116172030660](http://img.zyugat.cn/zyuimg/2021-11-16_9bcfbf1989f56.png)
+
+
+
 ### 数据绑定
 
 - `v-bind`
@@ -12,29 +34,28 @@
 
 
 
-- class样式
+- 可以使用 JS 表达式
+
+```html
+<div :id="`list-${id}`"></div>
+```
 
 
-字符串和数组：**用于绑定多个样式**。
 
-对象：用于**控制是否显示样式**。
+
+
+- 绑定class样式时
+  - 一般用于动态控制 **样式**
+  - 动态参数：`<a :[attributeName]="url">`
+
 
 
 ```html
-<style>
-.active {
-  color: red;
-}
-</style>
-
 <h2 :class="active">Hello World</h2> 
 <h2 :class="['active', 'line']">Hello World</h2> 
 <!-- 通过控制 yesActive 选择是否显示样式 -->
 <h2 :class="{active: yesActive}">{{message}}</h2>
 ```
-
-- 动态参数
-  - `<a :[attributeName]="url">`
 
 ![image-20211116160801284](https://img-blog.csdnimg.cn/img_convert/0fdad588eebbc5affe10e1f7d52feda9.png)
 
@@ -50,8 +71,6 @@
   <h2 :style="[myColor, mySize]">Hello</h2>
 	<div :style="{ fontSize: size + 'px'}">我的大小为30</div>
 </div>
-
-
 <script>
   const app = new Vue({
     el: '#app',
@@ -219,8 +238,21 @@ keyup.*
 
 ![image-20211116165601947](https://img-blog.csdnimg.cn/img_convert/5a5cb2044047e60281daba453662d6fe.png)
 
-- `v-for`
 
+
+Vue 包装了一批侦听数组的变更方法，以至于这些方法可以触发视图更新。被包装的变更方法如下：
+
+- `push()`
+- `pop()`
+- `shift()`
+- `unshift()`
+- `splice()`
+- `sort()`
+- `reverse()`
+
+
+
+- `v-for`
 - 当遍历数组时--->**值、索引**
 - 当遍历对象时->**值、键**——————**值、键、索引**
 - 当遍历字符串时--->**值、索引**
@@ -417,33 +449,9 @@ unwatch = vm.$watch(
 
 
 
-****
-
-
-
-### 指令
-
-- `v-text`
-  - 向其所在的节点中渲染文本内容、**替换掉节点中的内容**，意思是不管div中有什么内容，直接覆盖。
-- `v-html`
-  - 向指定节点中渲染包含html结构的内容
-- `v-once`
-  - 初次渲染后，变成静态内容。
-- `v-pre`
-  - 跳过其所在节点的编译过程，用于**加快编译**(没有使用指令语法、没有使用插值语法的节点)
-
-```html
-<!-- str:'<h3>你好啊！</h3>' -->
-<div v-text="str"></div>	<!-- <h3>你好啊！</h3> -->
-<div v-html="str"></div>	<!-- 你好啊！ --> <!-- h2标签大小的你好啊 -->
-<h2 v-once>初始化的a值是:{{a}}</h2>
-```
-
-![image-20211116172030660](http://img.zyugat.cn/zyuimg/2021-11-16_9bcfbf1989f56.png)
-
 ## 生命周期
 
-![lifecycle](http://img.zyugat.cn/zyuimg/2021-11-04_4ac4594b73f24.png)
+![img](https://staging-cn.vuejs.org/assets/lifecycle.16e4c08e.png)
 
 `beforeCreate`：实例初始化后
 
@@ -641,21 +649,17 @@ btnClick() {
 
 ### v-model参数
 
-> 需求：通过props将数据传递给**子组件**，保持数据的响应性。
+> 作用：双向绑定 **父子组件**的值，好处是节约空间不用多写一个方法
 >
-> 思路：通过`v-model`绑定Props值传递给子组件，子组件通过自定义事件`emit`修改。
+> 补充下 V-model的修饰符：`.trim`，`.number` 和 `.lazy`。
 
-默认情况下，组件上的 `v-model` 使用 `modelValue` 作为 prop 和 `update:modelValue` 作为事件。我们可以通过向 `v-model` 传递参数来修改这些名称：
+- 父组件
+  - 用v-model绑定一个 `value`
+- 子组件
+  - 声明事件：`props`、`emits`
+  - 绑定`@input`事件，前面的`update:`是固定的。
 
-绑定的方法：`v-model:propname="xxx"`
-
-抛出的事件名 `update:propname`结构，前面uptede是固定是。
-
-1、父组件通过v-model绑定props：`v-model:my-name="myName1"`
-
-2、子组件中接受 props 值 `myName`。
-
-3、组件输入框 input 发送自定义事件。当值被改变时把值发出去。
+- 当然你可选择在子组件上用**计算属性实现**。
 
 ```html
 <div id="app">
@@ -675,9 +679,7 @@ const app = Vue.createApp({
 })
 app.component('user-name', {
   // 第二步
-  props: {
-    myName: String,
-  },
+  props: ['myName'],
   // 声明自定义事件
   emits: ['update:myName'],
   // 第三步
@@ -691,6 +693,32 @@ app.component('user-name', {
 app.mount('#app')
 ```
 
+> 计算属性
+
+```html
+<!-- CustomInput.vue -->
+<script>
+export default {
+  props: ['modelValue'],
+  emits: ['update:modelValue'],
+  computed: {
+    value: {
+      get() {
+        return this.modelValue
+      },
+      set(value) {
+        this.$emit('update:modelValue', value)
+      }
+    }
+  }
+}
+</script>
+
+<template>
+  <input v-model="value" />
+</template>
+```
+
 
 
 ****
@@ -699,15 +727,12 @@ app.mount('#app')
 
 ### 动态异步组件
 
-在动态组件上使用`keep-alive`可以使**组件实例被缓存**。
+> 在动态组件上使用`keep-alive`可以使**组件实例被缓存**。
 
-1、新建三个组件：`tab-home、tab-posts、tab-archive`
-
-2、通过计算属性**拼接属性名**：`currentTabComponent() {}`
-
-3、通过点击按钮**切换组件名**
-
-4、通过`:is=""`选择显示的组件
+- 说明
+  - 1、通过使用 `component` 组件的 `is` 属性动态控制组件
+  - 2、`tabs` 数组保存组件名称，`currentTab` 保存当前组件名称
+  - 3、点击按钮时修改 `currentTab` 属性，触发计算属性`currentTabComponent`从而切换组件。
 
 ```html
 <div id="dynamic-component-demo" class="demo">
@@ -783,20 +808,27 @@ app.component('async-example', AsyncComp)
 
 
 
-
-
 ****
 
 
 
-### 插槽
+### Slot插槽
 
 - 插槽：`slot`
 
-
 **具名插槽**
 
-缩写：`<template #header>`
+- 缩写：下面两个都是等效的
+
+```html
+<template #header>
+<template slot="header">
+```
+
+
+
+- 子组件：通过使用 `name` 属性命名
+- 父组件：通过使用 `slot` 属性插入对应插槽
 
 ```html
 <div id="app">
@@ -817,27 +849,16 @@ app.component('async-example', AsyncComp)
 
 **作用域插槽**
 
-> 可以理解为：将外部内容放在**子组件slot中**。
->
-> ```html
-> <slot :item="item" :index="index"
->               :another-attribute="anotherAttribute">
->       <span>{{ item }}</span>
->       <span>-----{{ anotherAttribute }}</span>
-> </slot>
-> ```
->
-> 这样看懂了把？
+总结：可以在父组件中使用子组件的数据。
 
-自定义项目的渲染方式。**默认插槽不能和具名插槽混用**
+1、`v-slot:default=""`或`v-slot=""`，不带参数的 `v-slot` 被假定对应默认插槽。**默认插槽不能和具名插槽混用**
 
-1、`v-slot:default=""`或`v-slot=""`，不带参数的 `v-slot` 被假定对应默认插槽。
-
-2、在插槽中，绑定了item、index、anotherAttribute，如果需要用到某个属性则可以使用 `slotProps.属性名`，进行调用。
-
-**slotProps可以替换为任何名字。**
+- 子组件
+  - 遍历 items
+  - 在插槽中绑定：`item`、`index`、`anotherAttribute`。绑定完毕后父组件就可以直接使用了。
 
 ```html
+<!-- 子组件 -->
 template: `
   <ul>
     <li v-for="(item, index) in items">
@@ -858,6 +879,8 @@ template: `
 
 ![image-20211116181117133](http://img.zyugat.cn/zyuimg/2021-11-16_981fdcff59028.png)
 
+
+
 因为作用域插槽的内部工作原理是将你的插槽内容包括在一个传入单个参数的函数里，所以可以在里面使用JS表达式，如重命名：
 
 将item重命名为todo
@@ -873,6 +896,64 @@ template: `
 ```html
 <template v-slot:[dynamicSlotName]>
 ```
+
+
+
+实例
+
+- 父组件
+  - 第4行：参考上面作用于插槽，`{...}`相当于解构赋值
+  - 剩下就是去实现数据了
+- 子组件
+  - js 没什么好说的
+  - 23行：当获取到数据的时候，就遍历
+  - 24行：直接使用 `v-bind` 绑定数据，**这样父组件就能找得到数据了**。
+
+```HTML
+<!-- 父 -->
+<template>
+  <FancyList :api-url="url" :per-page="10">
+    <template #item="{ body, username, likes }">
+      <div class="item">
+        <p>{{ body }}</p>
+        <p class="meta">by {{ username }} | {{ likes }} likes</p>
+      </div>
+    </template>
+  </FancyList>
+</template>
+```
+
+```html
+<!-- 子 -->
+<script setup>
+import { ref } from 'vue'
+
+const props = defineProps(['api-url', 'per-page'])
+
+const items = ref([])
+
+// mock remote data fetching
+setTimeout(() => {
+  items.value = [
+    { body: 'Scoped Slots Guide', username: 'Evan You', likes: 20 },
+	  { body: 'Vue Tutorial', username: 'Natalia Tepluhina', likes: 10 }
+  ]
+}, 1000)
+</script>
+
+<template>
+  <ul>
+    <li v-if="!items.length">
+      Loading...
+    </li>
+    <li v-for="item in items">
+      <slot name="item" v-bind="item"/>
+    </li>
+  </ul>
+</template>
+```
+
+![image-20220610134840090](http://img.zyugat.cn/zyuimg/2022-06-10_040e3494cb678.png)
 
 
 
@@ -934,43 +1015,16 @@ provide() {
 
 
 
-### Mixin
-
-不推荐用，要用就用setup
-
-```js
-// 定义一个 mixin 对象
-const myMixin = {
-  created() {
-    this.hello()
-  },
-  methods: {
-    hello() {
-      console.log('hello from mixin!')
-    }
-  }
-}
-
-// 定义一个使用此 mixin 对象的应用
-const app = Vue.createApp({
-  mixins: [myMixin]
-})
-
-app.mount('#mixins-basic') // => "hello from mixin!"
-```
-
-
-
-****
-
-
-
 ### Attribute 继承
 
-> 效果：组件数据不使用props接收，将这些数据将作为属性绑定到HTML元素中。
+我直接上结论，将 **属性** 或 **V-on** 事件监听器传递给组件，就像 class style id 这些。
 
-- 问题1、`inheritAttrs: false` ：如果你**不**希望组件的根元素继承 attribute，就在选项中设置。
-  - 当你关闭继承后，如果想要将所有 prop attribute 应用于别的元素，而不是根元素，可以使用：`v-bind="$attrs"`
+
+
+1、禁用属性基础
+
+- `inheritAttrs: false`
+- 禁用继承后，想给子组件**某一个子元素**使用继承，可以使用：`v-bind="$attrs"`
 
 ```html
 <!-- 如果不关闭则会变成这样, 根元素继承所有属性 -->
@@ -987,22 +1041,19 @@ app.mount('#mixins-basic') // => "hello from mixin!"
 
 
 
-- 问题2、`$attrs`包含什么？
-  - 包含父作用域中不作为组件 props 或自定义事件的 attribute 绑定和事件，包括 `class` 和 `style`。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定。`v-bind="$attrs"`
+- 问题1、`$attrs`包含什么？包含所有父作用域的绑定。（包含父作用域中不作为组件 props 或自定义事件的 attribute 绑定和事件）
 
 
 
-- 问题3、当存在父组件传递 Props 后
+- 问题2、当存在父组件传递 Props 后
   - 当组件**没有接收** Props，那么Props 会存在于 `$attrs` 中。
   - 当组件**接收** Props，那么 Props 不会存在于 `$attrs` 中，而存在于 `$props`中。
 
 
 
-- 问题4、如果我传递的属性中存在 **方法的调用**
+- 问题3、如果我传递的属性中存在 **方法的调用**
   - 例如我给父组件绑定了点击事件 `@click="show"`，虽然没有在attrs中显示，**但是他是存在的。**
   - 例如：下面案例中，我点击 `father` `child` `text`，是会触发控制台输出的。然而点击`$attrs`、`$props`是不会有反应的，因为我没有给他们绑定  `v-bind="$attrs"`。
-
-
 
 ```js
 app.component('grandfather', {
@@ -1055,27 +1106,6 @@ app.component('grandfather', {
 ```
 
 ![image-20211113142923778](http://img.zyugat.cn/zyuimg/2021-11-13_6af9a18484f1f.png)
-
-
-
-****
-
-
-
-### 模块系统
-
-```js
-import ComponentA from './ComponentA'
-import ComponentC from './ComponentC'
-
-export default {
-  components: {
-    ComponentA,
-    ComponentC
-  }
-  // ...
-}
-```
 
 
 
@@ -1440,7 +1470,7 @@ methods: {
 
 
 
-### 过渡动画钩子流程
+### 例-过渡动画钩子流程
 
 ![动画](http://img.zyugat.cn/zyuimg/2022-05-06_2b385b9df4df3.gif)
 
@@ -1520,7 +1550,7 @@ methods: {
 
 
 
-### 左右切换组件
+### 例-左右切换组件
 
 ![动画](http://img.zyugat.cn/zyuimg/2022-05-06_b821fe01f54fb.gif)
 
@@ -1594,76 +1624,160 @@ export default defineComponent({
 
 
 
+## script setup
+
+### Props Emits
+
+1、用来声明 `props` 和 `emits` 。
+
+```js
+import {defineProps,defineEmits} from 'vue'
+const props = defineProps({
+  foo: String
+})
+
+const emit = defineEmits(['change', 'delete'])
+```
 
 
-## 组合式API-setup
+
+2、类型声明 Props
+
+```js
+interface Props {
+  msg?: string
+  labels?: string[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  msg: 'hello',
+  labels: () => ['one', 'two']
+})
+```
+
+
+
+### 导出属性
+
+如果通过模板 ref 或者 `$parent` 链获取到的组件的公开实例，不会暴露任何在 `<script setup>` 中声明的绑定。
+
+因此需要使用 `defineExpose` 明确暴露出去的属性。
+
+```js
+import { ref } from 'vue'
+
+const a = 1
+const b = ref(2)
+
+defineExpose({
+  a,
+  b
+})
+```
+
+
+
+### Slots Attrs
+
+```js
+import { useSlots, useAttrs } from 'vue'
+
+const slots = useSlots()
+const attrs = useAttrs()
+```
+
+
+
+### Style 特性
+
+- 如果添加 `scoped` attribute 的时候，它的 CSS 只会应用到当前组件的元素上。
+
+1、深度选择器，影响到子组件，可以使用 `:deep()` 这个伪类：
+
+```html
+<style scoped>
+.a :deep(.b) {
+  /* ... */
+}
+</style>
+```
+
+
+
+2、插槽选择器，
+
+默认情况下作用域样式不会影响到 `<slot/>` 渲染出来的内容，使用 `:slotted` 伪类以确切地将插槽内容作为选择器的目标：
+
+```HTML
+<style scoped>
+:slotted(div) {
+  color: red;
+}
+</style>
+```
+
+
+
+
+
+3、全局选择器：使用 `:global` 伪类
+
+```HTML
+<style scoped>
+:global(.red) {
+  color: red;
+}
+</style>
+```
+
+
+
+3、状态驱动---动态CSS
+
+```HTML
+<script setup>
+const theme = {
+  color: 'red'
+}
+</script>
+
+<template>
+  <p>hello</p>
+</template>
+
+<style scoped>
+p {
+  color: v-bind('theme.color');
+}
+</style>
+```
+
+
+
+
+
+## 组合式API
 
 将界面中重复的部分连同功能都提取为可重用的代码段
 
-> 在 `setup` 中你应该避免使用 `this`，因为它不会找到组件实例。
+> 1、在 `setup` 中你应该避免使用 `this`，因为它不会找到组件实例。
 >
-> `setup`在beforeCreate之前执行一次，this是undefined。
+> 2、`setup`在beforeCreate之前执行一次，this是undefined。
 >
-> `setup` 的调用发生在 `data` property、`computed` property 或 `methods` 被解析之前，所以它们无法在 `setup` 中被获取。
-
-**data、methos、computed...）当与setup某个属性重名时，setup优先。**
-
-setup内部无法通过this获取值，所以只能在参数传入props，不然setup内部无法获取外面传来的值
+> 3、`setup` 的调用发生在 `data` property、`computed` property 或 `methods` 被解析之前，所以它们无法在 `setup` 中被获取。
+>
+> 4、**data、methos、computed...）当与setup某个属性重名时，setup优先。**
 
 
 
-> 1、setup简单使用
+### 定义数据
 
-- 返回值：
-  - 若返回一个对象，则对象中的属性、方法, 在模板中均可以直接使用。（重点关注！）
-  - 若返回一个渲染函数：则可以自定义渲染内容。（了解）
+总结：
 
-返回值是一个 `promise` 。
-
-```js
-setup(){
-  let name = '张三'
-  let age = 18
-
-  // 方法
-  function sayHello() {
-    alert(`Hello`)
-  }
-
-  // 返回一个对象（常用）
-  return {
-    name,
-    age,
-    sayHello,
-  }
-  // 返回一个函数（渲染函数）
-  // return ()=> h('h1','setup')
-}
-```
+- 普通数据用`ref`。
+- 对象用：`reactive`。
 
 
-
-> 2、setup的参数
-
-`setup`：选项是一个接收 `props` 和 `context` 的函数。
-
-- props：对象，包含组件外部传递过来的数据，以及内部声明接收的属性。
-- context：上下文对象
-  - attrs: 值为对象，包含：组件外部传递过来，但没有在props配置中声明的属性, 相当于 ```this.$attrs```。
-  - slots: 收到的插槽内容, 相当于 ```this.$slots```。
-  - emit: 分发自定义事件的函数, 相当于 ```this.$emit```。
-
-**emit**
-
-当在setup中使用`emit`时，需先在子组件中声明。
-
-```js
-emits:['hello']
-```
-
-
-
-### 定义响应式的数据
 
 1、**ref**
 
@@ -1671,9 +1785,8 @@ emits:['hello']
 
 - 语法: ```const xxx = ref(initValue)``` 
   - 如果要操作数据需要：`.value`。读取数据就不需要。
-  - 因为接收参数并将其包裹在一个带有 `value` property 的对象中返回。
-
-  - ref通过``Object.defineProperty()``的```get```与```set```实现响应式。也可以定义对象和数组，但会自动通过`reactive`转为Proxy对象。
+  - ref通过``Object.defineProperty()``的```get```与```set```实现响应式。
+  - 也可以定义对象和数组，但会自动通过`reactive`转为Proxy对象。
 
 ```js
 import { ref } from 'vue'
@@ -1689,39 +1802,7 @@ console.log(counter.value) // 1
 
 
 
-2、**toRef**
-
-解构，将响应式对象中的某个属性**单独提供给外部使用**。
-
-`toRef(Object, attribute)`
-
-`toRefs(Object)`：处理一个对象的多个属性。
-
-```js
-setup(){
-  //数据
-  let person = reactive({
-    name:'张三',
-    age:18,
-    job:{
-      j1:{
-        salary:20
-      }
-    }
-  })
-  // const name2 = toRef(person,'name')
-  const x = toRefs(person)
-  return {
-    person,
-    // salary:toRef(person.job.j1,'salary'),
-    ...toRefs(person)
-  }
-}
-```
-
-
-
-3、**reactive**
+2、**reactive**
 
 定义一个**对象或数组类型**的响应式数据
 
@@ -1738,10 +1819,6 @@ const object = reactive({
 
 console.log(object)	// {id:0,name:'myname'}
 ```
-
-
-
-****
 
 
 
@@ -1776,95 +1853,103 @@ person.fullName = computed({
 })
 ```
 
-3、总结
-
-如果需要用到修改的，还是推荐用回Vue2的  
-
 
 
 ### Watch
 
-监听ref：`	Watch([attribute],(newValue, oldValue)=>{},{option})`
-
-监听reactive的getter：`	Watch([()=>attribute],(newValue, oldValue)=>{},{option})`
+监听ref：
 
 ```js
-const counter = ref(1)
-let person = reactive({
-  name:'张三',
-  age:18,
-  job:{
-    j1:{
-      salary:20
-    }
-  }
-})
+import { watch } from 'vue'
+watch([attribute],(newValue, oldValue)=>{},{option})
 ```
 
-1、ref定义
+监听reactive的getter：
 
-```js
-import { ref, watch } from 'vue'
-// watch([sum,msg] 多个
-watch(counter,(newValue,oldValue)=>{
-	console.log('counter变化了',newValue,oldValue)
-},{immediate:true})
+```JS
+import { watch } from 'vue'
+watch([()=>attribute],(newValue, oldValue)=>{},{option})
 ```
-
-2、监视reactive定义的响应式数据
-
-**无法正确获得oldValue、强制开启了深度监视。**
-
-```js
-watch(person,(newValue,oldValue)=>{...
-```
-
-3、监视reactive定义的响应式数据中的**某个属性**
-
-**需要使用箭头函数。**
-
-```js
-watch(()=>person.name,(newValue,oldValue)=>{...
-```
-
-4、监视reactive定义的响应式数据中的**某些属性**
-
-```js
-watch([()=>person.name,()=>person.age],(newValue,oldValue)=>{
-```
-
-5、如果监听reactive的某个属性的值是**对象**
-
-```js
-watch(()=>person.job,(newValue,oldValue)=>{
-    console.log('person的job变化了',newValue,oldValue)
-},{deep:true})
-//此处由于监视的是reactive素定义的对象中的某个属性，所以deep配置有效
-```
-
-
-
-> 附：如果监听的是ref定义的**对象**，而对象里面还有对象！那么我监听的不在是ref的数据，而是ref通过`reactive`转变的数据。（监听办法。1:person.value，2:开启深度监听keep:true）
->
-> 为什么监听ref定义的sum，不能是`sum.value`？因为sum里面存的是基本数据类型。
->
-> ```js
-> watch(person...
-> watch(person.value...
-> watch(sum...
-> watch(sum.value...
-> ```
 
 
 
 **watchEffect**
 
-监视的回调中用到的个属性。
+`watch()` 是懒执行的：仅在侦听源变化时，才会执行回调。而`watchEffect`会在创建的时候就执行一次。
+
+监视的回调中用到的个属性。什么意思？下面例子中我们监听的是 `sum.value` 属性。
 
 ```js
 watchEffect(()=>{
     const x1 = sum.value
     const x2 = person.age
+})
+```
+
+实例
+
+- 立即执行，自动跟踪`url.value`，当发送变化的时候就执行回调。
+
+```js
+watchEffect(async () => {
+  const response = await fetch(url.value)
+  data.value = await response.json()
+})
+```
+
+
+
+如果想在侦听器回调中能访问被 Vue 更新**之后**的DOM，你需要指明 `flush: 'post'` 选项：
+
+```js
+watch(source, callback, {
+  flush: 'post'
+})
+
+watchEffect(callback, {
+  flush: 'post'
+})
+```
+
+后置刷新的 `watchEffect()` 有个更方便的别名 `watchPostEffect()`：
+
+```js
+import { watchPostEffect } from 'vue'
+
+watchPostEffect(() => {
+  /* 在 Vue 更新后执行 */
+})
+```
+
+
+
+### Provide / Inject
+
+- 如果你想确保从 `provide` 传过来的数据不能被 `injector` 的组件更改，你可以使用[`readonly()`](https://staging-cn.vuejs.org/api/reactivity-core.html#readonly) 来包装提供的值。
+
+```js
+import { provide, inject } from 'vue'
+
+provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
+const message = inject('message', /* 默认值 */'world')
+
+provide('read-only-count', readonly(count))
+```
+
+- 如果需要修改数据，建议在 `Provide` 内部就提供方法。
+
+```js
+import { provide, ref } from 'vue'
+
+const location = ref('North Pole')
+
+function updateLocation() {
+  location.value = 'South Pole'
+}
+
+provide('location', {
+  location,
+  updateLocation
 })
 ```
 
@@ -1899,6 +1984,9 @@ watchEffect(()=>{
 1、因为我们在 `setup` 里面没有访问 `this`，所以我们不能再直接访问 `this.$router` 或 `this.$route`。作为替代，我们使用 `useRouter()` 或  `useStore()` 函数：
 
 ```js
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
@@ -1906,93 +1994,20 @@ const store = useStore()
 
 2、导航守卫只有更新和离开：`onBeforeRouteLeave`、`onBeforeRouteUpdate`
 
-3、RouterLink 内部行为作为组合API函数公开：
-
-```js
-import { RouterLink, useLink } from 'vue-router'
-
-export default {
-  name: 'AppLink',
-
-  props: {
-    // 如果使用 TypeScript，请添加 @ts-ignore
-    ...RouterLink.props,
-    inactiveClass: String,
-  },
-
-  setup(props) {
-    const { route, href, isActive, isExactActive, navigate } = useLink(props)
-
-    const isExternalLink = computed(
-      () => typeof props.to === 'string' && props.to.startsWith('http')
-    )
-
-    return { isExternalLink, href, navigate, isActive }
-  },
-}
-```
-
-
-
-**访问 Mutation 和 Action**
+3、**访问 Mutation 和 Action**
 
 `this.$store` 和 `useStore()` 是等效的
 
 ```js
-setup () {
-  const store = useStore()
-
-  return {
-    // 在 computed 函数中访问 state
-    count: computed(() => store.state.count),
-
-    // 在 computed 函数中访问 getter
-    double: computed(() => store.getters.double)
-
-    // 使用 mutation
-    increment: () => store.commit('increment'),
-
-    // 使用 action
-    asyncIncrement: () => store.dispatch('asyncIncrement')
-  }
-}
+import { useStore } from 'vuex'
+const store = useStore()
+let increment = () => store.commit('increment')
+let asyncIncrement = () => store.dispatch('asyncIncrement')
 ```
 
 
 
-****
-
-
-
-### Hook
-
-把setup函数中使用的Composition API进行了封装。复用代码。
-
-```js
-// hooks/Test.js
-import {onMounted} from 'vue'
-export default function (){
-	...
-	return ...
-}
-```
-
-```js
-// index.vue
-import useTest from '../hooks/Test'
-export default {
-  name: 'Demo',
-  setup(){
-    let sum = ref(0)
-    let test = useTest()
-    return {sum,test}
-  }
-}
-```
-
-
-
-### 其他
+### Pro进阶
 
 - shallowReactive：只处理对象最外层属性的响应式（浅响应式）。（例子->只处理name、age、但不会处理job里面的）
 - shallowRef：只处理基本数据类型的响应式, **不进行对象的响应式处理**。
@@ -2086,18 +2101,6 @@ setup(){
 - isReactive: 检查一个对象是否是由 `reactive` 创建的响应式代理
 - isReadonly: 检查一个对象是否是由 `readonly` 创建的只读代理
 - isProxy: 检查一个对象是否是由 `reactive` 或者 `readonly` 方法创建的代理
-
-
-
-### 问题
-
-1、使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。太多太杂了。
-
-2、Composition API 的优势：相关功能的代码更加有序的组织在一起。
-
-
-
-****
 
 
 

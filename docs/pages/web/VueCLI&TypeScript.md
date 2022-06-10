@@ -123,10 +123,10 @@ router目录：`router/index.js`、页面：`views`
 
 ```javascript
 // router/index.js
-  const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  linkActiveClass: 'my-active'
+const router = createRouter({
+history: createWebHistory(),
+routes,
+linkActiveClass: 'my-active'
 })
 ```
 
@@ -145,36 +145,29 @@ router目录：`router/index.js`、页面：`views`
 **`router/index.js`**
 
 ```js
-// 1. 定义路由组件.
-// 也可以从其他文件导入
-// import Home from '../components/Home'
-const Home = { template: '<div>Home</div>' }
-const About = { template: '<div>About</div>' }
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import AboutView from '../views/AboutView.vue'
 
-// 2. 定义一些路由
-// 每个路由都需要映射到一个组件。
-// 我们后面再讨论嵌套路由。
-const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  }
 ]
 
-// 3. 创建路由实例并传递 `routes` 配置
-// 你可以在这里输入更多的配置，但我们在这里
-// 暂时保持简单
-const router = VueRouter.createRouter({
-  // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
-  history: VueRouter.createWebHashHistory(),
-  routes, // `routes: routes` 的缩写
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
 })
 
-// 5. 创建并挂载根实例
-const app = Vue.createApp({})
-//确保 _use_ 路由实例使
-//整个应用支持路由。
-app.use(router)
-
-app.mount('#app')
+export default router
 ```
 
 
@@ -256,6 +249,8 @@ const routes = [
 ### 路由匹配正则
 
 在**括号**中加入正则表达式
+
+规则：`:paramsName(正则表达式)`
 
 1、将匹配所有内容：`path: '/:pathMatch(.*)'`，并将其放在 `$route.params.pathMatch` 下
 
@@ -649,20 +644,6 @@ const router = createRouter({
 
 
 
-### TypeScript
-
-https://next.router.vuejs.org/zh/api/#typescript
-
-
-
-详情看文档。
-
-
-
-****
-
-
-
 ### 补充
 
 **router与route区别**
@@ -725,22 +706,6 @@ HTML5模式：`history: createWebHistory(),`
     }
   }
 ```
-
-
-
-**组件内容传递**
-
-你必须使用 `v-slot` API 将其传递给 `<component>`
-
-```html
-<router-view v-slot="{ Component }">
-  <component :is="Component">
-    <p>In Vue Router 3, I render inside the route component</p>
-  </component>
-</router-view>
-```
-
-
 
 
 
@@ -1339,7 +1304,7 @@ declare module '@vue/runtime-core' {
 
 
 
-`useStore` 组合式函数类型声明，（这是简化后的，为简化的自行查看官方文档）
+`useStore` 组合式函数类型声明，（这是简化后的，未简化的自行查看官方文档）
 
 1. 定义类型化的 `InjectionKey`。
 2. 将 store 安装到 Vue 应用时提供类型化的 `InjectionKey` 。
@@ -1668,219 +1633,6 @@ computed，和原本一样，不做展示了。
 const handleChange = (evt: Event) => {
   console.log((evt.target as HTMLInputElement).value)
 }
-```
-
-
-
-
-
-
-
-## 单文件组件
-
-里面的代码会被编译成组件 `setup()` 函数的内容。
-
-好处1：`<script setup> `中的代码会在**每次组件实例被创建的时候执行。**
-
-```vue
-<script setup>
-console.log('hello script setup')
-</script>
-```
-
-
-
-好处2：在其中声明的顶层的绑定 (包括变量，函数声明，**以及 import 引入的内容**) 都能在模板中直接使用：
-
-```vue
-<script setup>
-// 变量
-const msg = 'Hello!'
-
-// 函数
-function log() {
-  console.log(msg)
-}
-</script>
-
-<template>
-  <div @click="log">{{ msg }}</div>
-</template>
-```
-
-
-
-好处3：组件可以直接使用
-
-```vue
-<script setup>
-import MyComponent from './MyComponent.vue'
-</script>
-
-<template>
-  <MyComponent />
-</template>
-```
-
-
-
-### 自定义指令
-
-必须以 `vNameOfDirective` 的形式来命名本地自定义指令，以使得它们可以直接在模板中使用。
-
-```vue
-<script setup>
-const vMyDirective = {
-  beforeMount: (el) => {
-    // 在元素上做些操作
-  }
-}
-</script>
-<template>
-  <h1 v-my-directive>This is a Heading</h1>
-</template>
-```
-
-
-
-### `defineProps` 和 `defineEmits`
-
-用来声明 `props` 和 `emits` 。
-
-```vue
-<script setup>
-const props = defineProps({
-  foo: String
-})
-
-const emit = defineEmits(['change', 'delete'])
-// setup code
-</script>
-```
-
-
-
-### `defineExpose`
-
-如果通过模板 ref 或者 `$parent` 链获取到的组件的公开实例，不会暴露任何在 `<script setup>` 中声明的绑定。
-
-因此需要使用 `defineExpose` 明确暴露出去的属性。
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const a = 1
-const b = ref(2)
-
-defineExpose({
-  a,
-  b
-})
-</script>
-```
-
-
-
-### `useSlots` 和 `useAttrs`
-
-`useSlots` 和 `useAttrs` 是真实的运行时函数，它会返回与 `setupContext.slots` 和 `setupContext.attrs` 等价的值，同样也能在普通的组合式 API 中使用。
-
-```vue
-<script setup>
-import { useSlots, useAttrs } from 'vue'
-
-const slots = useSlots()
-const attrs = useAttrs()
-</script>
-```
-
-
-
-### 使用类型声明时的默认 props 值
-
-使用 `withDefaults` 编译器宏：
-
-```ts
-interface Props {
-  msg?: string
-  labels?: string[]
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  msg: 'hello',
-  labels: () => ['one', 'two']
-})
-```
-
-
-
-****
-
-
-
-### Style 特性
-
-如果添加 `scoped` attribute 的时候，它的 CSS 只会应用到当前组件的元素上。
-
-
-
-深度选择器，影响到子组件，可以使用 `:deep()` 这个伪类：
-
-```vue
-<style scoped>
-.a :deep(.b) {
-  /* ... */
-}
-</style>
-```
-
-
-
-插槽选择器，
-
-默认情况下作用域样式不会影响到 `<slot/>` 渲染出来的内容，使用 `:slotted` 伪类以确切地将插槽内容作为选择器的目标：
-
-```vue
-<style scoped>
-:slotted(div) {
-  color: red;
-}
-</style>
-```
-
-
-
-全局选择器：使用 `:global` 伪类
-
-```vue
-<style scoped>
-:global(.red) {
-  color: red;
-}
-</style>
-```
-
-
-
-状态驱动的动态CSS
-
-```vue
-<script setup>
-const theme = {
-  color: 'red'
-}
-</script>
-
-<template>
-  <p>hello</p>
-</template>
-
-<style scoped>
-p {
-  color: v-bind('theme.color');
-}
-</style>
 ```
 
 
