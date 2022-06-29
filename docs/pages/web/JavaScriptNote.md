@@ -1653,12 +1653,12 @@ console.log(new RegExp('xyz', 'i'));
 
 
 - 采用字面量形式是共享同一个RegExp实例，如果使用构造函数创建则每一个RegExp实例都是一个新的实例。
-  - `string.split()`：根据任意字母来将字符串拆分
-  - `string.search()`：搜索字符串中是否含有指定内容，只会搜索一个，返回位置。
+  - `string.split()`：拆分
+  - `string.search()`：搜索指定内容，返回其位置，找不到就-1
   - `string.match()`：将符合条件的内容提取出来
   - `string.replace()`：将字符串中指定内容替换为新的内容，两个参数，替换内容和新内容。
   - **--------------以下都是正则表达式的方法**
-  - `test()`：返回true和false
+  - `test()`：按规则查找，返回true和false
   - `exec()`：返回包含第一个匹配项信息的**数组**，没有匹配项返回null。有两个格外属性：index（匹配项在字符串的位置）和input（字符串）
 - 下面的就有点特殊，他们都是RegExp的函数。你需要先运行1+个的正则表达式匹配方法才能使用下面函数。
   - `lastMatch`：最近一次匹配项
@@ -1704,6 +1704,7 @@ https://codeplayer.vip/p/j7sl5
 > ```javascript
 > let a = 'https://www.bilibili.cn/'
 > let r = /https:\/\/\w+.(\w+).(?:com|cn)+/
+> console.log(a.match(r)) // bilibili
 > ```
 
 

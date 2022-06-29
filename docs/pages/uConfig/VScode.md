@@ -91,7 +91,6 @@ Partial Diff：文档比较
 
 ```json
 {
-  "C_Cpp.updateChannel": "Insiders",
   // CodeRunner在终端运行
   "code-runner.runInTerminal": true,
 
@@ -244,7 +243,15 @@ Partial Diff：文档比较
   // 图标
   "workbench.iconTheme": "vscode-icons",
 
-  "vsicons.dontShowNewVersionMessage": true
+  "vsicons.dontShowNewVersionMessage": true,
+  "tabnine.experimentalAutoImports": true,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vetur.validation.script": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "files.eol": "\n"
 }
 
 ```

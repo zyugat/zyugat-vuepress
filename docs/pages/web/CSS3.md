@@ -329,6 +329,10 @@ id选择器
 5、**结构伪类选择器**
 
 > first-child和first-of-child，区别在于前者**必须符合指定类型**（如果不符合就不渲染），后者是**符合指定类型的元素**（只渲染符合的元素）。
+>
+> 前者是选择同级的第一个元素。后者是选择当前类型的同级第一个元素。
+>
+> 区别是后者判断了类型，前者不管类型。
 
   - E:frist-child，父元素的第一个子元素且必须**符合指定类型**
   - E:last-child，父元素中最后一个子元素且必须**符合指定类型**
@@ -633,8 +637,6 @@ box-shadow: 10px 10px 10px 10px rgba(0,0,0 .3)
 
 
 
-
-
 4. fixed，固定定位
 
 不保留原本位置，固定于浏览器中的可视窗口。
@@ -707,228 +709,6 @@ margin-left: -版心盒子宽度的一半
 
 
 
-## 布局
-
-开局老三样
-
-```css
-.app {
-  * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-  }
-  li {
-    list-style: none;
-  }
-  a {
-    text-decoration: none;
-  }
-  select,
-  input,
-  label,
-  button {
-    vertical-align: middle;
-  }
-}
-```
-
-
-
-如果图片和文字有缝隙可以使用：`vertical-align:top`（给图片添加）
-
-![image-20211129172113568](http://img.zyugat.cn/zyuimg/2021-11-29_34f764e9b1fc1.png)
-
-
-
-当元素水平排列的时候，请使用 **浮动**
-
-列表水平排序：`float:left`
-
-浮动尽量给父元素，不要给p a这种元素。
-
-
-
-文字居中：`line-height: 元素高度`
-
-
-
-按钮边框：`border: 0;`
-
-按钮取消选中效果：outline:none;
-
-
-
-盒子的大小是设置的宽高：`box-sizing:border-box;`
-
-
-
-半透明：`background:rgba(0,0,0,0.3)`
-
-
-
-背景图片缩放大小：`background-size: 长px 宽px`
-
-
-
-**图片大小跟随父元素**：`width: 100%;`
-
-```css
-.pic {
-  float: left;
-  width: 120px;
-  height: 60px;
-  margin-right: 5px;
-}
-.pic img {
-  width: 100%;
-}
-```
-
-![image-20211129135819309](http://img.zyugat.cn/zyuimg/2021-11-29_3f7080da56257.png)
-
-如果没有w100%这个属性，那么就会变成
-
-![image-20211129135828207](http://img.zyugat.cn/zyuimg/2021-11-29_1e0b6f4a67998.png)
-
-
-
-常用名称
-
-```
-bd->内容,建议是header-bd或者banner-bd这样用。
-header头、logo、nav、search
-banner中间、subnav、sourse
-goods商品
-```
-
-| ClassName              | 含义                                     |
-| ---------------------- | ---------------------------------------- |
-| about                  | 关于                                     |
-| account                | 账户                                     |
-| arrow                  | 箭头图标                                 |
-| article                | 文章                                     |
-| aside                  | 边栏                                     |
-| audio                  | 音频                                     |
-| avatar                 | 头像                                     |
-| bg,background          | 背景                                     |
-| bar                    | 栏（工具类）                             |
-| branding               | 品牌化                                   |
-| crumb,breadcrumbs      | 面包屑                                   |
-| btn,button             | 按钮                                     |
-| caption                | 标题，说明                               |
-| category               | 分类                                     |
-| chart                  | 图表                                     |
-| clearfix               | 清除浮动                                 |
-| close                  | 关闭                                     |
-| col,column             | 列                                       |
-| comment                | 评论                                     |
-| community              | 社区                                     |
-| container              | 容器                                     |
-| content                | 内容                                     |
-| copyright              | 版权                                     |
-| current                | 当前态，选中态                           |
-| default                | 默认                                     |
-| description            | 描述                                     |
-| details                | 细节                                     |
-| disabled               | 不可用                                   |
-| entry                  | 文章，博文                               |
-| error                  | 错误                                     |
-| even                   | 偶数，常用于多行列表或表格中             |
-| fail                   | 失败（提示）                             |
-| feature                | 专题                                     |
-| fewer                  | 收起                                     |
-| field                  | 用于表单的输入区域                       |
-| figure                 | 图                                       |
-| filter                 | 筛选                                     |
-| first                  | 第一个，常用于列表中                     |
-| footer                 | 页脚                                     |
-| forum                  | 论坛                                     |
-| gallery                | 画廊                                     |
-| group                  | 模块，清除浮动                           |
-| header                 | 页头                                     |
-| help                   | 帮助                                     |
-| hide                   | 隐藏                                     |
-| hightlight             | 高亮                                     |
-| home                   | 主页                                     |
-| icon                   | 图标                                     |
-| info,information       | 信息                                     |
-| last                   | 最后一个，常用于列表中                   |
-| links                  | 链接                                     |
-| login                  | 登录                                     |
-| logout                 | 退出                                     |
-| logo                   | 标志                                     |
-| main                   | 主体                                     |
-| menu                   | 菜单                                     |
-| meta                   | 作者、更新时间等信息栏，一般位于标题之下 |
-| module                 | 模块                                     |
-| more                   | 更多（展开）                             |
-| msg,message            | 消息                                     |
-| nav,navigation         | 导航                                     |
-| next                   | 下一页                                   |
-| nub                    | 小块                                     |
-| odd                    | 奇数，常用于多行列表或表格中             |
-| off                    | 鼠标离开                                 |
-| on                     | 鼠标移过                                 |
-| output                 | 输出                                     |
-| pagination             | 分页                                     |
-| pop,popup              | 弹窗                                     |
-| preview                | 预览                                     |
-| previous               | 上一页                                   |
-| primary                | 主要                                     |
-| progress               | 进度条                                   |
-| promotion              | 促销                                     |
-| rcommd,recommendations | 推荐                                     |
-| reg,register           | 注册                                     |
-| save                   | 保存                                     |
-| search                 | 搜索                                     |
-| secondary              | 次要                                     |
-| section                | 区块                                     |
-| selected               | 已选                                     |
-| share                  | 分享                                     |
-| show                   | 显示                                     |
-| sidebar                | 边栏，侧栏                               |
-| slide                  | 幻灯片，图片切换                         |
-| sort                   | 排序                                     |
-| sub                    | 次级的，子级的                           |
-| submit                 | 提交                                     |
-| subscribe              | 订阅                                     |
-| subtitle               | 副标题                                   |
-| success                | 成功（提示）                             |
-| summary                | 摘要                                     |
-| tab                    | 标签页                                   |
-| table                  | 表格                                     |
-| txt,text               | 文本                                     |
-| thumbnail              | 缩略图                                   |
-| time                   | 时间                                     |
-| tips                   | 提示                                     |
-| title                  | 标题                                     |
-| video                  | 视频                                     |
-| wrap                   | 容器，包，一般用于最外层                 |
-| wrapper                | 容器，包，一般用于最外层                 |
-
-
-
-### 移动布局
-
-设置最大或最小的宽度
-
-```css
-width: 100%;
-min-width: 320px;
-max-width: 640px;
-```
-
-
-
-
-
-
-
-****
-
-
-
 ## flex
 
 ```css
@@ -994,12 +774,12 @@ display: flex;
 
 4. **多行时**子容器沿**交叉轴排列**：`align-content`
 
-+ flex-start，顶部对齐
-+ flex-end，底部对齐
-+ center，居中
-+ space-around，等边距均匀分布
-+ space-between：等间距均匀分布
-+ stretch，拉伸（就是与父容器同高度）
++ flex-start，顶部对齐。flex-end，底部对齐。center，居中
+  + 上面三个都是以整体为单位。
+
++ space-around：以行为单位，平均分布
++ space-between：以行为单位，**先对齐顶部和底部**，平均分布
++ stretch，拉伸（就是与父容器同高度）需要将**子项目高度改为 auto **
 
 
 
@@ -1028,7 +808,10 @@ flex-flow: coulumn wrap;
 
 ### 子容器
 
-`flex`：分配子容器剩余空间
+`flex`：分配子容器剩余空间，值为数字或百分比
+
+- 怎么用？
+- 例如我们有10个元素，想要每行显示5个，那么只需要设置`flex:20%`，意思是每个元素占`20%`，5个元素就100%了，那就一行了。
 
 ![image-20211129174903453](http://img.zyugat.cn/zyuimg/2021-11-29_1ba78363843ef.png)
 
@@ -1069,7 +852,7 @@ p span:nth-child(2) {
 
 
 
-2. PRO->设置子容器基准大小：`flex-basis`
+2. PRO->设置子容器基准大小：`flex-basis`，值为百分比
 
 如果主轴为`row`，则代表其宽度
 
@@ -1077,13 +860,13 @@ p span:nth-child(2) {
 
 
 
-3. PRO->子容器**弹性伸展**的比例：`flex-grow`
+3. PRO->子容器**弹性伸展**的比例：`flex-grow`，值为数字
 
 A为1，B为2，则B的宽度是A的两倍
 
 
 
-4. PRO->子容器**弹性收缩**的比例：`flex-shrink`
+4. PRO->子容器**弹性收缩**的比例：`flex-shrink`，值为数字
 
 如果A和B的宽度**超过父容器的宽度**，则会按照比例收缩。
 
@@ -2176,46 +1959,109 @@ $i: 6;
 
 
 
-## Swiper
-
-https://www.swiper.com.cn/
-
-![img](http://img.zyugat.cn/zyuimg/2021-11-29_741ba4bfafa24.png)
-
-| 名词         | 描述                                                         |
-| ------------ | ------------------------------------------------------------ |
-| Swiper       | 整个滑动对象，有时特指**滑块释放后仍然正向移动直到贴合边缘的过程(过渡)** |
-| container    | Swiper的容器，里面包括滑动块（slides）的封套（wrapper)、分页器(pagination)、前进按钮等 |
-| wrapper      | 触控的对象，可触摸区域，移动的块的集合，过渡时会随slide切换产生位移 |
-| slider       | 切换的滑块，可以包含文字、图片、html元素或另外一个Swiper     |
-| pagination   | 分页器，指示slide的数量和当前活动的slide                     |
-| active slide | 活动滑块，即当前看到的(visible)slide，当可视slide不止一个时，默认最左边那个是活动滑块 |
-| callback     | 回调函数，在某些情况下触发                                   |
-
-
-
 
 
 ## 小知识
 
-### 单位
+```css
+@media only screen and (min-width: 768px) {}
+@media only screen and (min-width: 992px) {}
+@media only screen and (min-width: 1200px) {}
+@media only screen and (min-width: 1920px) {}
 
-- 
+@media only screen and (min-width: 1920px) {
+  .el-col-xl-4-8 {
+    max-width: 20%;
+    background-color: red !important ;
+  }
+  .el-col-xl-offset-4-8 {
+    margin-left: 20%;
+  }
+  .el-col-xl-pull-4-8 {
+    position: relative;
+    right: 20%;
+  }
+  .el-col-xl-push-4-8 {
+    position: relative;
+    left: 20%;
+  }
+}
+```
+
+
+
+
+
+- 单位
 
   - em：相对于父元素字体大小
 
   * rem：相对于html字体大小
+
   * **什么意思？例如父元素字体大小是10，10em=100px**
 
 
 
-### 补充
+1、如果图片和文字有缝隙可以使用：`vertical-align:top`（给图片添加）
 
-去除列表的圆点：
+![image-20211129172113568](http://img.zyugat.cn/zyuimg/2021-11-29_34f764e9b1fc1.png)
 
-list-style: none
 
-**如果想让块级盒子水平居中：**
+
+2、文字垂直居中：`line-height: 元素高度`
+
+3、按钮边框：`border: 0;`
+
+4、按钮取消选中效果：`outline:none`
+
+5、盒子的大小是设置的宽高：`box-sizing:border-box;`
+
+6、半透明：`background:rgba(0,0,0,0.3)`
+
+7、背景图片缩放大小：`background-size: 长px 宽px`
+
+8、去除列表的圆点：`list-style: none`
+
+9、表单轮廓线：`outline` 设置0或者none，就可以取消表单的蓝色边框了
+
+10、文字间距：`letter-spacing`
+
+
+
+vertical-alin，图片或表单和文字垂直对齐
+
+只针对 行内元素 或行内内块元素有效
+
+- baseline，默认
+- top，`元素顶端`对齐`最高元素顶线`
+- middle，中部对齐
+- bottom，`元素顶端`对齐`最低元素底线`
+
+
+
+**图片大小跟随父元素**：`width: 100%;`
+
+```css
+.pic {
+  float: left;
+  width: 120px;
+  height: 60px;
+  margin-right: 5px;
+}
+.pic img {
+  width: 100%;
+}
+```
+
+![image-20211129135819309](http://img.zyugat.cn/zyuimg/2021-11-29_3f7080da56257.png)
+
+如果没有w100%这个属性，那么就会变成
+
+![image-20211129135828207](http://img.zyugat.cn/zyuimg/2021-11-29_1e0b6f4a67998.png)
+
+
+
+10、**如果想让块级盒子水平居中：**
 
 - 盒子必须要有宽度(width)
 - 盒子左右边距设置为auto(margin:0 auto)
@@ -2228,7 +2074,7 @@ list-style: none
 
 
 
-**绝对定位的盒子居中**
+11、**绝对定位的盒子居中**
 
 是**不能**通过 `margin: 0 auto` 水平居中
 
@@ -2263,15 +2109,15 @@ list-style: none
 
 
 
-**filter，图片模糊**
+12、**filter，图片模糊**
 
 `filter: 函数();`
 
-- blur(5px)，模糊函数，数值越大越模糊。
+- blur(5px)，高斯模糊，数值越大越模糊。
 
 
 
-**calc函数**
+13、**calc函数**
 
 `width:calc(100% -80px);`
 
@@ -2287,7 +2133,7 @@ list-style: none
 
 
 
-**鼠标样式**
+14、**鼠标样式**
 
 ```html
 <ul>
@@ -2307,7 +2153,7 @@ list-style: none
 
 
 
-单行溢出显示省略号：
+15、单行溢出显示省略号：
 
 ```css
 div {
@@ -2327,6 +2173,283 @@ div {
 ```
 
 ![image-20211129135525737](http://img.zyugat.cn/zyuimg/2021-11-29_d5258e6734391.png)
+
+
+
+16、文本溢出使用省略号显示
+
+- 单行：
+
+```css
+/*1.强制一行显示文本，默认 normal 自动换行*/
+white-space: nowrap;
+/*2.超出部分隐藏*/
+overflow: hidden;
+/*3.文字用省略号代替*/
+text-overflow: ellipsis;
+```
+
+- 多行：
+
+```css
+/*1.超出部分隐藏*/
+overflow: hidden;
+/*2.文字用省略号代替*/
+text-overflow: ellipsis;
+/*弹性伸缩盒子模型*/
+display: -webkit-box;
+/*几行*/
+-webkit-line-clamp: 2;
+/*排列方式*/
+-webkit-box-orient: vertical;
+```
+
+
+
+
+
+### 布局
+
+```css
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: '微软雅黑', 'Source Han Sans', sans-serif;
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  select,
+  input,
+  label,
+  button {
+    vertical-align: middle;
+  }
+}
+```
+
+
+
+```
+类命名规则：
+
+头：header 
+  内容：content/container
+  尾：footer
+  导航：nav    
+  侧栏：sidebar
+  栏目：column
+  页面外围控制整体布局宽度：wrapper
+  左右中：left right center
+  登录条：loginbar
+  标志：logo
+  广告：banner
+  页面主体：main
+  热点：hot
+  新闻：news
+  下载：download
+  子导航：subnav
+  菜单：menu
+  子菜单：submenu
+  搜索：search
+  友情链接：friendlink
+  页脚：footer
+  版权：copyright
+  滚动：scroll
+  内容：content
+  标签页：tab
+  文章列表：list
+  提示信息：msg
+  小技巧：tips
+  栏目标题：title
+  加入：joinus
+  指南：guild
+  服务：service
+  注册：regsiter
+  状态：status
+  投票：vote
+  合作伙伴：partner
+(二)注释的写法:
+  /* Footer */
+  内容区
+  /* End Footer */
+(三)id的命名:
+  (1)页面结构
+  容器: container
+  页头：header
+  内容：content/container
+  页面主体：main
+  页尾：footer
+  导航：nav
+  侧栏：sidebar
+  栏目：column
+  页面外围控制整体布局宽度：wrapper
+  左右中：left right center
+
+  (2)导航
+  导航：nav
+  主导航：mainbav
+  子导航：subnav
+  顶导航：topnav
+  边导航：sidebar
+  左导航：leftsidebar
+  右导航：rightsidebar
+  菜单：menu
+  子菜单：submenu
+  标题: title
+  摘要: summary
+
+  (3)功能
+  标志：logo
+  广告：banner
+  登陆：login
+  登录条：loginbar
+  注册：regsiter
+  搜索：search
+  功能区：shop
+  标题：title
+  加入：joinus
+  状态：status
+  按钮：btn
+  滚动：scroll
+  标签页：tab
+  文章列表：list
+  提示信息：msg
+  当前的: current
+  小技巧：tips
+  图标: icon
+  注释：note
+  指南：guild
+  服务：service
+  热点：hot
+  新闻：news
+  下载：download
+  投票：vote
+  合作伙伴：partner
+  友情链接：link
+  版权：copyright\
+```
+
+| ClassName              | 含义                                     |
+| ---------------------- | ---------------------------------------- |
+| about                  | 关于                                     |
+| account                | 账户                                     |
+| arrow                  | 箭头图标                                 |
+| article                | 文章                                     |
+| aside                  | 边栏                                     |
+| audio                  | 音频                                     |
+| avatar                 | 头像                                     |
+| bg,background          | 背景                                     |
+| bar                    | 栏（工具类）                             |
+| branding               | 品牌化                                   |
+| crumb,breadcrumbs      | 面包屑                                   |
+| btn,button             | 按钮                                     |
+| caption                | 标题，说明                               |
+| category               | 分类                                     |
+| chart                  | 图表                                     |
+| clearfix               | 清除浮动                                 |
+| close                  | 关闭                                     |
+| col,column             | 列                                       |
+| comment                | 评论                                     |
+| community              | 社区                                     |
+| container              | 容器                                     |
+| content                | 内容                                     |
+| copyright              | 版权                                     |
+| current                | 当前态，选中态                           |
+| default                | 默认                                     |
+| description            | 描述                                     |
+| details                | 细节                                     |
+| disabled               | 不可用                                   |
+| entry                  | 文章，博文                               |
+| error                  | 错误                                     |
+| even                   | 偶数，常用于多行列表或表格中             |
+| fail                   | 失败（提示）                             |
+| feature                | 专题                                     |
+| fewer                  | 收起                                     |
+| field                  | 用于表单的输入区域                       |
+| figure                 | 图                                       |
+| filter                 | 筛选                                     |
+| first                  | 第一个，常用于列表中                     |
+| footer                 | 页脚                                     |
+| forum                  | 论坛                                     |
+| gallery                | 画廊                                     |
+| group                  | 模块，清除浮动                           |
+| header                 | 页头                                     |
+| help                   | 帮助                                     |
+| hide                   | 隐藏                                     |
+| hightlight             | 高亮                                     |
+| home                   | 主页                                     |
+| icon                   | 图标                                     |
+| info,information       | 信息                                     |
+| last                   | 最后一个，常用于列表中                   |
+| links                  | 链接                                     |
+| login                  | 登录                                     |
+| logout                 | 退出                                     |
+| logo                   | 标志                                     |
+| main                   | 主体                                     |
+| menu                   | 菜单                                     |
+| meta                   | 作者、更新时间等信息栏，一般位于标题之下 |
+| module                 | 模块                                     |
+| more                   | 更多（展开）                             |
+| msg,message            | 消息                                     |
+| nav,navigation         | 导航                                     |
+| next                   | 下一页                                   |
+| nub                    | 小块                                     |
+| odd                    | 奇数，常用于多行列表或表格中             |
+| off                    | 鼠标离开                                 |
+| on                     | 鼠标移过                                 |
+| output                 | 输出                                     |
+| pagination             | 分页                                     |
+| pop,popup              | 弹窗                                     |
+| preview                | 预览                                     |
+| previous               | 上一页                                   |
+| primary                | 主要                                     |
+| progress               | 进度条                                   |
+| promotion              | 促销                                     |
+| rcommd,recommendations | 推荐                                     |
+| reg,register           | 注册                                     |
+| save                   | 保存                                     |
+| search                 | 搜索                                     |
+| secondary              | 次要                                     |
+| section                | 区块                                     |
+| selected               | 已选                                     |
+| share                  | 分享                                     |
+| show                   | 显示                                     |
+| sidebar                | 边栏，侧栏                               |
+| slide                  | 幻灯片，图片切换                         |
+| sort                   | 排序                                     |
+| sub                    | 次级的，子级的                           |
+| submit                 | 提交                                     |
+| subscribe              | 订阅                                     |
+| subtitle               | 副标题                                   |
+| success                | 成功（提示）                             |
+| summary                | 摘要                                     |
+| tab                    | 标签页                                   |
+| table                  | 表格                                     |
+| txt,text               | 文本                                     |
+| thumbnail              | 缩略图                                   |
+| time                   | 时间                                     |
+| tips                   | 提示                                     |
+| title                  | 标题                                     |
+| video                  | 视频                                     |
+| wrap                   | 容器，包，一般用于最外层                 |
+| wrapper                | 容器，包，一般用于最外层                 |
+
+
+
+
+
+
 
 
 
@@ -2446,99 +2569,3 @@ div {
 
 
 
-### 用户界面
-
-1. cursor，鼠标样式
-
-- default，默认
-- pointer，小手
-- move，移动
-- text，文本
-- not-allowed，禁止
-
-
-
-2. outline，表单轮廓线
-
-设置0或者none，就可以取消表单的蓝色边框了
-
-
-
-3. resize，防止拖拽文本域
-
-`textarea`
-
-设置none，就可以防止拖拽文本域
-
-
-
-4. vertical-alin，图片或表单和文字垂直对齐
-
-只针对 行内元素 或行内内块元素有效
-
-- baseline，默认
-- top，`元素顶端`对齐`最高元素顶线`
-- middle，中部对齐
-- bottom，`元素顶端`对齐`最低元素底线`
-
-
-
-
-
-5. 文本溢出使用省略号显示
-
-- 单行：
-
-```css
-/*1.强制一行显示文本，默认 normal 自动换行*/
-white-space: nowrap;
-/*2.超出部分隐藏*/
-overflow: hidden;
-/*3.文字用省略号代替*/
-text-overflow: ellipsis;
-```
-
-
-
-- 多行：
-
-```css
-/*1.超出部分隐藏*/
-overflow: hidden;
-/*2.文字用省略号代替*/
-text-overflow: ellipsis;
-/*弹性伸缩盒子模型*/
-display: -webkit-box;
-/*几行*/
--webkit-line-clamp: 2;
-/*排列方式*/
--webkit-box-orient: vertical;
-```
-
-
-
-6. 2个盒子边框如何重叠
-
-通过`margin-left: -1px;`这样后一个样式就会压住前一个
-
-```css
-    ul li {
-        float: left;
-        list-style: none;
-        width: 150px;
-        height: 200px;
-        border: 1px solid red;
-        margin-left: -1px;
-    }
-```
-
-如果想做鼠标移动到边框就高亮，可以这么做：
-
-```css
-ul li:hover {
-  position: relative;
-	border: 1px solid blue;
-}
-```
-
-或者可以用 `z-index`也是可以的

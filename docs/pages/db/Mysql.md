@@ -1063,3 +1063,125 @@ REVOKE privilege ON databasename.tablename FROM 'username'@'host';
 DROP USER 'username'@'host';
 ```
 
+
+
+## 范式
+
+- 1NF
+  - 符合数据表的`原子性`，每个属性都不可再分
+  - 什么意思？就是每一列只能含有一个元素。
+  - 看下面例子>
+
+下面这个例子就不符合1NF，因为作者那一栏可以再分
+
+| 作品     | 作者       |
+| -------- | ---------- |
+| 《你好》 | 张三、李四 |
+
+1NF：
+
+| 作品     | 作者 |
+| -------- | ---- |
+| 《你好》 | 张三 |
+| 《你好》 | 李四 |
+
+
+
+- 2NF
+  - 在1NF基础上，消除非主元素对于主属性的部分函数依赖
+  - 什么意思？非主属性需要完全依赖于主属性
+
+
+
+- 3NF
+  - 在2NF基础上，消除传递函数依赖
+  - 传递函数依赖是什么？A->B->C，那么C传递函数依赖于A
+
+下面这个例子就不符合3NF，因为`{歌曲名称}->{所属专辑}->{专辑发表事件,专辑类别}`
+
+| 歌曲名称 | 所属专辑 | 专辑发表时间 | 专辑类别 |
+| -------- | -------- | ------------ | -------- |
+
+解决部分：表1(歌曲名称,所属专辑)，表2(所属专辑,专辑发表时间,专辑类别)
+
+
+
+- BCNF
+  - 消除主属性对主键的部分于传递依赖
+  - 例子：`歌曲编号、歌曲名称、歌手`，歌曲名称依赖于歌手，决定属性集歌手编号和歌手是超键而非候选键。
+  - 解决：表1(歌曲编号,歌曲名称)，表2(歌曲名称，歌手)
+
+
+
+- 4NF
+  - 消除表中的多值依赖，达到一对一的关系
+
+
+
+## 1、不插入重复数据
+
+1、insert ignore into
+
+> 当插入数据时，如出现错误时，如重复数据，将不返回错误，只以警告形式返回。所以使用ignore请确保语句本身没有问题，否则也会被忽略掉。例如：
+
+```sql
+INSERT IGNORE INTO user (name) VALUES ('telami')
+```
+
+> 这种方法很简便，但是有一种可能，就是插入不是因为重复数据报错，而是因为其他原因报错的，也同样被忽略了～
+
+2、on duplicate key update
+
+当primary或者unique重复时，则执行update语句，如update后为无用语句，如id=id，则同1功能相同，但错误不会被忽略掉。
+
+例如，为了实现name重复的数据插入不报错，可使用一下语句：
+
+```sql
+INSERT INTO user (name) VALUES ('telami') ON duplicate KEY UPDATE id = id
+```
+
+这种方法有个前提条件，就是，需要插入的约束，需要是主键或者唯一约束（在你的业务中那个要作为唯一的判断就将那个字段设置为唯一约束也就是unique key）。
+
+3、insert … select … where not exist
+
+根据select的条件判断是否插入，可以不光通过primary 和unique来判断，也可通过其它条件。例如：
+
+```sql
+INSERT INTO user (name) SELECT 'telami' FROM dual WHERE NOT EXISTS (SELECT id FROM user WHERE id = 1)
+```
+
+这种方法其实就是使用了mysql的一个临时表的方式，但是里面使用到了子查询，效率也会有一点点影响，如果能使用上面的就不使用这个。
+
+4、replace into
+
+如果存在primary or unique相同的记录，则先删除掉。再插入新记录。
+
+```sql
+REPLACE INTO user SELECT 1, 'telami' FROM books
+```
+
+这种方法就是不管原来有没有相同的记录，都会先删除掉然后再插入。
+
+实践
+
+选择的是第二种方式
+
+```
+<insert id="batchSaveUser" parameterType="list">
+    insert into user (id,username,mobile_number)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+        (
+            #{item.id},
+            #{item.username},
+            #{item.mobileNumber}
+        )
+    </foreach>
+    ON duplicate KEY UPDATE id = id
+</insert>
+复制代码
+```
+
+这里用的是Mybatis，批量插入的一个操作，**mobile_number**已经加了唯一约束。这样在批量插入时，如果存在手机号相同的话，是不会再插入了的。
+
+insert into unishopcart(uid,pid,count) SELECT "05a98405991441199ad0ace316b1867b", "40",1 FROM unishopcart WHERE NOT EXISTS (SELECT id FROM unishopcart WHERE uid = "05a98405991441199ad0ace316b1867b" AND pid = 40);

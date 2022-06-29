@@ -31,7 +31,7 @@ module.exports = {
     // 注释的斜线或 * 后必须有空格
     'spaced-comment': ['error', 'always'],
     // 强制使用单引号
-    quotes: ['error', 'single'],
+    // quotes: ['error', 'single'],
     // 行尾分号是否加分号,默认加 always,不加never
     semi: ['warn', 'never'],
 

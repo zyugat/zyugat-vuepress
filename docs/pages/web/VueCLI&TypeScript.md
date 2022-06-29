@@ -1671,6 +1671,53 @@ const handleChange = (evt: Event) => {
 
 
 
+**SCSS全局变量**
+
+```
+yarn add sass-resources-loader --dev
+```
+
+
+
+```js
+const {defineConfig} = require('@vue/cli-service')
+module.exports = defineConfig({
+    transpileDependencies: true,
+    // 默认启动端口设置
+    devServer: {
+        port: 80 //devServer//设置本地默认端口
+    },
+    //全局 sass的配置
+    chainWebpack(config) {
+        globalSass(config)
+    }
+})
+
+
+/**
+ * 注意Dependencies需要引入
+ * "sass": "^1.32.7",
+ *"sass-loader": "^12.0.0",
+ *"sass-resources-loader": "^2.2.5"
+ * 全局变量的Sass引方法，值得收藏
+ * @param config  chainWebpack(config) 中来的一个配置
+ */
+const globalSass = config => {
+    const oneOfsMap = config.module.rule('scss').oneOfs.store
+    oneOfsMap.forEach((item) => {
+        item
+            .use('sass-resources-loader')
+            .loader('sass-resources-loader')
+            .options({
+                resources: './src/styles/common.scss'  //相对路径
+            })
+            .end()
+    })
+}
+```
+
+
+
 
 
 

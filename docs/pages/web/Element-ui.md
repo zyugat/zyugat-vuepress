@@ -263,6 +263,37 @@ Col属性
 
 
 
+如果是一行五列则需要
+
+```html
+<el-col :lg="{ span: '4-8' }" :md="8" :sm="12" :xs="24"></el-col>
+```
+
+```CSS
+@media only screen and (min-width: 1200px) {
+  .el-col-lg-4-8 {
+    max-width: 20%;
+  }
+  .el-col-lg-offset-4-8 {
+    margin-left: 20%;
+  }
+  .el-col-lg-pull-4-8 {
+    position: relative;
+    right: 20%;
+  }
+  .el-col-lg-push-4-8 {
+    position: relative;
+    left: 20%;
+  }
+}
+```
+
+
+
+****
+
+
+
 响应式布局
 
 参照了 Bootstrap 的 响应式设计，预设了五个响应尺寸：xs、sm、md、lg 和 xl。
