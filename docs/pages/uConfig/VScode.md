@@ -59,6 +59,10 @@ Partial Diff：文档比较
   - Vetur：对Vue的格式化代码，语法高亮显示
   - Vue Language Features (Volar)：对setup的支持
   - Vue 3 Snippets
+- PHP
+  - PHP Debug
+  - PHP Intelephense 代码提示
+
 - 附录
   - Visual Studio IntelliCode
   - vscode-icons：图标
@@ -203,7 +207,6 @@ Partial Diff：文档比较
 
   // sync同步
   "sync.quietSync": false,
-  "sync.gist": "a2091874af8368dda2d422faae3e7e2a",
   "sync.autoUpload": true,
 
   // 终端
@@ -251,9 +254,10 @@ Partial Diff：文档比较
   "vetur.validation.script": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "php.validate.executablePath": "D:/winSoftware/program/wamp64/bin/php/php7.4.26/php.exe",
+  "intelephense.environment.phpVersion": "7.4.26"
 }
-
 ```
 
 

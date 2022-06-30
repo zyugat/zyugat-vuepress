@@ -92,6 +92,7 @@ git checkout dev
 git branch -b dev
 
 # 合并分支,需先切换到 main 主分支上在执行
+# 记得 Push!
 git checkout main
 git merge dev
 
