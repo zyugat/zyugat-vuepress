@@ -25,6 +25,8 @@ footer:
 
 ## 更新日志
 
+- 2022/7/17
+  - 添加 css-Grid章节
 - 2022/6/10
   - 根据最新官网文档优化 VueNote 、 VueCli&TypeScript, 将VueCli&TypeScript内的 单文件组件 移动至 VueNote。
   - 简化了大量 VueNote 中关于 单文件组件 和 script setup 内容并重写了部分关于 Components 的内容。

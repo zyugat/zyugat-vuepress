@@ -709,6 +709,23 @@ margin-left: -版心盒子宽度的一半
 
 
 
+## column
+
+当一个元素设置了column-width和column-count属性并且值不为auto，那么这个元素就是multi-column container。
+
+
+
+- column-count
+  - 分栏数量
+- column-width
+  - 分栏宽度
+- column-rule
+  - 分栏间隔的样式
+- column-gap
+  - 分栏间隙
+
+
+
 ## flex
 
 ```css
@@ -1058,6 +1075,450 @@ nav {
 
 
 ****
+
+
+
+## Grid
+
+该章节顺序我们先从以下顺序开始讲解：
+
+- 1、定义行列
+  - `grid-template-columns`：定义每一列的列宽
+  - `grid-template-rows`：定义每一行的行高。
+
+- 2、容器布局
+  - 项目布局：容器里面的项目对齐方向（设置child的）
+  - 内容布局：项目里面的内容对齐方向（设置p元素的）
+  - 单一内容布局：单独设置
+- 3、参数
+  - repeat：重复多个参数
+  - auto-fill：充满一整列/行
+  - fr：比例
+  - minmax：设置值的范围(在范围内自适应)
+- 4、gap 间距
+  - 设置行、列的间距
+- 5、flow 填充顺序
+  - 可以选择是按列优先还剩行优先，和需不需要紧凑布局
+- 6、多余元素
+  - 当出现超出定义的网格范围时，多出的内容该如何设置宽高。
+- **7、areas** 重点
+  - `grid-template-areas`：设置网格布局。
+  - `grid-area` ：对网格元素进行命名。
+  - `.`：忽略
+- 8、自定义元素位置
+  - `grid-column-start`：左边框所在的垂直网格线
+  - `grid-column-end`：右边框所在的垂直网格线
+  - `grid-row-start`：上边框所在的水平网格线
+  - `grid-row-end`：下边框所在的水平网格线
+
+```html
+<div class="father">
+  <div class="child"><p>1</p></div>
+  <div class="child"><p>2</p></div>
+  <div class="child"><p>3</p></div>
+</div>
+```
+
+
+
+上面代码中，最外层的`<div>`元素就是容器，内层的三个`<div>`元素就是项目。
+
+容器：father
+
+项目：child
+
+
+
+> 注意，设为网格布局以后，容器子元素（项目）的`float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效。
+
+```css
+div {
+  display: grid;
+}
+```
+
+
+
+### 定义行与列
+
+首先这是一个网格布局，众所周知网格是由行和列的，所以第一步我们需要定义行宽和列高。
+
+- `grid-template-columns`：定义每一列的列宽
+- `grid-template-rows`：定义每一行的行高。
+  - 可以用数字，也可以用百分比。
+- 注意：每多一个参数，那就代表多一**列/行**
+
+
+
+例子：
+
+三列：`columns`由三个参数
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+	/* 和上面是等效的 */
+  grid-template-rows: repeat(3, 100px);
+}
+```
+
+
+
+### 项目布局
+
+什么意思？他这个属性和flex的同名属性是一样的。子容器排序方式。
+
+项目是什么意思？可以回到开头看看解释，有说。
+
+- justify-content：
+- align-content：
+- place-content
+  - start、end、center、space-around、space-between 自己看flex那章，一样的
+  - **stretch：拉伸充满屏幕**
+  - **space-evenly：`元素与元素之间` 与 `容器边框间距` 的距离相同**
+
+```CSS
+.container {
+  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+  align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+  place-content: <align-content> <justify-content>;
+}
+```
+
+**center 容器居中**
+
+![img](http://img.zyugat.cn/zyuimg/2022-07-17_c96980ae2b930.png)
+
+
+
+### 内容布局
+
+什么意思？就是单元格里面的内容方向
+
+- justify-items：水平位置
+- align-items：垂直位置
+- place-items：合并写法
+  - start：对齐单元格的起始边缘。
+  - end：对齐单元格的结束边缘。
+  - center：单元格内部居中。
+  - stretch：拉伸，占满单元格的整个宽度（默认值）。
+
+```css
+.container {
+  justify-items: start | end | center | stretch;
+  align-items: start | end | center | stretch;
+  place-items: <align-items> <justify-items>;
+}
+```
+
+**start 左对齐**
+
+![img](http://img.zyugat.cn/zyuimg/2022-07-17_3c16eebc533e1.png)
+
+### 单一内容布局
+
+和上面的 `justify-items` 、 `align-items`，区别在于只**作用于单个项目**。
+
+- `justify-self`：水平位置
+
+- `align-self`：垂直位置
+- `  place-self`：缩写
+
+```css
+.item {
+  justify-self: start | end | center | stretch;
+  align-self: start | end | center | stretch;
+  place-self: <align-self> <justify-self>;
+}
+```
+
+其实就字面意思，单独给item-a设置内容方向。
+
+![image-20220717214110293](http://img.zyugat.cn/zyuimg/2022-07-17_bb576e76cf041.png)
+
+
+
+### 其他参数
+
+> - repeat：重复多个参数
+> - auto-fill：充满一整列/行
+> - fr：比例
+> - minmax：设置值的范围(在范围内自适应)
+
+
+
+- 1、`repeat(重复的次数, 参数值)`
+
+也可以这样：一共6列，第一列100px、第二列20px、第三列80px。后面就重复。
+
+```scss
+
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+	/* 和上面是等效的 */
+  grid-template-rows: repeat(3, 100px);
+  
+  grid-template-columns: repeat(2, 100px 20px 80px);
+}
+```
+
+
+
+- 2、`auto-fill`
+  - 知道宽度，但不清楚有多少个，希望一行尽可能的去显示，直到放不下要换行。
+
+```css
+grid-template-columns: repeat(auto-fill, 100px);
+```
+
+
+
+- 3、`fr`
+  - 如果两列的宽度分别为`1fr`和`2fr`，就表示后者是前者的两倍。、
+  - 什么意思？
+    - 以下面例子为例，第一列固定150px，然后第二和第三列**`按比例占满屏幕剩余空间`**。
+
+
+
+例子：第一列150px、第二列的宽度是第三列的一半。
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 150px 1fr 2fr;
+}
+```
+
+![image-20220717180935387](http://img.zyugat.cn/zyuimg/2022-07-17_93a34efb859fe.png)
+
+
+
+- 4、`minmax`
+  - 产生一个长度范围，可以理解的提前给盒子最大长度和最小长度
+  - 参数一：最小值
+  - 参数二：最大值
+
+
+
+表示列宽不小于`100px`，不大于`1fr`。
+
+```css
+grid-template-columns: 1fr 1fr minmax(100px, 1fr);
+```
+
+
+
+- 5、`auto`
+  - 字面意思
+
+
+
+### gap 间距
+
+- `row-gap`：行与行的间距（上下间距
+- `column-gap`：列与列的间距（左右间距
+- `grid-gap`：上面两个的合并写法
+
+```css
+.container {
+  row-gap: 20px;
+  column-gap: 20px;
+  gap: 20px 20px;
+}
+```
+
+
+
+
+
+### flow 填充顺序
+
+- `grid-auto-flow`
+- 值：`row`、`column`、`row dense`、`column dense`。
+- 填满顺序
+  - 默认是先填满第一行 `row`，我们可以设置成 `column` 优先填满**第一列**
+
+
+
+例子：为什么 3 号不顶格呢？因为 3 号元素是跟在2号后面的，如果想紧凑布局就需要设置为 `row dense`，这样3就会上去，和1肩并肩。
+
+![image-20220717184314086](http://img.zyugat.cn/zyuimg/2022-07-17_52a47d1747de2.png)
+
+
+
+
+
+### 多余元素
+
+本来设置好了3行3列，但有人额外给其他元素设置在 其他行/列，就需要通过该属性提前决定好他的宽高。
+
+- grid-auto-columns
+- grid-auto-rows
+
+例子：8号元素，在第4行，判断不在范围内，那就看 `grid-auto-rows: 50px; ` 属性。
+
+```CSS
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-auto-rows: 50px; 
+}
+
+.item-8 {
+  background-color: #d0e4a9;
+  grid-row-start: 4;
+  grid-column-start: 2;
+}
+
+.item-9 {
+  background-color: #4dc7ec;
+  grid-row-start: 5;
+  grid-column-start: 3;
+}
+```
+
+![image-20220717185324399](http://img.zyugat.cn/zyuimg/2022-07-17_1ea80cc02512d.png)
+
+
+
+
+
+### areas 区域
+
+- `grid-template-areas`：设置网格布局。
+- `grid-area` ：对网格元素进行命名。
+- `.`：忽略
+
+怎么玩？
+
+1、先从 `grid-template-areas` 属性开始理解
+
+我们可以把他理解为，我们给这9宫格打上属于他们的 **ID** ，那一个区域只能由他来显示。
+
+什么意思？不太理解可以看看下面的例2，我们给 **item-1** 打上了 `e` 标记，根据 `grid-template-areas` 定义的那样，e在中间，所以 **item-1** 就跑到中间去了。
+
+
+
+2、我们在来 `grid-area` 属性
+
+根据下面两个例子可以得出，他是给元素 **打标记的** ，打上标记以后就根据 `grid-template-areas` 属性看看该放在哪里。
+
+
+
+例1：item1命名为 `myArea`，通过 `grid-template-areas` 使他合并第一行的第一和第二列。
+
+```css
+.item1 {
+  grid-area: myArea;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'myArea myArea . . .';
+  /* 附 */
+  grid-template-areas: 'a b c'
+                       'd e f'
+                       'g h i';
+  /* 附 */
+  grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
+}
+```
+
+![image-20220717183814276](http://img.zyugat.cn/zyuimg/2022-07-17_01f134e394541.png)
+
+
+
+例2：通过`grid-template-areas` 编排好顺序，在通过 `grid-area` 指定 item1 在指定位置。
+
+```css
+#container{
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-areas: 'a b c'
+                     'd e f'
+                     'g h i';
+}
+.item-1 {
+  background-color: #ef342a;
+  grid-area: e;
+}
+```
+
+![image-20220717212241002](http://img.zyugat.cn/zyuimg/2022-07-17_53645c1f3b99c.png)
+
+
+
+
+
+### 自定义元素位置
+
+- `grid-column-start`：左边框所在的垂直网格线
+- `grid-column-end`：右边框所在的垂直网格线
+- `grid-row-start`：上边框所在的水平网格线
+- `grid-row-end`：下边框所在的水平网格线
+  - 值同样可以选择 ` header-start、 header-end`
+  - 也可以选择 `span` 意思是跨域多少格
+
+- 缩写
+  - `grid-column`属性是`grid-column-start`和`grid-column-end`的合并简写形式，`grid-row`属性是`grid-row-start`属性和`grid-row-end`的合并简写形式。
+  - **是用 `/` 作为分隔哦！**
+
+
+```CSS
+.item-1 {
+  grid-column-start: header-start;
+  grid-column-end: header-end;
+}
+
+.item-1 {
+  grid-column-start: span 2;
+}
+
+.item {
+  grid-column: <start-line> / <end-line>;
+  grid-row: <start-line> / <end-line>;
+}
+```
+
+
+
+要注意这里使用的是 **`网格线`**
+
+
+
+例1
+
+```css
+.item-1 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+```
+
+![image-20220717185636908](http://img.zyugat.cn/zyuimg/2022-07-17_3d14d332696f5.png)
+
+
+
+例2
+
+```css
+.item-1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+```
+
+
+
+![image-20220717211732534](http://img.zyugat.cn/zyuimg/2022-07-17_646804932bf33.png)
 
 
 
