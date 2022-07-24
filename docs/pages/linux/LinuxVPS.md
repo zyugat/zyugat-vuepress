@@ -1031,6 +1031,66 @@ https://github.com.cnpmjs.org/
 
 
 
+### 域名证书自动续费
+
+https://github.com/acmesh-official/acme.sh
+
+例如，在腾讯云解析的域名，请前往 https://www.dnspod.cn/console/user/security 控制台中申请子账号 `API Token` 并执行命令：
+
+
+
+```sh
+curl  https://get.acme.sh | sh -s email=zyugatcn@gmail.com
+
+sh acme.sh \
+	--issue \
+	--dns \
+	-d '*.zyugat.cn' \
+	--yes-I-know-dns-manual-mode-enough-go-ahead-please
+
+export DP_Id="330913"
+
+export DP_Key="dd37681834d432c01a553c9314a58fdd"
+
+sh acme.sh   --issue   --dns dns_dp   -d zyugat.cn  -d *.zyugat.cn
+acme.sh  --issue   -d  *.zyugat.cn   --dns  dns_dp
+
+sh acme.sh --set-default-ca --server letsencrypt
+
+docker run -it \
+	--name acme \
+	--rm \
+	--env DP_Key="" \
+	--env DP_Id="" \
+	-v "/acme.sh/":/acme.sh \
+	neilpang/acme.sh \
+	--renew --force \
+	--dns dns_dp \
+	--challenge-alias zyugat-alias.cn \
+	-d '*.zyugat.com'
+	
+sh acme.sh --install-cert -d *.zyugat.cn \
+--key-file       /etc/nginx/ssl/*.zyugat.cn/*.zyugat.cn.key \
+--fullchain-file /etc/nginx/ssl/*.zyugat.cn/*.zyugat.cn.cer \
+--reloadcmd      'service nginx force-reload'
+
+sh acme.sh --install-cert -d zyugat.cn \
+--key-file       /etc/nginx/ssl/zyugat.cn/zyugat.cn.key \
+--fullchain-file /etc/nginx/ssl/zyugat.cn/zyugat.cn.cer \
+--reloadcmd      'service nginx force-reload'
+```
+
+
+
+```sh
+$ export DP_Id="6*ID*0"
+$ export DP_Key="aa445e***TOKEN***5fe26e"
+```
+
+
+
+
+
 ## 装机流程防忘记
 
 > 0、更新

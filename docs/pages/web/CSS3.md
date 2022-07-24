@@ -2241,6 +2241,14 @@ div{
 
 [安装Ruby](https://www.ruby-lang.org/zh_cn/downloads/)
 
+
+
+```
+gem install sass
+```
+
+
+
 使用
 
 ```shell

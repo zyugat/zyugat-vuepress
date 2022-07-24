@@ -60,7 +60,8 @@ export const navbar: NavbarConfig = [
     children: [
       '/pages/else/Git.md',
       '/pages/else/flask.md',
-      '/pages/else/算法.md',
+      '/pages/else/suanfa.md',
+      '/pages/else/htmlLayout.md',
     ],
   },
 ]
